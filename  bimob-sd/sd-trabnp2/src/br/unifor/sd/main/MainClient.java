@@ -1,19 +1,17 @@
 package br.unifor.sd.main;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.client.impl.ClientConnectionTCP;
-import br.unifor.sd.entity.Jogador;
 
-public class Client {
+public class MainClient {
 	public static void main(String[] args) {
 		ClientConnection clientConnection = ClientConnectionTCP.getInstance();
-		clientConnection.connect();
+		clientConnection.connect(null);
 		try {
 			
-			clientConnection.send(new Jogador("Joaquim José", InetAddress.getLocalHost()));
+			clientConnection.send("mensagem de teste!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
