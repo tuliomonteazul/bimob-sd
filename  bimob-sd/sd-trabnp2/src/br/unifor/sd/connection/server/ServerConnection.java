@@ -4,7 +4,7 @@ import java.net.InetAddress;
 
 public interface ServerConnection {
 	
-	void startServer();
+	void startServer(ServerConnectionListener listener);
 	
 	void sendAll();
 	
