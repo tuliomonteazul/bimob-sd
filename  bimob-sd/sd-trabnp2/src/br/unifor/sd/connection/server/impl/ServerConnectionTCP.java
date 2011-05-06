@@ -21,8 +21,6 @@ public class ServerConnectionTCP implements ServerConnection {
 	
 	private ServerSocket serverSocket;
 	
-	private Socket socket;
-	
 	private List<InetAddress> users = new ArrayList<InetAddress>();
 	
 	private ServerConnectionTCP() {
@@ -43,7 +41,7 @@ public class ServerConnectionTCP implements ServerConnection {
 			
 			// aguarda o recebimento de mensagens dos clientes
 			while (true) {
-				socket = serverSocket.accept();
+				Socket socket = serverSocket.accept();
 				
 				final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 		
