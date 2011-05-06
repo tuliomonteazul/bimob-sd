@@ -7,6 +7,7 @@ import br.unifor.sd.connection.client.impl.ClientConnectionTCP;
 
 public class MainClient {
 	public static void main(String[] args) {
+		// TODO parametros ip e porta do servidor
 		ClientConnection clientConnection = ClientConnectionTCP.getInstance();
 		clientConnection.connect(null);
 		try {
