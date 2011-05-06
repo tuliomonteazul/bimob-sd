@@ -6,5 +6,5 @@ public interface ClientConnection {
 
 	boolean connect();
 	
-	void send(String msg) throws IOException;
+	void send(Object objec) throws IOException;
 }
