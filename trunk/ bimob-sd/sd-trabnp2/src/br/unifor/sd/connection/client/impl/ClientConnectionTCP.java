@@ -2,12 +2,15 @@ package br.unifor.sd.connection.client.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.client.ClientConnection;
+import br.unifor.sd.connection.client.listener.ClientConnectionListener;
 
 public class ClientConnectionTCP implements ClientConnection{
 
@@ -16,7 +19,6 @@ public class ClientConnectionTCP implements ClientConnection{
 	private static final String HOST = "localhost";
 	private static final int PORT = 555;
 	
-
 	private ClientConnectionTCP() {
 		super();
 	}
@@ -29,10 +31,12 @@ public class ClientConnectionTCP implements ClientConnection{
 	}
 	
 	@Override
-	public boolean connect() {
+	public boolean connect(ClientConnectionListener listener) {
 		boolean connected = false;
 		InputStream inputStream = null;
 		Socket socket = null;
+		int port = startServer();
+		System.out.println("Porta do cliente: "+ port);
 		
 		try {
 			socket = new Socket(HOST, PORT);
@@ -40,7 +44,9 @@ public class ClientConnectionTCP implements ClientConnection{
 			// envia pedido de conexao
 			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
 			
+			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
 			outputStream.write(UtilConnection.CONEXAO);
+			outputStream.writeInt(port);
 			outputStream.flush();
 			
 			
@@ -50,9 +56,11 @@ public class ClientConnectionTCP implements ClientConnection{
 			
 			if (callback == UtilConnection.CONEXAO_OK) {
 				connected = true;
+				
+				
 			}
 			
-			System.out.println(connected);
+			System.out.println("connected: "+ connected);
 			inputStream.close();
 			outputStream.close();
 			socket.close();
@@ -62,6 +70,48 @@ public class ClientConnectionTCP implements ClientConnection{
 			e.printStackTrace();
 		}
 		return connected;
+	}
+
+	private int startServer() {
+		int port = 0;
+		try {
+			final ServerSocket serverSocket = new ServerSocket(port);
+			port = serverSocket.getLocalPort();
+			
+			waitMessages(serverSocket);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return port;
+	}
+
+	private void waitMessages(final ServerSocket serverSocket) {
+		new Thread(){
+			@Override
+			public void run() {
+				try {
+					// aguarda o recebimento de mensagens do servidor
+					while (true) {
+						Socket socket = serverSocket.accept();
+						
+						final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+				
+						// recebe o objeto enviado pelo servidor
+						final Object object = inputStream.readObject();
+						System.out.println("Cliente recebeu: "+object);
+						
+						inputStream.close();
+						socket.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}.start();
 	}
 
 	@Override
@@ -74,7 +124,6 @@ public class ClientConnectionTCP implements ClientConnection{
 		outputStream.flush();
 		
 		outputStream.close();
-		socket.close();
 		
 		socket.close();
 	}
