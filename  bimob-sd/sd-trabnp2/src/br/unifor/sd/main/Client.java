@@ -5,7 +5,7 @@ import br.unifor.sd.connection.client.impl.ClientConnectionTCP;
 
 public class Client {
 	public static void main(String[] args) {
-		ClientConnection clientConnection = new ClientConnectionTCP();
+		ClientConnection clientConnection = ClientConnectionTCP.getInstance();
 		clientConnection.connect();
 	}
 }

@@ -2,61 +2,65 @@ package br.unifor.sd.connection.server.impl;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unifor.sd.connection.server.ConnectionEvent;
+import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.server.ServerConnection;
-import br.unifor.sd.connection.server.ServerConnectionListener;
+import br.unifor.sd.connection.server.listener.ConnectionEvent;
+import br.unifor.sd.connection.server.listener.ServerConnectionListener;
 
 public class ServerConnectionTCP implements ServerConnection {
+	
+	private static ServerConnectionTCP instance;
+	
+	public static final int PORT = 555;
 	
 	private ServerSocket serverSocket;
 	
 	private Socket socket;
 	
-	public static final int PORT = 555;
+	private List<InetAddress> users = new ArrayList<InetAddress>();
 	
-	@Override
-	public void send(InetAddress address) {
-		// TODO Auto-generated method stub
-		
+	private ServerConnectionTCP() {
+		super();
 	}
-
-	@Override
-	public void sendAll() {
-		// TODO Auto-generated method stub
-		
+	
+	public static ServerConnectionTCP getInstance() {
+		if (instance == null) {
+			instance = new ServerConnectionTCP();
+		}
+		return new ServerConnectionTCP();
 	}
-
+	
 	@Override
 	public void startServer(ServerConnectionListener listener) {
 		try {
 			serverSocket = new ServerSocket(PORT);
 			
+			// aguarda o recebimento de mensagens dos clientes
 			while (true) {
 				socket = serverSocket.accept();
 				
 				final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 		
-				final List<String> msgs = new ArrayList<String>();
-				while (inputStream.available() > 0) {
-					final String msg = inputStream.readUTF();
-					msgs.add(msg);
-				}
+				final int acao = inputStream.read();
+
 				final ConnectionEvent event = new ConnectionEvent();
+				// se for um pedido de conexão
+				if (acao == UtilConnection.CONEXAO) {
+					event.setConnectRequest(true);
+					event.setOutputStream(socket.getOutputStream());
+				} else {
+					final Object object = inputStream.readObject();
+					event.setObject(object);
+				}
 				event.setAddress(socket.getInetAddress());
-				event.setMsgs(msgs.toArray(new String[msgs.size()]));
 				listener.receive(event);
 				
-				final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-				
-				outputStream.writeUTF("OK");
-				outputStream.flush();
 				
 				inputStream.close();
 				socket.close();
@@ -64,7 +68,19 @@ public class ServerConnectionTCP implements ServerConnection {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void addUser(InetAddress address) {
+		users.add(address);
+	}
+
+	@Override
+	public void removeUser(InetAddress address) {
+		users.remove(address);
 	}
 
 }

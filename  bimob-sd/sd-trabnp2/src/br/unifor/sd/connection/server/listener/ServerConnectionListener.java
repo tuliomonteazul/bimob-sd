@@ -1,4 +1,4 @@
-package br.unifor.sd.connection.server;
+package br.unifor.sd.connection.server.listener;
 
 
 public interface ServerConnectionListener {
