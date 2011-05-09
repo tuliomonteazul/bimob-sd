@@ -10,9 +10,10 @@ public interface ServerConnection {
 	
 	void sendAll(Object object);
 	
-	void send(Client cliente, Object object);
+	void send(int clientID, Object... object);
 	
 	void addClient(Client cliente);
 	
 	void removeClient(Client cliente);
+
 }

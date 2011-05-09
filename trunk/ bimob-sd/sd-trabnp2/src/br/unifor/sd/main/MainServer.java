@@ -27,7 +27,7 @@ public class MainServer {
 
 				event.acceptConnection();
 
-				System.out.println("Servidor recebe porta do cliente: "+event.getPort());
+				System.out.println("Servidor recebe porta do cliente: "+event.getClient().getPort());
 			}
 		});
 		

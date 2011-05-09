@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unifor.sd.connection.Client;
+import br.unifor.sd.connection.ClientTCP;
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.server.ServerConnection;
 import br.unifor.sd.connection.server.listener.ConnectionEvent;
@@ -43,43 +44,15 @@ public class ServerConnectionTCP implements ServerConnection {
 				try {
 					serverSocket = new ServerSocket(PORT);
 					
-					// aguarda o recebimento de mensagens dos clientes
+					// aguarda o recebimento de conexões dos clientes
 					while (true) {
 						Socket socket = serverSocket.accept();
 						
-						final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-
-						// ação que pode ser um pedido de conexão ou uma mensagem
-						final int acao = inputStream.read();
-
-						// cria o evento de conexão para disparar o listener
-						final ConnectionEvent event = new ConnectionEvent();
-						event.setAddress(socket.getInetAddress());
-						// se for um pedido de conexão
-						if (acao == UtilConnection.CONEXAO) {
-							// recebe a porta do cliente para posteriormente poder comunicá-lo
-							final int port = inputStream.readInt();
-							event.setConnectRequest(true);
-							event.setPort(port);
-							event.setOutputStream(socket.getOutputStream());
-							
-							listener.requestConnection(event);
-						} else {
-							final Object object = inputStream.readObject();
-							event.setObject(object);
-							
-							listener.receiveMessage(event);
-						}
+						receive(listener, socket);
 						
-						
-						
-						inputStream.close();
-						socket.close();
 					}
 					
 				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 			}
@@ -87,27 +60,73 @@ public class ServerConnectionTCP implements ServerConnection {
 		
 	}
 	
+	protected void receive(final ServerConnectionListener listener, final Socket socket) {
+		new Thread() {
+			public void run() {
+				try {
+					
+					final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+					while (true) {
+	
+						System.out.println("recebendo req..");
+						// ação que pode ser um pedido de conexão ou uma mensagem
+						final int acao = (Integer) inputStream.readObject();
+	
+						// cria o evento de conexão para disparar o listener
+						final ConnectionEvent event = new ConnectionEvent();
+	
+						// se for um pedido de conexão
+						if (acao == UtilConnection.CONEXAO) {
+							// gera um id para identificar esse cliente em outras trocas de mensagenss
+							final int clientID = UtilConnection.generateClientID();
+	
+							final ClientTCP client = new ClientTCP(socket, clientID);
+							event.setClient(client);
+							client.setOutputStream(new ObjectOutputStream(socket.getOutputStream()));
+	
+							listener.requestConnection(event);
+						} else if (acao == UtilConnection.MSG) {
+							
+							final int clientID = (Integer) inputStream.readObject();
+							event.setClient(findClient(clientID));
+							
+							final Object object = inputStream.readObject();
+							event.setObject(object);
+	
+							listener.receiveMessage(event);
+						}
+						
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			};
+		}.start();
+	}
+
 	@Override
 	public void sendAll(Object object) {
 		for (Client cliente : clientes) {
-			send(cliente, object);
+			send(cliente.getClientID(), object);
 		}
 	}
 	
 	@Override
-	public void send(Client cliente, Object object) {
+	public void send(int clientID, Object... objects) {
 		try {
-			System.out.println("enviando para o cliente: "+cliente.getPorta());
-			final Socket socket = new Socket(cliente.getAddress(), cliente.getPorta());
+			System.out.println("enviando para o cliente: "+clientID);
 			
-			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+			final Client client = findClient(clientID);
 			
-			outputStream.writeObject(object);
+			final ObjectOutputStream outputStream = ((ClientTCP) client).getOutputStream();
+			
+			for (Object object : objects) {
+				outputStream.writeObject(object);
+			}
 			outputStream.flush();
 			
-			outputStream.close();
-			
-			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,5 +141,18 @@ public class ServerConnectionTCP implements ServerConnection {
 	public void removeClient(Client cliente) {
 		clientes.remove(cliente);
 	}
-
+	
+	private Socket findSocket(int clientID) {
+		return ((ClientTCP) findClient(clientID)).getSocket();
+	}
+	
+	private Client findClient(int clientID) {
+		for (Client client : clientes) {
+			if (client.getClientID() == clientID) {
+				return client;
+			}
+		}
+		return null;
+	}
+	
 }
