@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import br.unifor.sd.connection.listener.ConnectionEvent;
+import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
 import br.unifor.sd.connection.server.impl.ServerConnectionTCP;
-import br.unifor.sd.connection.server.listener.ConnectionEvent;
-import br.unifor.sd.connection.server.listener.ServerConnectionListener;
 
 public class MainServer {
 	public static void main(String[] args) {
@@ -17,7 +17,7 @@ public class MainServer {
 		serverConnection.startServer(new ServerConnectionListener() {
 			
 			@Override
-			public void receiveMessage(ConnectionEvent event) {
+			public void receiveData(ConnectionEvent event) {
 				
 				Object object = event.getObject();
 				System.out.println(object);

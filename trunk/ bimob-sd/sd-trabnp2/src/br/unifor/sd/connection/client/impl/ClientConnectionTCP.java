@@ -8,8 +8,8 @@ import java.net.UnknownHostException;
 
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.client.ClientConnection;
-import br.unifor.sd.connection.client.listener.ClientConnectionListener;
-import br.unifor.sd.connection.server.listener.ConnectionEvent;
+import br.unifor.sd.connection.listener.ClientConnectionListener;
+import br.unifor.sd.connection.listener.ConnectionEvent;
 
 public class ClientConnectionTCP implements ClientConnection{
 
@@ -109,4 +109,10 @@ public class ClientConnectionTCP implements ClientConnection{
 		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		if (socket != null) {
+			socket.close();
+		}
+	}
 }

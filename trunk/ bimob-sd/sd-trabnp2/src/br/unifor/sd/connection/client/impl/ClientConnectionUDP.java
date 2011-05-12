@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.client.ClientConnection;
-import br.unifor.sd.connection.client.listener.ClientConnectionListener;
+import br.unifor.sd.connection.listener.ClientConnectionListener;
 
 // TODO Alterar para utilizar DatagramSocket e DatagramPacket
 public class ClientConnectionUDP implements ClientConnection{
