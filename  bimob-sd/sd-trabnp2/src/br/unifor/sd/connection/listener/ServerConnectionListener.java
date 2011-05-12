@@ -1,9 +1,9 @@
-package br.unifor.sd.connection.server.listener;
+package br.unifor.sd.connection.listener;
 
 
 public interface ServerConnectionListener {
 	
-	void receiveMessage(ConnectionEvent event);
+	void receiveData(ConnectionEvent event);
 	
 	void requestConnection(ConnectionEvent event);
 }

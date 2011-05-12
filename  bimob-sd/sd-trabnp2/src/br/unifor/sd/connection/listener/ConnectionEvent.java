@@ -1,4 +1,4 @@
-package br.unifor.sd.connection.server.listener;
+package br.unifor.sd.connection.listener;
 
 import br.unifor.sd.connection.Client;
 import br.unifor.sd.connection.UtilConnection;

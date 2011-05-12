@@ -11,9 +11,9 @@ import java.util.List;
 import br.unifor.sd.connection.Client;
 import br.unifor.sd.connection.ClientTCP;
 import br.unifor.sd.connection.UtilConnection;
+import br.unifor.sd.connection.listener.ConnectionEvent;
+import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
-import br.unifor.sd.connection.server.listener.ConnectionEvent;
-import br.unifor.sd.connection.server.listener.ServerConnectionListener;
 
 public class ServerConnectionTCP implements ServerConnection {
 	
@@ -93,7 +93,7 @@ public class ServerConnectionTCP implements ServerConnection {
 							final Object object = inputStream.readObject();
 							event.setObject(object);
 	
-							listener.receiveMessage(event);
+							listener.receiveData(event);
 						}
 						
 					}
@@ -107,9 +107,9 @@ public class ServerConnectionTCP implements ServerConnection {
 	}
 
 	@Override
-	public void sendAll(Object object) {
+	public void sendAll(Object... objects) {
 		for (Client cliente : clientes) {
-			send(cliente.getClientID(), object);
+			send(cliente.getClientID(), objects);
 		}
 	}
 	

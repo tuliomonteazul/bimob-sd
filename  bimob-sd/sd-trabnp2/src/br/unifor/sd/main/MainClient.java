@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.client.impl.ClientConnectionTCP;
-import br.unifor.sd.connection.client.listener.ClientConnectionListener;
-import br.unifor.sd.connection.server.listener.ConnectionEvent;
+import br.unifor.sd.connection.listener.ClientConnectionListener;
+import br.unifor.sd.connection.listener.ConnectionEvent;
 
 public class MainClient {
 	public static void main(String[] args) {
