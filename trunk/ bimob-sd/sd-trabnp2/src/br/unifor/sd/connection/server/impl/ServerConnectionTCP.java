@@ -49,7 +49,6 @@ public class ServerConnectionTCP implements ServerConnection {
 						Socket socket = serverSocket.accept();
 						
 						receive(listener, socket);
-						
 					}
 					
 				} catch (IOException e) {
@@ -80,10 +79,7 @@ public class ServerConnectionTCP implements ServerConnection {
 							// gera um id para identificar esse cliente em outras trocas de mensagenss
 							final int clientID = UtilConnection.generateClientID();
 	
-							// recebe o nome do cliente que está tentando se conectar
-							final String name = (String) inputStream.readObject();
-							
-							final ClientTCP client = new ClientTCP(name, socket, clientID);
+							final ClientTCP client = new ClientTCP(socket, clientID);
 							event.setClient(client);
 							client.setOutputStream(new ObjectOutputStream(socket.getOutputStream()));
 	

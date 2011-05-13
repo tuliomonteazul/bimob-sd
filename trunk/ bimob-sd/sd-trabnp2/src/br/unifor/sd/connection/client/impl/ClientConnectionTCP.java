@@ -11,7 +11,7 @@ import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 
-public class ClientConnectionTCP implements ClientConnection{
+public class ClientConnectionTCP implements ClientConnection {
 
 	private static ClientConnectionTCP instance;
 	
@@ -34,7 +34,7 @@ public class ClientConnectionTCP implements ClientConnection{
 	}
 	
 	@Override
-	public boolean connect(String name, ClientConnectionListener listener) {
+	public boolean connect(ClientConnectionListener listener) {
 		boolean connected = false;
 		
 		try {
@@ -45,10 +45,6 @@ public class ClientConnectionTCP implements ClientConnection{
 			
 			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
 			outputStream.writeObject(UtilConnection.CONEXAO);
-			outputStream.flush();
-			
-			// envia o nome do cliente
-			outputStream.writeObject(name);
 			outputStream.flush();
 			
 			// le o retorno para verificar se a conexão foi aceita
