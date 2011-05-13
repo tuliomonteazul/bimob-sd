@@ -11,10 +11,11 @@ public interface ClientConnection {
 	 * false caso tenha sido recusada ou falhada. Executa o listener enviado por parâmetro quando as mensagens
 	 * vindas do servidor forem recebidas.
 	 * 
+	 * @param name String nome do cliente que está tentando se conectar
 	 * @param listener
 	 * @return boolean true se conectou ou false se não
 	 */
-	boolean connect(ClientConnectionListener listener);
+	boolean connect(String name, ClientConnectionListener listener);
 	
 	/**
 	 * Envia um objeto ao servidor.

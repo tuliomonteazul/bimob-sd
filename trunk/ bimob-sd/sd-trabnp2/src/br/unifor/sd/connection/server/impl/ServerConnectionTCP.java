@@ -80,7 +80,10 @@ public class ServerConnectionTCP implements ServerConnection {
 							// gera um id para identificar esse cliente em outras trocas de mensagenss
 							final int clientID = UtilConnection.generateClientID();
 	
-							final ClientTCP client = new ClientTCP(socket, clientID);
+							// recebe o nome do cliente que está tentando se conectar
+							final String name = (String) inputStream.readObject();
+							
+							final ClientTCP client = new ClientTCP(name, socket, clientID);
 							event.setClient(client);
 							client.setOutputStream(new ObjectOutputStream(socket.getOutputStream()));
 	

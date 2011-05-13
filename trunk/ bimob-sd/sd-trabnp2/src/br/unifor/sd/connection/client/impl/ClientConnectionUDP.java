@@ -32,7 +32,7 @@ public class ClientConnectionUDP implements ClientConnection{
 	}
 	
 	@Override
-	public boolean connect(ClientConnectionListener listener) {
+	public boolean connect(String name, ClientConnectionListener listener) {
 		boolean connected = false;
 		InputStream inputStream = null;
 		Socket socket = null;
@@ -48,6 +48,7 @@ public class ClientConnectionUDP implements ClientConnection{
 			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
 			outputStream.write(UtilConnection.CONEXAO);
 			outputStream.writeInt(port);
+			outputStream.writeObject(name);
 			outputStream.flush();
 			
 			

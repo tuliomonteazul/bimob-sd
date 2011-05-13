@@ -11,7 +11,7 @@ public class MainClient {
 	public static void main(String[] args) {
 		// TODO parametros ip e porta do servidor
 		ClientConnection clientConnection = ClientConnectionTCP.getInstance();
-		clientConnection.connect(new ClientConnectionListener() {
+		clientConnection.connect("teste", new ClientConnectionListener() {
 			
 			@Override
 			public void receive(ConnectionEvent event) {
