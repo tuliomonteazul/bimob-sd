@@ -34,7 +34,7 @@ public class ClientConnectionTCP implements ClientConnection{
 	}
 	
 	@Override
-	public boolean connect(ClientConnectionListener listener) {
+	public boolean connect(String name, ClientConnectionListener listener) {
 		boolean connected = false;
 		
 		try {
@@ -47,6 +47,9 @@ public class ClientConnectionTCP implements ClientConnection{
 			outputStream.writeObject(UtilConnection.CONEXAO);
 			outputStream.flush();
 			
+			// envia o nome do cliente
+			outputStream.writeObject(name);
+			outputStream.flush();
 			
 			// le o retorno para verificar se a conexão foi aceita
 			inputStream = new ObjectInputStream(socket.getInputStream());

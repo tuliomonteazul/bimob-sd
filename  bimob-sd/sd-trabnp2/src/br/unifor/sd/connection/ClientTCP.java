@@ -7,6 +7,7 @@ import java.net.Socket;
 public class ClientTCP implements Client {
 	private static final long serialVersionUID = -6690192905028882714L;
 	
+	private String name;
 	private Socket socket;
 	private ObjectOutputStream outputStream;
 	private int clientID;
@@ -15,12 +16,22 @@ public class ClientTCP implements Client {
 		super();
 	}
 
-	public ClientTCP(Socket socket, int sessionID) {
+	
+	public ClientTCP(String name, Socket socket, int clientID) {
 		super();
+		this.name = name;
 		this.socket = socket;
-		this.clientID = sessionID;
+		this.clientID = clientID;
 	}
 
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public Socket getSocket() {
 		return socket;
