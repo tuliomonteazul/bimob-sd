@@ -7,21 +7,23 @@ public class Carta implements Serializable {
 	private String nome;
 	private double valor;
 	private double aluguel;
-	private GrupoCarta grupo;
+	private int grupoID;
 	private Jogador jogador;
 
 	public Carta() {
 		super();
 	}
 
-	public Carta(String nome, double valor, double aluguel, GrupoCarta grupo, Jogador jogador) {
+	
+	public Carta(String nome, double valor, double aluguel, int grupoID, Jogador jogador) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
 		this.aluguel = aluguel;
-		this.grupo = grupo;
+		this.grupoID = grupoID;
 		this.jogador = jogador;
 	}
+
 
 	public String getNome() {
 		return nome;
@@ -47,12 +49,13 @@ public class Carta implements Serializable {
 		this.aluguel = aluguel;
 	}
 
-	public GrupoCarta getGrupo() {
-		return grupo;
+	public int getGrupoID() {
+		return grupoID;
 	}
 
-	public void setGrupo(GrupoCarta grupo) {
-		this.grupo = grupo;
+
+	public void setGrupoID(int grupoID) {
+		this.grupoID = grupoID;
 	}
 
 	public Jogador getJogador() {

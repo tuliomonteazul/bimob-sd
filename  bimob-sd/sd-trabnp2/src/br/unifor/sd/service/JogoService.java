@@ -39,7 +39,7 @@ public class JogoService {
 					
 					jogo.getJogadores().add(jogador);
 					
-					// TODO Tulio - Parei aqui
+					// TODO Tulio - exibir na tela que um jogador foi conectado
 				}
 			
 			}
