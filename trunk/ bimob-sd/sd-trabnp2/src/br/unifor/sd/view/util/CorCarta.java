@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
-public class CoresCarta {
+public class CorCarta {
 	
 //	private static final Color ROXO = new Color(133, 50, 134);
 //	private static final Color AZUL_CLARO = new Color(78, 202, 245);
