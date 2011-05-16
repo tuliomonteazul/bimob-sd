@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -42,6 +43,11 @@ public class BoardPanel extends JPanel {
 	private JPanel pnEsquerda;
 	private JPanel pnCima;
 	private JPanel pnDireita;
+	private JPanel pnDentro;
+	private JPanel pnDado;
+	private JPanel pnMsg;
+	private JLabel lbMsg;
+	private JLabel lbDado;
 	private List<SquarePanel> casas = new ArrayList<SquarePanel>();
 	
 	private GridBagConstraints gbc;
@@ -59,6 +65,8 @@ public class BoardPanel extends JPanel {
 		addPanelCima();
 		addCasaPrisao();
 		addPanelDireita();
+		
+		addPanelDentro();
 		
 		pnInicio.addJogador(new Player(ColorPlayer.AZUL));
 		pnInicio.addJogador(new Player(ColorPlayer.VERMELHO));
@@ -161,6 +169,49 @@ public class BoardPanel extends JPanel {
 		add(pnDireita, gbc);
 	}
 	
+
+	private void addPanelDentro() {
+		pnDentro = new JPanel();
+		pnDentro.setOpaque(true);
+//		pnDentro.setBackground(Color.white);
+		pnDentro.setLayout(new BoxLayout(pnDentro, BoxLayout.Y_AXIS));
+		gbc = new GridBagConstraints();
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		add(pnDentro, gbc);
+		
+		addPanelMsg();
+		addPanelDado();
+	}
+	
+
+	private void addPanelMsg() {
+		lbMsg = new JLabel("Aguardando os outros jogadores...");
+		
+		pnMsg = new JPanel();
+		pnMsg.add(Box.createVerticalStrut(60));
+		pnMsg.setOpaque(true);
+		pnMsg.add(lbMsg);
+		pnDentro.add(pnMsg);
+	}
+	
+	private void addPanelDado() {
+		lbDado = new JLabel("1");
+		lbDado.setFont(new Font("Arial", Font.BOLD, 140));
+		
+		pnDado = new JPanel();
+		pnDado.setOpaque(true);
+		pnDado.add(lbDado);
+		pnDado.setVisible(false);
+		pnDentro.add(pnDado);
+	}
+
+	public void exibirDado() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void addCarta(Card carta) {
 		countCasas++;
 		CardPanel pnCarta = null;
@@ -206,4 +257,7 @@ public class BoardPanel extends JPanel {
 		return casas;
 	}
 
+	public JLabel getLbMsg() {
+		return lbMsg;
+	}
 }

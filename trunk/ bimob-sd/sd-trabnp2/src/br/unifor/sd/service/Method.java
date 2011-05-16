@@ -3,7 +3,8 @@ package br.unifor.sd.service;
 public class Method {
 	
 	public static final int LIBERAR_VEZ = 1;
-	public static final int ANDAR_CASAS = 1;
+	public static final int ANDAR_CASAS = 2;
+	public static final int EXIBIR_MSG = 3;
 	
 	private int idMethod;
 	private Object[] params;
