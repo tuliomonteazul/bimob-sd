@@ -16,7 +16,18 @@ public class JogoService {
 	
 	private Jogo jogo = new Jogo();
 	
-	public void initGame(){
+	private static JogoService instance;
+	private JogoService() {
+		super();
+	}
+	public static JogoService getInstance(){
+		if (instance == null) {
+			instance = new JogoService();
+		}
+		return instance;
+	}
+	
+	public void createServer(){
 		
 //		popularCasas();
 		
@@ -39,16 +50,29 @@ public class JogoService {
 					
 					jogo.getJogadores().add(jogador);
 					
-					// TODO Tulio - exibir na tela que um jogador foi conectado
+					System.out.println("O jogador " + event.getClient().getClientID() + " foi conectado.");
 				}
 			
 			}
 			
 			@Override
 			public void receiveData(ConnectionEvent event) {
-				// TODO Auto-generated method stub
-				
+				if (event.getObject() instanceof Method) {
+					doMethod((Method) event.getObject());
+				}
 			}
 		});
+	}
+	
+	private void doMethod(Method method) {
+		if (method.getIdMethod() == 1) {
+			Jogador jogador = (Jogador) method.getParams()[0];
+			int valor = (Integer) method.getParams()[1];
+			jogarDado(jogador, valor);
+		}
+	}
+	
+	private void jogarDado(Jogador jogador, int valor) {
+		// TODO Tulio parei aqui
 	}
 }
