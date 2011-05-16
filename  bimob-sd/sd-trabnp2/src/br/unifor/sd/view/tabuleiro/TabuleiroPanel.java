@@ -1,10 +1,14 @@
-package br.unifor.sd.view;
+package br.unifor.sd.view.tabuleiro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,34 +20,36 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Carta;
+import br.unifor.sd.entity.CorJogador;
+import br.unifor.sd.entity.Jogador;
 
 public class TabuleiroPanel extends JPanel {
 	
+	private static final long serialVersionUID = -2779961265566761801L;
 	private static final int[] QT_CASAS = {
 		7, // abaixo
 		6, // esquerda
 		7, // cima
 		6, // direita
 	};
-	private static final int LARGURA_CASA = 65;
-	private static final int ALTURA_CASA = 60;
 	private int countCasas = 0;
 	
-	private JPanel pnInicio;
+	private CasaPanel pnInicio;
+	private CasaPanel pnVisita;
+	private CasaPanel pnWikipedia;
+	private CasaPanel pnPrisao;
 	private JPanel pnBaixo;
-	private JPanel pnVisita;
 	private JPanel pnEsquerda;
-	private JPanel pnAtalho;
 	private JPanel pnCima;
-	private JPanel pnPrisao;
 	private JPanel pnDireita;
-	private List<CartaPanel> pnCartas = new ArrayList<CartaPanel>();
+	private List<CasaPanel> casas = new ArrayList<CasaPanel>();
 	
 	private GridBagConstraints gbc;
 	
 	public TabuleiroPanel(){
 		
 		setLayout(new GridBagLayout());
+		setBackground(new Color(232, 236, 239));
 		
 		addCasaInicio();
 		addPanelBaixo();
@@ -53,21 +59,28 @@ public class TabuleiroPanel extends JPanel {
 		addPanelCima();
 		addCasaPrisao();
 		addPanelDireita();
+		
+		pnInicio.addJogador(new Jogador(CorJogador.AZUL));
+		pnInicio.addJogador(new Jogador(CorJogador.VERMELHO));
+		pnInicio.addJogador(new Jogador(CorJogador.BRANCO));
+		pnInicio.addJogador(new Jogador(CorJogador.VERDE));
 	}
 
 	private void addCasaInicio() {
-		pnInicio = new JPanel();
+		pnInicio = new CasaPanel();
 		pnInicio.setBackground(Color.WHITE);
 		pnInicio.add(new JLabel(new ImageIcon("images/inicio.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		add(pnInicio, gbc);
+		casas.add(pnInicio);
 	}
 
 	private void addPanelBaixo() {
 		pnBaixo = new JPanel();
-		pnBaixo.setLayout(new BoxLayout(pnBaixo, BoxLayout.X_AXIS));
+		pnBaixo.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		pnBaixo.setLayout(new BoxLayout(pnBaixo, BoxLayout.LINE_AXIS));
 		pnBaixo.setBackground(Color.BLACK);
 		pnBaixo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		gbc = new GridBagConstraints();
@@ -78,7 +91,7 @@ public class TabuleiroPanel extends JPanel {
 	}
 	
 	private void addCasaVisita() {
-		pnVisita = new JPanel();
+		pnVisita = new CasaPanel();
 		pnVisita.setBackground(Color.WHITE);
 		pnVisita.add(new JLabel(new ImageIcon("images/visitando.png")));
 		gbc = new GridBagConstraints();
@@ -86,11 +99,12 @@ public class TabuleiroPanel extends JPanel {
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(pnVisita, gbc);
+		casas.add(pnVisita);
 	}
 	
 	private void addPanelEsquerda() {
 		pnEsquerda = new JPanel();
-		pnEsquerda.setLayout(new BoxLayout(pnEsquerda, BoxLayout.Y_AXIS));
+		pnEsquerda.setLayout(new BoxLayout(pnEsquerda, BoxLayout.PAGE_AXIS));
 		pnEsquerda.setBackground(Color.BLACK);
 		pnEsquerda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		gbc = new GridBagConstraints();
@@ -101,13 +115,14 @@ public class TabuleiroPanel extends JPanel {
 	}
 	
 	private void addCasaAtalho() {
-		pnAtalho = new JPanel();
-		pnAtalho.setBackground(Color.WHITE);
-		pnAtalho.add(new JLabel(new ImageIcon("images/wikipedia.png")));
+		pnWikipedia = new CasaPanel();
+		pnWikipedia.setBackground(Color.WHITE);
+		pnWikipedia.add(new JLabel(new ImageIcon("images/wikipedia.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(pnAtalho, gbc);
+		add(pnWikipedia, gbc);
+		casas.add(pnWikipedia);
 	}
 	
 	private void addPanelCima() {
@@ -123,16 +138,15 @@ public class TabuleiroPanel extends JPanel {
 	}
 
 	private void addCasaPrisao() {
-		pnPrisao = new JPanel();
+		pnPrisao = new CasaPanel();
 		pnPrisao.setBackground(Color.BLACK);
 		pnPrisao.setBackground(Color.WHITE);
 		pnPrisao.add(new JLabel(new ImageIcon("images/404.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 0;
-//		gbc.ipadx = ALTURA_CASA;
-//		gbc.ipady = ALTURA_CASA;
 		add(pnPrisao, gbc);
+		casas.add(pnPrisao);
 	}
 
 	private void addPanelDireita() {
@@ -149,26 +163,49 @@ public class TabuleiroPanel extends JPanel {
 	
 	public void addCarta(Carta carta) {
 		countCasas++;
+		CartaPanel pnCarta = null;
 		if (countCasas <= QT_CASAS[0]) {
-			final CartaPanel pnCarta = new CartaPanel(carta);
+			pnCarta = new CartaPanel(carta);
 			pnBaixo.add(pnCarta);
 			pnBaixo.add(Box.createHorizontalStrut(1));
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1]) {
-			final CartaPanel pnCarta = new CartaPanel(carta, 90);
+			pnCarta = new CartaPanel(carta, 90);
 			pnEsquerda.add(pnCarta);
 			pnEsquerda.add(Box.createVerticalStrut(1));
+			if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
+				// inverte a ordem dos comps do panel
+				inverterPanel(pnEsquerda);
+			}
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
-			final CartaPanel pnCarta = new CartaPanel(carta, 180);
+			pnCarta = new CartaPanel(carta, 180);
 			pnCima.add(pnCarta);
 			pnCima.add(Box.createHorizontalStrut(1));
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2] + QT_CASAS[3]) {
-			final CartaPanel pnCarta = new CartaPanel(carta, 270);
+			pnCarta = new CartaPanel(carta, 270);
 			pnDireita.add(pnCarta);
 			pnDireita.add(Box.createVerticalStrut(1));
 		}
+		casas.add(pnCarta);
 		
 	}
 	
+	/**
+	 * Inverte a ordem dos componentes de um panel.
+	 * @param panel
+	 */
+	private void inverterPanel(JPanel panel) {
+		final List<Component> comps = Arrays.asList(panel.getComponents());
+		panel.removeAll();
+		Collections.reverse(comps);
+		for (Component comp : comps) {
+			panel.add(comp);
+		}
+	}
+
+	public List<CasaPanel> getCasas() {
+		return casas;
+	}
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
@@ -212,4 +249,5 @@ public class TabuleiroPanel extends JPanel {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 }

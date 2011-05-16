@@ -1,9 +1,9 @@
 package br.unifor.sd.service;
 
-import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
+import br.unifor.sd.entity.CorJogador;
 import br.unifor.sd.entity.Jogador;
 
 public class JogadorService {
@@ -11,11 +11,11 @@ public class JogadorService {
 	private static JogadorService instance;
 	public static final int MAX_JOGADORES = 4;
 	
-	private final List<Color> cores;
+	private final List<CorJogador> cores;
 	
 	private JogadorService() {
 		super();
-		cores = Arrays.asList(new Color[]{Color.BLACK, Color.BLUE, Color.RED, Color.GREEN, Color.ORANGE});
+		cores = Arrays.asList(new CorJogador[]{CorJogador.VERMELHO, CorJogador.VERDE, CorJogador.AZUL, CorJogador.BRANCO});
 	}
 	
 	public static JogadorService getInstance(){
@@ -34,9 +34,9 @@ public class JogadorService {
 		return null;
 	}
 	
-	public Color nextColor() {
+	public CorJogador nextColor() {
 		if (cores != null && !cores.isEmpty()) {
-			Color cor = cores.get(0);
+			CorJogador cor = cores.get(0);
 			cores.remove(0);
 			return cor;
 		} else {

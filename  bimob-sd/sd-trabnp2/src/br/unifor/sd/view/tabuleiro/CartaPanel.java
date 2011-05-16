@@ -1,4 +1,4 @@
-package br.unifor.sd.view;
+package br.unifor.sd.view.tabuleiro;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,9 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Carta;
-import br.unifor.sd.view.util.CoresCarta;
+import br.unifor.sd.view.util.CorCarta;
 
-public class CartaPanel extends JPanel {
+public class CartaPanel extends CasaPanel {
+	private static final long serialVersionUID = -2527619113666361795L;
 	private Carta carta;
 	private JPanel pnCor;
 	private JLabel lbNome;
@@ -39,7 +40,7 @@ public class CartaPanel extends JPanel {
 //		setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.BLACK));
 		
 		pnCor = new JPanel();
-		pnCor.setBackground(CoresCarta.getColor(carta.getGrupoID()));
+		pnCor.setBackground(CorCarta.getColor(carta.getGrupoID()));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -68,6 +69,8 @@ public class CartaPanel extends JPanel {
 		gbc.gridy = 2;
 		add(lbValor, gbc);
 	}
+	
+	
 
 	@Override
 	protected void paintComponent(Graphics graphics) {

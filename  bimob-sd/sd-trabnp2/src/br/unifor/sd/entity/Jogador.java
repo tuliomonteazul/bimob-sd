@@ -9,7 +9,7 @@ public class Jogador implements Serializable {
 	private static final double START_MONEY = 2500.0;
 	private String nome;
 	private int clientID;
-	private Color cor;
+	private CorJogador cor;
 	private double dinheiro;
 	private List<Carta> cartas;
 	private int posicao;
@@ -17,6 +17,10 @@ public class Jogador implements Serializable {
 	public Jogador() {
 		super();
 		this.dinheiro = START_MONEY;
+	}
+
+	public Jogador(CorJogador cor) {
+		this.cor = cor;
 	}
 
 	public String getNome() {
@@ -35,11 +39,12 @@ public class Jogador implements Serializable {
 		this.clientID = clientID;
 	}
 
-	public Color getCor() {
+
+	public CorJogador getCor() {
 		return cor;
 	}
 
-	public void setCor(Color cor) {
+	public void setCor(CorJogador cor) {
 		this.cor = cor;
 	}
 
