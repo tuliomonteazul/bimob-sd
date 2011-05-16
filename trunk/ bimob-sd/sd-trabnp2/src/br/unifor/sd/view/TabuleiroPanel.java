@@ -10,7 +10,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Carta;
@@ -55,12 +57,11 @@ public class TabuleiroPanel extends JPanel {
 
 	private void addCasaInicio() {
 		pnInicio = new JPanel();
-		pnInicio.setBackground(Color.black);
+		pnInicio.setBackground(Color.WHITE);
+		pnInicio.add(new JLabel(new ImageIcon("images/inicio.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 2;
-		gbc.ipadx = ALTURA_CASA;
-		gbc.ipady = ALTURA_CASA;
 		add(pnInicio, gbc);
 	}
 
@@ -78,12 +79,12 @@ public class TabuleiroPanel extends JPanel {
 	
 	private void addCasaVisita() {
 		pnVisita = new JPanel();
-		pnVisita.setBackground(Color.BLACK);
+		pnVisita.setBackground(Color.WHITE);
+		pnVisita.add(new JLabel(new ImageIcon("images/visitando.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		gbc.ipadx = ALTURA_CASA;
-		gbc.ipady = ALTURA_CASA;
+		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(pnVisita, gbc);
 	}
 	
@@ -101,12 +102,11 @@ public class TabuleiroPanel extends JPanel {
 	
 	private void addCasaAtalho() {
 		pnAtalho = new JPanel();
-		pnAtalho.setBackground(Color.BLACK);
+		pnAtalho.setBackground(Color.WHITE);
+		pnAtalho.add(new JLabel(new ImageIcon("images/wikipedia.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.ipadx = ALTURA_CASA;
-		gbc.ipady = ALTURA_CASA;
 		add(pnAtalho, gbc);
 	}
 	
@@ -125,11 +125,13 @@ public class TabuleiroPanel extends JPanel {
 	private void addCasaPrisao() {
 		pnPrisao = new JPanel();
 		pnPrisao.setBackground(Color.BLACK);
+		pnPrisao.setBackground(Color.WHITE);
+		pnPrisao.add(new JLabel(new ImageIcon("images/404.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 0;
-		gbc.ipadx = ALTURA_CASA;
-		gbc.ipady = ALTURA_CASA;
+//		gbc.ipadx = ALTURA_CASA;
+//		gbc.ipady = ALTURA_CASA;
 		add(pnPrisao, gbc);
 	}
 
