@@ -10,6 +10,10 @@ import br.unifor.sd.entity.Player;
 public class BoardController {
 	private BoardPanel boardPanel;
 	
+	public BoardController() {
+		super();
+	}
+	
 	private void setPosJogador(Player jogador, int pos) {
 		boardPanel.getCasas().get(jogador.getPosicao()).removeJogador(jogador);
 		
@@ -17,6 +21,15 @@ public class BoardController {
 	}
 
 
+	public void liberarVez() {
+		boardPanel.exibirDado();
+	}
+
+
+	public void exibirMsg(String msg) {
+		boardPanel.getLbMsg().setText(msg);
+	}
+	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
@@ -60,5 +73,8 @@ public class BoardController {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+
+
 	
 }

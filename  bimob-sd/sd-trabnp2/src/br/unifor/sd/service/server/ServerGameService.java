@@ -70,6 +70,7 @@ public class ServerGameService {
 			
 			System.out.println("Jogo iniciado");
 			jogadorService.liberarVez(getProximoJogador());
+			jogadorService.exibirMsg("Jogo iniciado, aguardando o próximo jogador.");
 			
 			return true;
 		} else {
