@@ -1,28 +1,29 @@
-package br.unifor.sd.service;
+package br.unifor.sd.service.server;
 
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.factory.ConnectionProtocol;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
-import br.unifor.sd.entity.Jogador;
-import br.unifor.sd.entity.Jogo;
+import br.unifor.sd.entity.Player;
+import br.unifor.sd.entity.Game;
+import br.unifor.sd.service.Method;
 
-public class JogoService {
+public class ServerGameService {
 	
 	private ServerConnection serverConnection = ConnectionFactory.createServer(ConnectionProtocol.TCP);
 	
-	private JogadorService jogadorService = JogadorService.getInstance();
+	private ServerPlayerService jogadorService = ServerPlayerService.getInstance();
 	
-	private Jogo jogo = new Jogo();
+	private Game jogo = new Game();
 	
-	private static JogoService instance;
-	private JogoService() {
+	private static ServerGameService instance;
+	private ServerGameService() {
 		super();
 	}
-	public static JogoService getInstance(){
+	public static ServerGameService getInstance(){
 		if (instance == null) {
-			instance = new JogoService();
+			instance = new ServerGameService();
 		}
 		return instance;
 	}
@@ -37,13 +38,13 @@ public class JogoService {
 			public void requestConnection(ConnectionEvent event) {
 				
 				// se ainda não existir um jogador com esse nome
-				if (jogo.getJogadores().size() == JogadorService.MAX_JOGADORES) {
+				if (jogo.getJogadores().size() == ServerPlayerService.MAX_JOGADORES) {
 					// TODO msg detalhe da rejeicao
 					event.rejectConnection();
 				} else {
 					event.acceptConnection();
 					
-					final Jogador jogador = new Jogador();
+					final Player jogador = new Player();
 					jogador.setClientID(event.getClient().getClientID());
 					jogador.setCor(jogadorService.nextColor());
 					jogador.setPosicao(0);
@@ -64,15 +65,35 @@ public class JogoService {
 		});
 	}
 	
-	private void doMethod(Method method) {
-		if (method.getIdMethod() == 1) {
-			Jogador jogador = (Jogador) method.getParams()[0];
-			int valor = (Integer) method.getParams()[1];
-			jogarDado(jogador, valor);
+	public boolean startGame() {
+		if (jogo.getJogadores().size() > 1) {
+			
+			System.out.println("Jogo iniciado");
+			jogadorService.liberarVez(getProximoJogador());
+			
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
-	private void jogarDado(Jogador jogador, int valor) {
+	private void doMethod(Method method) {
+		if (method.getIdMethod() == Method.ANDAR_CASAS) {
+			Player jogador = (Player) method.getParams()[0];
+			int valor = (Integer) method.getParams()[1];
+			andarCasas(jogador, valor);
+		}
+	}
+	
+	private void andarCasas(Player jogador, int valor) {
 		// TODO Tulio parei aqui
+		
+	}
+	
+	private Player getProximoJogador() {
+		final Player proximo = jogo.getJogadores().get(0);
+		jogo.getJogadores().remove(proximo);
+		jogo.getJogadores().add(proximo);
+		return proximo;
 	}
 }

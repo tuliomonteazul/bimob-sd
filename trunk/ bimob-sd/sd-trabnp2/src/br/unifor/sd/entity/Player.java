@@ -4,22 +4,22 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.List;
 
-public class Jogador implements Serializable {
+public class Player implements Serializable {
 	private static final long serialVersionUID = -7597865929169679095L;
 	private static final double START_MONEY = 2500.0;
 	private String nome;
 	private int clientID;
-	private CorJogador cor;
+	private ColorPlayer cor;
 	private double dinheiro;
-	private List<Carta> cartas;
+	private List<Card> cartas;
 	private int posicao;
 
-	public Jogador() {
+	public Player() {
 		super();
 		this.dinheiro = START_MONEY;
 	}
 
-	public Jogador(CorJogador cor) {
+	public Player(ColorPlayer cor) {
 		this.cor = cor;
 	}
 
@@ -40,11 +40,11 @@ public class Jogador implements Serializable {
 	}
 
 
-	public CorJogador getCor() {
+	public ColorPlayer getCor() {
 		return cor;
 	}
 
-	public void setCor(CorJogador cor) {
+	public void setCor(ColorPlayer cor) {
 		this.cor = cor;
 	}
 
@@ -56,11 +56,11 @@ public class Jogador implements Serializable {
 		this.dinheiro = dinheiro;
 	}
 
-	public List<Carta> getCartas() {
+	public List<Card> getCartas() {
 		return cartas;
 	}
 
-	public void setCartas(List<Carta> cartas) {
+	public void setCartas(List<Card> cartas) {
 		this.cartas = cartas;
 	}
 

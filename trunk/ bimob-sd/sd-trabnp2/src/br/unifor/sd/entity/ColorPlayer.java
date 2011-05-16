@@ -3,7 +3,7 @@ package br.unifor.sd.entity;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-public enum CorJogador {
+public enum ColorPlayer {
 	VERMELHO, VERDE, AZUL, BRANCO;
 	
 	private static final String IMG_AZUL = "images/jog_azul.png";

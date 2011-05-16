@@ -19,11 +19,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import br.unifor.sd.entity.Carta;
-import br.unifor.sd.entity.CorJogador;
-import br.unifor.sd.entity.Jogador;
+import br.unifor.sd.entity.Card;
+import br.unifor.sd.entity.ColorPlayer;
+import br.unifor.sd.entity.Player;
 
-public class TabuleiroPanel extends JPanel {
+public class BoardPanel extends JPanel {
 	
 	private static final long serialVersionUID = -2779961265566761801L;
 	private static final int[] QT_CASAS = {
@@ -34,19 +34,19 @@ public class TabuleiroPanel extends JPanel {
 	};
 	private int countCasas = 0;
 	
-	private CasaPanel pnInicio;
-	private CasaPanel pnVisita;
-	private CasaPanel pnWikipedia;
-	private CasaPanel pnPrisao;
+	private SquarePanel pnInicio;
+	private SquarePanel pnVisita;
+	private SquarePanel pnWikipedia;
+	private SquarePanel pnPrisao;
 	private JPanel pnBaixo;
 	private JPanel pnEsquerda;
 	private JPanel pnCima;
 	private JPanel pnDireita;
-	private List<CasaPanel> casas = new ArrayList<CasaPanel>();
+	private List<SquarePanel> casas = new ArrayList<SquarePanel>();
 	
 	private GridBagConstraints gbc;
 	
-	public TabuleiroPanel(){
+	public BoardPanel(){
 		
 		setLayout(new GridBagLayout());
 		setBackground(new Color(232, 236, 239));
@@ -60,14 +60,14 @@ public class TabuleiroPanel extends JPanel {
 		addCasaPrisao();
 		addPanelDireita();
 		
-		pnInicio.addJogador(new Jogador(CorJogador.AZUL));
-		pnInicio.addJogador(new Jogador(CorJogador.VERMELHO));
-		pnInicio.addJogador(new Jogador(CorJogador.BRANCO));
-		pnInicio.addJogador(new Jogador(CorJogador.VERDE));
+		pnInicio.addJogador(new Player(ColorPlayer.AZUL));
+		pnInicio.addJogador(new Player(ColorPlayer.VERMELHO));
+		pnInicio.addJogador(new Player(ColorPlayer.BRANCO));
+		pnInicio.addJogador(new Player(ColorPlayer.VERDE));
 	}
 
 	private void addCasaInicio() {
-		pnInicio = new CasaPanel();
+		pnInicio = new SquarePanel();
 		pnInicio.setBackground(Color.WHITE);
 		pnInicio.add(new JLabel(new ImageIcon("images/inicio.png")));
 		gbc = new GridBagConstraints();
@@ -91,7 +91,7 @@ public class TabuleiroPanel extends JPanel {
 	}
 	
 	private void addCasaVisita() {
-		pnVisita = new CasaPanel();
+		pnVisita = new SquarePanel();
 		pnVisita.setBackground(Color.WHITE);
 		pnVisita.add(new JLabel(new ImageIcon("images/visitando.png")));
 		gbc = new GridBagConstraints();
@@ -115,7 +115,7 @@ public class TabuleiroPanel extends JPanel {
 	}
 	
 	private void addCasaAtalho() {
-		pnWikipedia = new CasaPanel();
+		pnWikipedia = new SquarePanel();
 		pnWikipedia.setBackground(Color.WHITE);
 		pnWikipedia.add(new JLabel(new ImageIcon("images/wikipedia.png")));
 		gbc = new GridBagConstraints();
@@ -138,7 +138,7 @@ public class TabuleiroPanel extends JPanel {
 	}
 
 	private void addCasaPrisao() {
-		pnPrisao = new CasaPanel();
+		pnPrisao = new SquarePanel();
 		pnPrisao.setBackground(Color.BLACK);
 		pnPrisao.setBackground(Color.WHITE);
 		pnPrisao.add(new JLabel(new ImageIcon("images/404.png")));
@@ -161,15 +161,15 @@ public class TabuleiroPanel extends JPanel {
 		add(pnDireita, gbc);
 	}
 	
-	public void addCarta(Carta carta) {
+	public void addCarta(Card carta) {
 		countCasas++;
-		CartaPanel pnCarta = null;
+		CardPanel pnCarta = null;
 		if (countCasas <= QT_CASAS[0]) {
-			pnCarta = new CartaPanel(carta);
+			pnCarta = new CardPanel(carta);
 			pnBaixo.add(pnCarta);
 			pnBaixo.add(Box.createHorizontalStrut(1));
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1]) {
-			pnCarta = new CartaPanel(carta, 90);
+			pnCarta = new CardPanel(carta, 90);
 			pnEsquerda.add(pnCarta);
 			pnEsquerda.add(Box.createVerticalStrut(1));
 			if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
@@ -177,11 +177,11 @@ public class TabuleiroPanel extends JPanel {
 				inverterPanel(pnEsquerda);
 			}
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
-			pnCarta = new CartaPanel(carta, 180);
+			pnCarta = new CardPanel(carta, 180);
 			pnCima.add(pnCarta);
 			pnCima.add(Box.createHorizontalStrut(1));
 		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2] + QT_CASAS[3]) {
-			pnCarta = new CartaPanel(carta, 270);
+			pnCarta = new CardPanel(carta, 270);
 			pnDireita.add(pnCarta);
 			pnDireita.add(Box.createVerticalStrut(1));
 		}
@@ -202,7 +202,7 @@ public class TabuleiroPanel extends JPanel {
 		}
 	}
 
-	public List<CasaPanel> getCasas() {
+	public List<SquarePanel> getCasas() {
 		return casas;
 	}
 

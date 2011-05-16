@@ -2,20 +2,20 @@ package br.unifor.sd.entity;
 
 import java.io.Serializable;
 
-public class Carta implements Serializable {
+public class Card implements Serializable {
 	private static final long serialVersionUID = -848706398882561177L;
 	private String nome;
 	private double valor;
 	private double aluguel;
 	private int grupoID;
-	private Jogador jogador;
+	private Player jogador;
 
-	public Carta() {
+	public Card() {
 		super();
 	}
 
 	
-	public Carta(String nome, double valor, double aluguel, int grupoID, Jogador jogador) {
+	public Card(String nome, double valor, double aluguel, int grupoID, Player jogador) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
@@ -58,11 +58,11 @@ public class Carta implements Serializable {
 		this.grupoID = grupoID;
 	}
 
-	public Jogador getJogador() {
+	public Player getJogador() {
 		return jogador;
 	}
 
-	public void setJogador(Jogador jogador) {
+	public void setJogador(Player jogador) {
 		this.jogador = jogador;
 	}
 	
