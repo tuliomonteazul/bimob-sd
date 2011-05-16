@@ -6,18 +6,18 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import br.unifor.sd.entity.Jogador;
+import br.unifor.sd.entity.Player;
 
-public class CasaPanel extends JPanel {
+public class SquarePanel extends JPanel {
 
 	private static final long serialVersionUID = 509085596174732939L;
-	private List<Jogador> jogadores = new ArrayList<Jogador>(); 
+	private List<Player> jogadores = new ArrayList<Player>(); 
 	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		for (Jogador jog : jogadores) {
+		for (Player jog : jogadores) {
 			
 			switch (jog.getCor()) {
 			case VERMELHO:
@@ -39,12 +39,12 @@ public class CasaPanel extends JPanel {
 		}
 	}
 	
-	public void addJogador(Jogador jogador) {
+	public void addJogador(Player jogador) {
 		jogadores.add(jogador);
 		jogador.setPosicao(jogadores.size()-1);
 	}
 	
-	public void removeJogador(Jogador jogador) {
+	public void removeJogador(Player jogador) {
 		jogadores.remove(jogador);
 	}
 }

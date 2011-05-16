@@ -1,10 +1,10 @@
 package br.unifor.sd.main;
 
-import br.unifor.sd.service.JogoService;
+import br.unifor.sd.service.server.ServerGameService;
 
 public class MainServer {
 	public static void main(String[] args) {
-		JogoService jogoService = JogoService.getInstance();
+		ServerGameService jogoService = ServerGameService.getInstance();
 		
 		System.out.println("Iniciando servidor...");
 		jogoService.createServer();

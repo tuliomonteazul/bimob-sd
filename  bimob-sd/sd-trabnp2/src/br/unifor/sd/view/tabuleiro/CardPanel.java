@@ -11,12 +11,12 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import br.unifor.sd.entity.Carta;
-import br.unifor.sd.view.util.CorCarta;
+import br.unifor.sd.entity.Card;
+import br.unifor.sd.view.util.ColorCard;
 
-public class CartaPanel extends CasaPanel {
+public class CardPanel extends SquarePanel {
 	private static final long serialVersionUID = -2527619113666361795L;
-	private Carta carta;
+	private Card carta;
 	private JPanel pnCor;
 	private JLabel lbNome;
 	private JLabel lbValor;
@@ -25,10 +25,10 @@ public class CartaPanel extends CasaPanel {
 	private static final Font FONT_NOME = new Font("Tahoma", Font.BOLD, 11);
 	private static final Font FONT_VALOR = new Font("Verdana", Font.PLAIN, 10);
 	
-	public CartaPanel(Carta carta) {
+	public CardPanel(Card carta) {
 		this(carta, 0);
 	}
-	public CartaPanel(Carta carta, double rotateAngle) {
+	public CardPanel(Card carta, double rotateAngle) {
 		this.carta = carta;
 		this.rotateAngle = rotateAngle;
 		initComponents();
@@ -40,7 +40,7 @@ public class CartaPanel extends CasaPanel {
 //		setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.BLACK));
 		
 		pnCor = new JPanel();
-		pnCor.setBackground(CorCarta.getColor(carta.getGrupoID()));
+		pnCor.setBackground(ColorCard.getColor(carta.getGrupoID()));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;

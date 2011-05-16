@@ -9,29 +9,43 @@ import br.unifor.sd.connection.server.impl.ServerConnectionUDP;
 
 public class ConnectionFactory {
 
+	private static ServerConnection serverConnection;
+	private static ClientConnection clientConnection;
+	
 	public static ClientConnection createClient(ConnectionProtocol protocol) {
-		ClientConnection connection = null;
-		switch (protocol) {
-		case TCP:
-			connection = ClientConnectionTCP.getInstance();
-			break;
-		case UDP:
-			connection = ClientConnectionUDP.getInstance();
-			break;
+		if (clientConnection == null) {
+			switch (protocol) {
+			case TCP:
+				clientConnection = ClientConnectionTCP.getInstance();
+				break;
+			case UDP:
+				clientConnection = ClientConnectionUDP.getInstance();
+				break;
+			}
 		}
-		return connection;
+		return clientConnection;
 	}
 	
 	public static ServerConnection createServer(ConnectionProtocol protocol) {
-		ServerConnection connection = null;
-		switch (protocol) {
-		case TCP:
-			connection = ServerConnectionTCP.getInstance();
-			break;
-		case UDP:
-			connection = ServerConnectionUDP.getInstance();
-			break;
+		if (serverConnection == null) {
+			switch (protocol) {
+			case TCP:
+				serverConnection = ServerConnectionTCP.getInstance();
+				break;
+			case UDP:
+				serverConnection = ServerConnectionUDP.getInstance();
+				break;
+			}
 		}
-		return connection;
+		return serverConnection;
 	}
+	
+	public static ClientConnection getClientConnection() {
+		return clientConnection;
+	}
+	
+	public static ServerConnection getServerConnection() {
+		return serverConnection;
+	}
+	
 }
