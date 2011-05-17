@@ -2,6 +2,7 @@ package br.unifor.sd.service.client;
 
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.factory.ConnectionFactory;
+import br.unifor.sd.connection.factory.ConnectionProtocol;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.service.Method;
@@ -11,9 +12,11 @@ public class ClientGameService {
 
 	private ClientConnection clientConnection = ConnectionFactory.getClientConnection();
 	
-	private BoardController boardController;
+	private BoardController boardController = new BoardController();
 	
 	public void playGame() {
+		boardController.init();
+		
 		clientConnection.connect(new ClientConnectionListener() {
 			
 			@Override

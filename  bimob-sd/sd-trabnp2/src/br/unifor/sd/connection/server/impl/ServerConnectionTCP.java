@@ -115,8 +115,6 @@ public class ServerConnectionTCP implements ServerConnection {
 	@Override
 	public void send(int clientID, Object... objects) {
 		try {
-			System.out.println("enviando para o cliente: "+clientID);
-			
 			final Client client = findClient(clientID);
 			
 			final ObjectOutputStream outputStream = ((ClientTCP) client).getOutputStream();

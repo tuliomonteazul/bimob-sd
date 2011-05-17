@@ -1,6 +1,8 @@
 package br.unifor.sd.service;
 
-public class Method {
+import java.io.Serializable;
+
+public class Method implements Serializable {
 	
 	public static final int LIBERAR_VEZ = 1;
 	public static final int ANDAR_CASAS = 2;
@@ -18,7 +20,7 @@ public class Method {
 		this.idMethod = idMethod;
 	}
 
-	public Method(int idMethod, Object[] params) {
+	public Method(int idMethod, Object... params) {
 		super();
 		this.idMethod = idMethod;
 		this.params = params;
