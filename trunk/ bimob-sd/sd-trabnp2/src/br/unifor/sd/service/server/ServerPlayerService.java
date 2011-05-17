@@ -17,6 +17,7 @@ public class ServerPlayerService {
 	public static final int MAX_JOGADORES = 4;
 	
 	private final List<ColorPlayer> cores;
+	private int ultimaCor;
 	
 	private ServerPlayerService() {
 		super();
@@ -52,13 +53,13 @@ public class ServerPlayerService {
 	 * Informa uma mensagem para todos os jogadores
 	 */
 	public void exibirMsg(final String msg) {
-		serverConnection.sendAll(msg);
+		final Method method = new Method(Method.EXIBIR_MSG, msg);
+		serverConnection.sendAll(method);
 	}
 	
 	public ColorPlayer nextColor() {
 		if (cores != null && !cores.isEmpty()) {
-			ColorPlayer cor = cores.get(0);
-			cores.remove(0);
+			ColorPlayer cor = cores.get(ultimaCor++);
 			return cor;
 		} else {
 			return null;

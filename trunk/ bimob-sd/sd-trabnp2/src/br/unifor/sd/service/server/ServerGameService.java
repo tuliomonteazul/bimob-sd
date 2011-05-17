@@ -11,7 +11,7 @@ import br.unifor.sd.service.Method;
 
 public class ServerGameService {
 	
-	private ServerConnection serverConnection = ConnectionFactory.createServer(ConnectionProtocol.TCP);
+	private ServerConnection serverConnection = ConnectionFactory.getServerConnection();
 	
 	private ServerPlayerService jogadorService = ServerPlayerService.getInstance();
 	
@@ -66,7 +66,7 @@ public class ServerGameService {
 	}
 	
 	public boolean startGame() {
-		if (jogo.getJogadores().size() > 1) {
+		if (jogo.getJogadores().size() >= 1) {
 			
 			System.out.println("Jogo iniciado");
 			jogadorService.liberarVez(getProximoJogador());
