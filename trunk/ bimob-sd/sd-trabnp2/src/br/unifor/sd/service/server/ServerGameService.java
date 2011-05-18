@@ -1,12 +1,11 @@
 package br.unifor.sd.service.server;
 
 import br.unifor.sd.connection.factory.ConnectionFactory;
-import br.unifor.sd.connection.factory.ConnectionProtocol;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
-import br.unifor.sd.entity.Player;
 import br.unifor.sd.entity.Game;
+import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 
 public class ServerGameService {
@@ -50,6 +49,9 @@ public class ServerGameService {
 					jogador.setPosicao(0);
 					
 					jogo.getJogadores().add(jogador);
+					
+					final Method method = new Method(Method.CONECTOU, jogador);
+					serverConnection.send(event.getClient().getClientID(), method);
 					
 					System.out.println("O jogador " + event.getClient().getClientID() + " foi conectado.");
 				}

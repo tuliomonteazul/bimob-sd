@@ -4,6 +4,7 @@ import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
+import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 import br.unifor.sd.view.tabuleiro.BoardController;
 
@@ -12,6 +13,8 @@ public class ClientGameService {
 	private ClientConnection clientConnection = ConnectionFactory.getClientConnection();
 	
 	private BoardController boardController = new BoardController();
+	
+	private Player player;
 	
 	public void playGame() {
 		boardController.init();
@@ -29,7 +32,10 @@ public class ClientGameService {
 	
 
 	private void doMethod(Method method) {
-		if (method.getIdMethod() == Method.LIBERAR_VEZ) {
+		if (method.getIdMethod() == Method.CONECTOU) {
+			player = (Player) method.getParams()[0];
+			boardController.setPlayer(player);
+		} else if (method.getIdMethod() == Method.LIBERAR_VEZ) {
 			boardController.liberarVez();
 		} else if (method.getIdMethod() == Method.EXIBIR_MSG) {
 			final String msg = (String) method.getParams()[0];

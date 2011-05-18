@@ -42,6 +42,7 @@ public class BoardPanel extends JPanel {
 	private JPanel pnDireita;
 	private JPanel pnDentro;
 	private DicePanel pnDado;
+	private InfoPanel pnInfo;
 	private JPanel pnMsg;
 	private JLabel lbMsg;
 	private List<SquarePanel> casas = new ArrayList<SquarePanel>();
@@ -179,6 +180,7 @@ public class BoardPanel extends JPanel {
 		
 		addPanelMsg();
 		addPanelDado();
+		addPanelInfo();
 	}
 	
 
@@ -195,6 +197,12 @@ public class BoardPanel extends JPanel {
 	private void addPanelDado() {
 		pnDado = new DicePanel();
 		pnDentro.add(pnDado);
+	}
+	
+	private void addPanelInfo() {
+		pnInfo = new InfoPanel();
+		pnInfo.setAlignmentY(BOTTOM_ALIGNMENT);
+		pnDentro.add(pnInfo);
 	}
 
 	public void exibirDado() {
@@ -255,4 +263,9 @@ public class BoardPanel extends JPanel {
 	public JPanel getPnMsg() {
 		return pnMsg;
 	}
+
+	public InfoPanel getPnInfo() {
+		return pnInfo;
+	}
+	
 }

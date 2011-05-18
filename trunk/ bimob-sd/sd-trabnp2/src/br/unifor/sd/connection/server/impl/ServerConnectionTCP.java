@@ -67,7 +67,6 @@ public class ServerConnectionTCP implements ServerConnection {
 					final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 					while (true) {
 	
-						System.out.println("recebendo req..");
 						// ação que pode ser um pedido de conexão ou uma mensagem
 						final int acao = (Integer) inputStream.readObject();
 	
