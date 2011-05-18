@@ -1,13 +1,10 @@
 package br.unifor.sd.view.tabuleiro;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
@@ -22,11 +19,10 @@ public class BoardController {
 	public void init() {
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
-		BoardPanel tabuleiro = new BoardPanel();
-		frame.add(tabuleiro, BorderLayout.CENTER);
+		frame.add(boardPanel, BorderLayout.CENTER);
 		
 		for (Card card : getCards()) {
-			tabuleiro.addCarta(card);
+			boardPanel.addCarta(card);
 		}
 		
 		frame.setVisible(true);

@@ -3,7 +3,6 @@ package br.unifor.sd.view.tabuleiro;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
@@ -42,10 +41,9 @@ public class BoardPanel extends JPanel {
 	private JPanel pnCima;
 	private JPanel pnDireita;
 	private JPanel pnDentro;
-	private JPanel pnDado;
+	private DicePanel pnDado;
 	private JPanel pnMsg;
 	private JLabel lbMsg;
-	private JLabel lbDado;
 	private List<SquarePanel> casas = new ArrayList<SquarePanel>();
 	
 	private GridBagConstraints gbc;
@@ -195,19 +193,14 @@ public class BoardPanel extends JPanel {
 	}
 	
 	private void addPanelDado() {
-		lbDado = new JLabel("1");
-		lbDado.setFont(new Font("Arial", Font.BOLD, 140));
-		
-		pnDado = new JPanel();
-		pnDado.setOpaque(true);
-		pnDado.add(lbDado);
-		pnDado.setVisible(false);
+		pnDado = new DicePanel();
 		pnDentro.add(pnDado);
 	}
 
 	public void exibirDado() {
-		// TODO Auto-generated method stub
-		
+		lbMsg.setText("Sua vez! Clique para jogar!");
+		pnDado.setVisible(true);
+		pnDado.rodarDado();
 	}
 	
 	public void addCarta(Card carta) {
