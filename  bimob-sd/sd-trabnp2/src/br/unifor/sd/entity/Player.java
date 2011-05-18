@@ -13,7 +13,7 @@ public class Player implements Serializable {
 	private double dinheiro;
 	private List<Card> cartas;
 	private int posicao;
-
+	
 	public Player() {
 		super();
 		this.dinheiro = START_MONEY;

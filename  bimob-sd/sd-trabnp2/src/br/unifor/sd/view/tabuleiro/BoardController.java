@@ -12,6 +12,8 @@ import br.unifor.sd.entity.Player;
 public class BoardController {
 	private BoardPanel boardPanel = new BoardPanel();
 	
+	private Player player;
+	
 	public BoardController() {
 		super();
 	}
@@ -84,6 +86,13 @@ public class BoardController {
 		return cards;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
 
-	
+	public void setPlayer(Player player) {
+		this.player = player;
+		boardPanel.getPnInfo().showInfo(player);
+	}
+
 }
