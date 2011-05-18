@@ -1,6 +1,5 @@
 package br.unifor.sd.view.tabuleiro;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.text.NumberFormat;
