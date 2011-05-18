@@ -185,10 +185,10 @@ public class BoardPanel extends JPanel {
 	
 
 	private void addPanelMsg() {
-		lbMsg = new JLabel("Aguardando os outros jogadores...");
+		lbMsg = new JLabel("Aguardando o início do jogo...");
 		
 		pnMsg = new JPanel();
-		pnMsg.add(Box.createVerticalStrut(60));
+		pnDentro.add(Box.createVerticalStrut(60));
 		pnMsg.setOpaque(true);
 		pnMsg.add(lbMsg);
 		pnDentro.add(pnMsg);

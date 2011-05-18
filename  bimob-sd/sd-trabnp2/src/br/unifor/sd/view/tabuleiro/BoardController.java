@@ -48,7 +48,6 @@ public class BoardController {
 
 	public void exibirMsg(final String msg) {
 		boardPanel.getLbMsg().setText(msg);
-		boardPanel.getPnMsg().updateUI();
 	}
 	
 	private List<Card> getCards() {
