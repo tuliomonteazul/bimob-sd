@@ -1,5 +1,6 @@
 package br.unifor.sd.main;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,6 +23,7 @@ public class MainServer {
 		
 		
 		JFrame frame = new JFrame();
+		frame.setLayout(new FlowLayout());
 		JButton button = new JButton("Iniciar Jogo");
 		button.addActionListener(new ActionListener() {
 			
