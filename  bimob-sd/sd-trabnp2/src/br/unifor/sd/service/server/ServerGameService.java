@@ -69,8 +69,8 @@ public class ServerGameService {
 		if (jogo.getJogadores().size() >= 1) {
 			
 			System.out.println("Jogo iniciado");
-			jogadorService.liberarVez(getProximoJogador());
 			jogadorService.exibirMsg("Jogo iniciado, aguardando o próximo jogador.");
+			jogadorService.liberarVez(getProximoJogador());
 			
 			return true;
 		} else {
