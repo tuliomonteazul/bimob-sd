@@ -1,6 +1,5 @@
 package br.unifor.sd.entity;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.List;
 
@@ -72,6 +71,11 @@ public class Player implements Serializable {
 		this.posicao = posicao;
 	}
 	
-	
+	public void addPosicao(int casas) {
+		// adiciona as casas
+		posicao += casas;
+		// caso já tenha ultrapassado as 30 casas, começa denovo
+		posicao = posicao % 30;
+	}
 
 }

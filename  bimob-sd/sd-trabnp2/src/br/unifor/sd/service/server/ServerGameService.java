@@ -4,6 +4,7 @@ import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
+import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Game;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
@@ -81,16 +82,29 @@ public class ServerGameService {
 	}
 	
 	private void doMethod(Method method) {
-		if (method.getIdMethod() == Method.ANDAR_CASAS) {
-			Player jogador = (Player) method.getParams()[0];
-			int valor = (Integer) method.getParams()[1];
-			andarCasas(jogador, valor);
+		switch (method.getIdMethod()) {
+			case Method.JOGADA_ANDAR:
+				Player jogador = (Player) method.getParams()[0];
+				int valor = (Integer) method.getParams()[1];
+				andarCasas(jogador, valor);
+				break;
 		}
+			
 	}
 	
-	private void andarCasas(Player jogador, int valor) {
-		// TODO Tulio parei aqui
+	private void andarCasas(Player player, int casas) {
+		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
+		playerAux.addPosicao(casas);
 		
+		// faz com que o jogador se mova para todos os clientes
+		final Method method = new Method(Method.MOVER, player, casas);
+		serverConnection.sendAll(method);
+		
+		final Card card = jogo.getCasas().get(playerAux.getPosicao());
+		// se a casa não tiver nenhum proprietário
+		if (card.getJogador() == null) {
+			
+		}
 	}
 	
 	private Player getProximoJogador() {
@@ -99,4 +113,8 @@ public class ServerGameService {
 		jogo.getJogadores().add(proximo);
 		return proximo;
 	}
+	public Game getJogo() {
+		return jogo;
+	}
+	
 }

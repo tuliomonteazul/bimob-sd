@@ -10,7 +10,11 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import br.unifor.sd.service.client.ClientPlayerService;
+
 public class DicePanel extends JPanel {
+	
+	private ClientPlayerService clientPlayerService = ClientPlayerService.getInstance();
 	
 	private JLabel lbDado;
 	private static final List<Integer> valores = Arrays.asList(new Integer[]{
@@ -51,14 +55,32 @@ public class DicePanel extends JPanel {
 			};
 		};
 		thread.start();
+		
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				rodando = false;
 				synchronized (lbDado) {
-					System.out.println(lbDado.getText());
+					clientPlayerService.walk(Integer.parseInt(lbDado.getText()));
 				}
 			}
 		});
 	}
+
+	public boolean isRodando() {
+		return rodando;
+	}
+
+	public void setRodando(boolean rodando) {
+		this.rodando = rodando;
+	}
+
+	public JLabel getLbDado() {
+		return lbDado;
+	}
+
+	public void setLbDado(JLabel lbDado) {
+		this.lbDado = lbDado;
+	}
+	
 }

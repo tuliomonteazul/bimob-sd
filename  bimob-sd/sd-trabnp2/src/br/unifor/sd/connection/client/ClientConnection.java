@@ -1,7 +1,5 @@
 package br.unifor.sd.connection.client;
 
-import java.io.IOException;
-
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 
 public interface ClientConnection {
@@ -19,7 +17,6 @@ public interface ClientConnection {
 	/**
 	 * Envia um objeto ao servidor.
 	 * @param objec
-	 * @throws IOException
 	 */
-	void send(Object objec) throws IOException;
+	void send(Object objec);
 }

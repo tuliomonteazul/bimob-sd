@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.ColorPlayer;
-import br.unifor.sd.entity.Player;
 
 public class BoardPanel extends JPanel {
 	
@@ -65,10 +64,10 @@ public class BoardPanel extends JPanel {
 		
 		addPanelDentro();
 		
-		pnInicio.addJogador(new Player(ColorPlayer.AZUL));
-		pnInicio.addJogador(new Player(ColorPlayer.VERMELHO));
-		pnInicio.addJogador(new Player(ColorPlayer.BRANCO));
-		pnInicio.addJogador(new Player(ColorPlayer.VERDE));
+		pnInicio.addPlayer(ColorPlayer.AZUL);
+		pnInicio.addPlayer(ColorPlayer.VERMELHO);
+		pnInicio.addPlayer(ColorPlayer.BRANCO);
+		pnInicio.addPlayer(ColorPlayer.VERDE);
 	}
 
 	private void addCasaInicio() {
@@ -79,7 +78,6 @@ public class BoardPanel extends JPanel {
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		add(pnInicio, gbc);
-		casas.add(pnInicio);
 	}
 
 	private void addPanelBaixo() {
@@ -104,7 +102,6 @@ public class BoardPanel extends JPanel {
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(pnVisita, gbc);
-		casas.add(pnVisita);
 	}
 	
 	private void addPanelEsquerda() {
@@ -127,7 +124,6 @@ public class BoardPanel extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		add(pnWikipedia, gbc);
-		casas.add(pnWikipedia);
 	}
 	
 	private void addPanelCima() {
@@ -151,7 +147,6 @@ public class BoardPanel extends JPanel {
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		add(pnPrisao, gbc);
-		casas.add(pnPrisao);
 	}
 
 	private void addPanelDireita() {
@@ -212,6 +207,16 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public void addCarta(Card carta) {
+		if (countCasas == 0) {
+			casas.add(pnInicio);
+		} else if (countCasas == QT_CASAS[0]) {
+			casas.add(pnVisita);
+		} else if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
+			casas.add(pnWikipedia);
+		} else if (countCasas == QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
+			casas.add(pnPrisao);
+		}
+		
 		countCasas++;
 		CardPanel pnCarta = null;
 		if (countCasas <= QT_CASAS[0]) {
@@ -235,6 +240,7 @@ public class BoardPanel extends JPanel {
 			pnDireita.add(pnCarta);
 			pnDireita.add(Box.createVerticalStrut(1));
 		}
+		
 		casas.add(pnCarta);
 		
 	}
@@ -266,6 +272,10 @@ public class BoardPanel extends JPanel {
 
 	public InfoPanel getPnInfo() {
 		return pnInfo;
+	}
+
+	public DicePanel getPnDado() {
+		return pnDado;
 	}
 	
 }
