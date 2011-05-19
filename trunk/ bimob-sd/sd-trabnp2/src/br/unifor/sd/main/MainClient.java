@@ -9,7 +9,7 @@ public class MainClient {
 		
 		ConnectionFactory.createClient(ConnectionProtocol.TCP);
 		
-		ClientGameService gameService = new ClientGameService();
+		ClientGameService gameService = ClientGameService.getInstance();
 		gameService.playGame();
 	}
 }

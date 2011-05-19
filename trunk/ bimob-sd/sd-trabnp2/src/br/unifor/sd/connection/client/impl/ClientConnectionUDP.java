@@ -116,17 +116,21 @@ public class ClientConnectionUDP implements ClientConnection{
 	}
 
 	@Override
-	public void send(Object object) throws IOException {
-		final Socket socket = new Socket(HOST, PORT);
-		
-		final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-		
-		outputStream.writeObject(object);
-		outputStream.flush();
-		
-		outputStream.close();
-		
-		socket.close();
+	public void send(Object object) {
+		try {
+			final Socket socket = new Socket(HOST, PORT);
+			
+			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+			
+			outputStream.writeObject(object);
+			outputStream.flush();
+			
+			outputStream.close();
+			
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

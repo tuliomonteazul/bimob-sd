@@ -97,15 +97,20 @@ public class ClientConnectionTCP implements ClientConnection {
 	}
 
 	@Override
-	public void send(Object object) throws IOException {
+	public void send(Object object) {
 		
-		outputStream.writeObject(UtilConnection.MSG);
-		
-		outputStream.writeObject(clientID);
-		
-		outputStream.writeObject(object);
-		outputStream.flush();
-		
+		try {
+			
+			outputStream.writeObject(UtilConnection.MSG);
+			
+			outputStream.writeObject(clientID);
+			
+			outputStream.writeObject(object);
+			outputStream.flush();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

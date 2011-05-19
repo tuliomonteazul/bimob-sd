@@ -10,13 +10,23 @@ import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
 
 public class BoardController {
-	private BoardPanel boardPanel = new BoardPanel();
+	
+	private BoardPanel boardPanel;
 	
 	private Player player;
 	
-	public BoardController() {
+	private static BoardController instance;
+	private BoardController() {
 		super();
+		boardPanel = new BoardPanel();
 	}
+	public static BoardController getInstance() {
+		if (instance == null) {
+			instance = new BoardController();
+		}
+		return instance;
+	}
+	
 	
 	public void init() {
 		JFrame frame = new JFrame();
@@ -34,11 +44,11 @@ public class BoardController {
 	}
 	
 	
-	private void setPosJogador(Player jogador, int pos) {
-		boardPanel.getCasas().get(jogador.getPosicao()).removeJogador(jogador);
-		
-		boardPanel.getCasas().get(pos).addJogador(jogador);
-	}
+//	private void setPosJogador(Player jogador, int pos) {
+//		boardPanel.getCasas().get(jogador.getPosicao()).removePlayer(jogador.getCor());
+//		
+//		boardPanel.getCasas().get(pos).addPlayer(jogador.getCor());
+//	}
 
 
 	public void liberarVez() {
@@ -50,7 +60,37 @@ public class BoardController {
 		boardPanel.getLbMsg().setText(msg);
 	}
 	
-	private List<Card> getCards() {
+	public void mover(final Player player, final int casas) {
+		int posPanelAtual = -1;
+		for (int i = 0; i < boardPanel.getCasas().size(); i++) {
+			final SquarePanel squarePanel = boardPanel.getCasas().get(i);
+			if (squarePanel.hasPlayer(player.getCor())) {
+				squarePanel.removePlayer(player.getCor());
+				squarePanel.updateUI();
+				posPanelAtual = i;
+				break;
+			}
+		}
+		
+		for (int i = posPanelAtual + 1; i < posPanelAtual + casas; i++) {
+			final SquarePanel squarePanel = boardPanel.getCasas().get(i % 30);
+			squarePanel.addPlayer(player.getCor());
+			squarePanel.updateUI();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			squarePanel.removePlayer(player.getCor());
+			squarePanel.updateUI();
+		}
+		
+		final SquarePanel squarePanel = boardPanel.getCasas().get((posPanelAtual + casas) % 30);
+		squarePanel.addPlayer(player.getCor());
+		squarePanel.updateUI();
+	}
+	
+	public static List<Card> getCards() {
 		final List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card("Disco Virtual", 120, 10, 0, null));
 		cards.add(new Card("Sky Drive", 150, 20, 0, null));

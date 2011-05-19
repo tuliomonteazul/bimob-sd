@@ -31,9 +31,9 @@ public class ServerPlayerService {
 		return instance;
 	}
 	
-	public Player findJogador(List<Player> jogadores, String nome) {
+	public Player findJogador(List<Player> jogadores, int clientID) {
 		for (Player jogador : jogadores) {
-			if (jogador.getNome().equalsIgnoreCase(nome)) {
+			if (jogador.getClientID() == clientID) {
 				return jogador;
 			}
 		}
