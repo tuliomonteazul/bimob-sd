@@ -103,7 +103,7 @@ public class ServerGameService {
 		final Card card = jogo.getCasas().get(playerAux.getPosicao());
 		// se a casa não tiver nenhum proprietário
 		if (card.getJogador() == null) {
-			
+			// TODO tulio parei aqui
 		}
 	}
 	
