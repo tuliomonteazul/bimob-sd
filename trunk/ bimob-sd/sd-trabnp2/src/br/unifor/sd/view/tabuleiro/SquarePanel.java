@@ -64,7 +64,7 @@ public class SquarePanel extends JPanel {
 	
 	public boolean hasPlayer(ColorPlayer player) {
 		for (ColorPlayer playerAux : jogadores) {
-			if (playerAux.equals(playerAux)) {
+			if (playerAux.equals(player)) {
 				return true;
 			}
 		}

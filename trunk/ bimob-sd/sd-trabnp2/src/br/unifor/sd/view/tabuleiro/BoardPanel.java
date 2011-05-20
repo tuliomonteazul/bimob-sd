@@ -210,6 +210,11 @@ public class BoardPanel extends JPanel {
 		pnDado.rodarDado();
 	}
 	
+	public void esconderDado() {
+		lbMsg.setText("Aguardando os outros jogadores");
+		pnDado.setVisible(false);
+	}
+	
 	public void addCarta(Card carta) {
 		if (carta.isEspecial()) {
 			if (countCasas == 0) {

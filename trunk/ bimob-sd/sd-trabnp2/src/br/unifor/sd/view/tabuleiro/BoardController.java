@@ -9,12 +9,15 @@ import javax.swing.JOptionPane;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
+import br.unifor.sd.service.client.ClientPlayerService;
 
 public class BoardController {
 	
 	private BoardPanel boardPanel;
 	
 	private Player player;
+	
+	private ClientPlayerService clientPlayerService = ClientPlayerService.getInstance();
 	
 	private static BoardController instance;
 	private BoardController() {
@@ -102,7 +105,12 @@ public class BoardController {
 		
 		if (option == 0) {
 			// validar dinheiro
-			// TODO comprar
+			if (player.getDinheiro() > card.getValor()) {
+				clientPlayerService.buy(card);
+				boardPanel.esconderDado();
+			} else {
+				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
+			}
 		} else {
 			// passar a vez
 		}
