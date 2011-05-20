@@ -1,16 +1,17 @@
 package br.unifor.sd.connection.client.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
+import br.unifor.sd.connection.listener.ConnectionEvent;
 
 // TODO Alterar para utilizar DatagramSocket e DatagramPacket
 public class ClientConnectionUDP implements ClientConnection{
@@ -19,9 +20,16 @@ public class ClientConnectionUDP implements ClientConnection{
 	
 	private static final String HOST = "localhost";
 	private static final int PORT = 555;
+	private InetAddress address;
+	private DatagramSocket serverSocket;
 	
 	private ClientConnectionUDP() {
 		super();
+		try {
+			address =  InetAddress.getByName(HOST);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static ClientConnectionUDP getInstance() {
@@ -34,40 +42,42 @@ public class ClientConnectionUDP implements ClientConnection{
 	@Override
 	public boolean connect(ClientConnectionListener listener) {
 		boolean connected = false;
-		InputStream inputStream = null;
-		Socket socket = null;
+		DatagramSocket socket = null;
 		int port = startServer();
 		System.out.println("Porta do cliente: "+ port);
 		
 		try {
-			socket = new Socket(HOST, PORT);
-			
-			// envia pedido de conexao
-			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+			socket = new DatagramSocket();
 			
 			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
-			outputStream.write(UtilConnection.CONEXAO);
-			outputStream.writeInt(port);
-			outputStream.flush();
+			byte[] dados = String.valueOf(UtilConnection.CONEXAO).getBytes();
+			DatagramPacket pacote = new DatagramPacket(dados, dados.length, address, PORT);
+			socket.send(pacote);
 			
+			// envia o valor da porta do servidor do cliente
+			dados = String.valueOf(port).getBytes();
+			pacote = new DatagramPacket(dados, dados.length, address, PORT);
+			socket.send(pacote);
+			
+			byte[] buffer = new byte[1000]; // Cria um buffer local
+			pacote = new DatagramPacket(buffer, buffer.length);
 			
 			// le o retorno para verificar se a conexão foi aceita
-			inputStream = socket.getInputStream();
-			final int callback = inputStream.read();
+			serverSocket.receive(pacote);
+			
+			// ação que pode ser um pedido de conexão ou uma mensagem
+			Integer callback = (Integer) UtilConnection.byteArrayToObject(pacote.getData());
 			
 			if (callback == UtilConnection.CONEXAO_OK) {
 				connected = true;
 				
-				
 			}
 			
+			waitMessages(listener);
+			
 			System.out.println("connected: "+ connected);
-			inputStream.close();
-			outputStream.close();
 			socket.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return connected;
@@ -76,10 +86,10 @@ public class ClientConnectionUDP implements ClientConnection{
 	private int startServer() {
 		int port = 0;
 		try {
-			final ServerSocket serverSocket = new ServerSocket(port);
+			serverSocket = new DatagramSocket(port);
 			port = serverSocket.getLocalPort();
 			
-			waitMessages(serverSocket);
+			System.out.println("tulio "+port);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -87,31 +97,42 @@ public class ClientConnectionUDP implements ClientConnection{
 		return port;
 	}
 
-	private void waitMessages(final ServerSocket serverSocket) {
+	private void waitMessages(final ClientConnectionListener listener) {
 		new Thread(){
 			@Override
 			public void run() {
+				
 				try {
 					// aguarda o recebimento de mensagens do servidor
 					while (true) {
-						Socket socket = serverSocket.accept();
+						// TODO Tulio
+//						Socket socket = socket.accept();
+//						//				
+//						final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+//						// recebe o objeto enviado pelo servidor
+//						final Object object = inputStream.readObject();
+//						System.out.println("Cliente recebeu: "+object);
+//						
+//						inputStream.close();
+//						socket.close();
+						byte[] buffer = new byte[1000]; // Cria um buffer local
+						DatagramPacket pacote = new DatagramPacket(buffer, buffer.length);
 						
-						final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-				
+						// le o retorno para verificar se a conexão foi aceita
+						serverSocket.receive(pacote);
+						
 						// recebe o objeto enviado pelo servidor
-						final Object object = inputStream.readObject();
-						System.out.println("Cliente recebeu: "+object);
+						final Object object = UtilConnection.byteArrayToObject(pacote.getData());
 						
-						inputStream.close();
-						socket.close();
+						final ConnectionEvent event = new ConnectionEvent();
+						event.setObject(object);
+						
+						listener.receive(event);
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+				}	
 			}
-			
 		}.start();
 	}
 
