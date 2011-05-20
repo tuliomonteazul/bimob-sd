@@ -138,10 +138,6 @@ public class ServerConnectionTCP implements ServerConnection {
 		clientes.remove(cliente);
 	}
 	
-	private Socket findSocket(int clientID) {
-		return ((ClientTCP) findClient(clientID)).getSocket();
-	}
-	
 	private Client findClient(int clientID) {
 		for (Client client : clientes) {
 			if (client.getClientID() == clientID) {
