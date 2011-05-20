@@ -1,5 +1,6 @@
 package br.unifor.sd.view.client.tabuleiro;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,12 +33,23 @@ public class DicePanel extends JPanel {
 		setVisible(false);
 		
 		this.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+	    		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			
 			@Override
 			public void mousePressed(MouseEvent e) {
 				rodando = false;
 				synchronized (lbDado) {
 					clientOutputService.walk(Integer.parseInt(lbDado.getText()));
 				}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
 	}
