@@ -9,6 +9,7 @@ public class Card implements Serializable {
 	private double aluguel;
 	private int grupoID;
 	private Player jogador;
+	private boolean especial;
 
 	public Card() {
 		super();
@@ -22,6 +23,16 @@ public class Card implements Serializable {
 		this.aluguel = aluguel;
 		this.grupoID = grupoID;
 		this.jogador = jogador;
+	}
+	
+	public Card(String nome, double valor, double aluguel, int grupoID, Player jogador, boolean especial) {
+		super();
+		this.nome = nome;
+		this.valor = valor;
+		this.aluguel = aluguel;
+		this.grupoID = grupoID;
+		this.jogador = jogador;
+		this.especial = especial;
 	}
 
 
@@ -64,6 +75,16 @@ public class Card implements Serializable {
 
 	public void setJogador(Player jogador) {
 		this.jogador = jogador;
+	}
+
+
+	public boolean isEspecial() {
+		return especial;
+	}
+
+
+	public void setEspecial(boolean especial) {
+		this.especial = especial;
 	}
 	
 }

@@ -82,11 +82,17 @@ public class ServerGameService {
 	}
 	
 	private void doMethod(Method method) {
+		Player jogador = null;
 		switch (method.getIdMethod()) {
 			case Method.JOGADA_ANDAR:
-				Player jogador = (Player) method.getParams()[0];
+				jogador = (Player) method.getParams()[0];
 				int valor = (Integer) method.getParams()[1];
 				andarCasas(jogador, valor);
+				break;
+			case Method.JOGADA_COMPRA:
+				jogador = (Player) method.getParams()[0];
+				Card card = (Card) method.getParams()[1];
+				comprar(jogador, card);
 				break;
 		}
 			
@@ -103,8 +109,19 @@ public class ServerGameService {
 		final Card card = jogo.getCasas().get(playerAux.getPosicao());
 		// se a casa não tiver nenhum proprietário
 		if (card.getJogador() == null) {
-			// TODO tulio parei aqui
+			// permite que o jogador compre
+			serverConnection.send(player.getClientID(), new Method(Method.POSSIBILITA_COMPRA, card));
 		}
+	}
+	
+	private void comprar(Player player, Card card) {
+		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
+		playerAux.addCarta(card);
+		
+		final Card cardAux = jogo.getCasas().get(playerAux.getPosicao());
+		cardAux.setJogador(playerAux);
+		
+		// TODO Tulio parei aqui
 	}
 	
 	private Player getProximoJogador() {

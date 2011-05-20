@@ -45,7 +45,7 @@ public class CardPanel extends SquarePanel {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weighty = 0.1;
-		gbc.ipadx = 60;
+		gbc.ipadx = 70;
 		gbc.fill = GridBagConstraints.BOTH;
 		add(pnCor, gbc);
 		
@@ -57,12 +57,12 @@ public class CardPanel extends SquarePanel {
 		gbc.gridy = 1;
 		gbc.weighty = 0.8;
 		gbc.ipady = 15;
-		gbc.insets = new Insets(5, 0, 0, 0);
+		gbc.insets = new Insets(5, 0, 15, 0);
 		gbc.anchor = GridBagConstraints.NORTH;
 		add(lbNome, gbc);
 		
 		lbValor = new JLabel();
-		lbValor.setText("$ "+carta.getValor());
+		lbValor.setText("$"+carta.getValor());
 		lbValor.setFont(FONT_VALOR);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
