@@ -69,9 +69,7 @@ public class ClientGameService {
 				boardController.possibilitaCompra(card);
 				break;
 			case Method.ATUALIZA_COMPRA:
-				player = (Player) method.getParams()[0];
-				card = (Card) method.getParams()[1];
-				card.setJogador(player);
+				card = (Card) method.getParams()[0];
 				boardController.atualizaCompra(card);
 				break;
 		}

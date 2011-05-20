@@ -86,4 +86,15 @@ public class Card implements Serializable {
 		this.especial = especial;
 	}
 	
+	public Card clone(){
+		final Card clone = new Card();
+		clone.setAluguel(aluguel);
+		clone.setEspecial(especial);
+		clone.setGrupoID(grupoID);
+		clone.setJogador(jogador);
+		clone.setNome(nome);
+		clone.setValor(valor);
+		return clone;
+	}
+	
 }

@@ -112,7 +112,7 @@ public class BoardController {
 				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
 			}
 		} else {
-			// passar a vez
+			// TODO passar a vez
 		}
 		
 	}
@@ -129,6 +129,9 @@ public class BoardController {
 			}
 		}
 		
+		// atualizar dinheiro
+		player.setDinheiro(card.getJogador().getDinheiro());
+		boardPanel.getPnInfo().updateMoney(card.getJogador().getDinheiro());
 	}
 	
 	public static List<Card> getCards() {
