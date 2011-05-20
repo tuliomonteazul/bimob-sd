@@ -126,14 +126,14 @@ public class ServerGameService {
 		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
 		playerAux.addCarta(card);
 		
-		final Card cardAux = findCarta(jogo.getCasas(), card);
-//		final Card cardAux = jogo.getCasas().get(playerAux.getPosicao());
-		cardAux.setJogador(playerAux);
+		final Card cardAux = findCarta(jogo.getCasas(), card).clone();
 		
 		// debita o dinheiro do player
 		playerAux.addDinheiro(- cardAux.getValor());
 		
-		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, playerAux, cardAux));
+		cardAux.setJogador(playerAux.clone());
+		
+		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux));
 		
 		proximoJog();
 	}

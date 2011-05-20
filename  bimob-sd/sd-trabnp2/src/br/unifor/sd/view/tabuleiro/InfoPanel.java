@@ -11,9 +11,7 @@ import javax.swing.JPanel;
 import br.unifor.sd.entity.Player;
 
 public class InfoPanel extends JPanel {
-	private JLabel lbCorText;
 	private JLabel lbCorIcon;
-	private JLabel lbDinheiroText;
 	private JLabel lbDinheiro;
 	
 	private NumberFormat nf = NumberFormat.getCurrencyInstance();
@@ -22,12 +20,12 @@ public class InfoPanel extends JPanel {
 		
 		setLayout(new FlowLayout());
 		
-		lbCorText = new JLabel("Sua cor:");
+		final JLabel lbCorText = new JLabel("Sua cor:");
 		add(lbCorText);
 		lbCorIcon = new JLabel();
 		add(lbCorIcon);
 		
-		lbDinheiroText = new JLabel("Dinheiro: ");
+		final JLabel lbDinheiroText = new JLabel("Dinheiro: ");
 		add(lbDinheiroText);
 		lbDinheiro = new JLabel();
 		add(lbDinheiro);
@@ -42,5 +40,9 @@ public class InfoPanel extends JPanel {
 		lbDinheiro.setText(nf.format(player.getDinheiro()));
 		
 		setVisible(true);
+	}
+	
+	public void updateMoney(double value){
+		lbDinheiro.setText(nf.format(value));
 	}
 }

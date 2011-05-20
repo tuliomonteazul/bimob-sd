@@ -87,4 +87,15 @@ public class Player implements Serializable {
 	public void addDinheiro(double dinheiro) {
 		this.dinheiro += dinheiro;
 	}
+	
+	public Player clone() {
+		final Player clone = new Player();
+		clone.setCartas(cartas);
+		clone.setClientID(clientID);
+		clone.setCor(cor);
+		clone.setDinheiro(dinheiro);
+		clone.setNome(nome);
+		clone.setPosicao(posicao);
+		return clone;
+	}
 }
