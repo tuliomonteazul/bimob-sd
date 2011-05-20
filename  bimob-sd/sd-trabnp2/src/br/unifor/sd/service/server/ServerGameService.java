@@ -133,7 +133,7 @@ public class ServerGameService {
 		// debita o dinheiro do player
 		playerAux.addDinheiro(- cardAux.getValor());
 		
-		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux));
+		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, playerAux, cardAux));
 		
 		proximoJog();
 	}

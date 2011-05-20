@@ -81,4 +81,8 @@ public class CardPanel extends SquarePanel {
 	    super.paintComponent(g2d);
 		
 	}
+	public Card getCarta() {
+		return carta;
+	}
+	
 }

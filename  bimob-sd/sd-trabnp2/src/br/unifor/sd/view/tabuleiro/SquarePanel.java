@@ -78,4 +78,13 @@ public class SquarePanel extends JPanel {
 	public void removePlayer(ColorPlayer player) {
 		jogadores.remove(player);
 	}
+
+	public ColorPlayer getOwner() {
+		return owner;
+	}
+
+	public void setOwner(ColorPlayer owner) {
+		this.owner = owner;
+	}
+	
 }
