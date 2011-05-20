@@ -83,4 +83,8 @@ public class Player implements Serializable {
 	public void addCarta(Card card) {
 		cartas.add(card);
 	}
+	
+	public void addDinheiro(double dinheiro) {
+		this.dinheiro += dinheiro;
+	}
 }

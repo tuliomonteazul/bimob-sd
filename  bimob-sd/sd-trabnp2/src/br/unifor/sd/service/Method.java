@@ -12,6 +12,8 @@ public class Method implements Serializable {
 	public static final int MOVER = 4;
 	public static final int POSSIBILITA_COMPRA = 5;
 	public static final int JOGADA_COMPRA = 6;
+	public static final int ATUALIZA_COMPRA = 7;
+	public static final int PROXIMO_JOG = 8;
 	
 	private int idMethod;
 	private Object[] params;

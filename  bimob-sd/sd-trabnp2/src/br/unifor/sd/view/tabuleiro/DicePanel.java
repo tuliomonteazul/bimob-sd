@@ -30,6 +30,16 @@ public class DicePanel extends JPanel {
 		setOpaque(true);
 		add(lbDado);
 		setVisible(false);
+		
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				rodando = false;
+				synchronized (lbDado) {
+					clientPlayerService.walk(Integer.parseInt(lbDado.getText()));
+				}
+			}
+		});
 	}
 	
 	public void rodarDado() {
@@ -55,16 +65,6 @@ public class DicePanel extends JPanel {
 			};
 		};
 		thread.start();
-		
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				rodando = false;
-				synchronized (lbDado) {
-					clientPlayerService.walk(Integer.parseInt(lbDado.getText()));
-				}
-			}
-		});
 	}
 
 	public boolean isRodando() {

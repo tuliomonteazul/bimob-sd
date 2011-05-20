@@ -1,5 +1,7 @@
 package br.unifor.sd.service.server;
 
+import java.util.List;
+
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.connection.listener.ServerConnectionListener;
@@ -94,9 +96,15 @@ public class ServerGameService {
 				Card card = (Card) method.getParams()[1];
 				comprar(jogador, card);
 				break;
+			case Method.PROXIMO_JOG:
+//				jogador = (Player) method.getParams()[0];
+//				Card card = (Card) method.getParams()[1];
+				proximoJog();
+				break;
 		}
 			
 	}
+	
 	
 	private void andarCasas(Player player, int casas) {
 		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
@@ -118,10 +126,21 @@ public class ServerGameService {
 		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
 		playerAux.addCarta(card);
 		
-		final Card cardAux = jogo.getCasas().get(playerAux.getPosicao());
+		final Card cardAux = findCarta(jogo.getCasas(), card);
+//		final Card cardAux = jogo.getCasas().get(playerAux.getPosicao());
 		cardAux.setJogador(playerAux);
 		
-		// TODO Tulio parei aqui
+		// debita o dinheiro do player
+		playerAux.addDinheiro(- cardAux.getValor());
+		
+		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux));
+		
+		proximoJog();
+	}
+	
+	private void proximoJog() {
+		jogadorService.exibirMsg("Aguardando o próximo jogador.");
+		jogadorService.liberarVez(getProximoJogador());
 	}
 	
 	private Player getProximoJogador() {
@@ -130,6 +149,17 @@ public class ServerGameService {
 		jogo.getJogadores().add(proximo);
 		return proximo;
 	}
+	
+	
+	public Card findCarta(List<Card> cartas, Card card) {
+		for (Card cardAux : cartas) {
+			if (cardAux.getNome().equals(card.getNome())) {
+				return cardAux;
+			}
+		}
+		return null;
+	}
+	
 	public Game getJogo() {
 		return jogo;
 	}
