@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unifor.sd.view.tabuleiro.BoardController;
+import br.unifor.sd.view.client.PlayerController;
 
 public class Game implements Serializable {
 	private static final long serialVersionUID = 9078767081361432461L;
@@ -15,7 +15,7 @@ public class Game implements Serializable {
 	public Game() {
 		super();
 		this.jogadores = new ArrayList<Player>();
-		this.casas = BoardController.getCards();
+		this.casas = PlayerController.getCards();
 	}
 
 	public List<Player> getJogadores() {

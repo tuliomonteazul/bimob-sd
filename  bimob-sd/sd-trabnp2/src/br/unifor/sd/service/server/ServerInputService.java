@@ -11,21 +11,21 @@ import br.unifor.sd.entity.Game;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 
-public class ServerGameService {
+public class ServerInputService {
 	
 	private ServerConnection serverConnection = ConnectionFactory.getServerConnection();
 	
-	private ServerPlayerService jogadorService = ServerPlayerService.getInstance();
+	private ServerOutputService jogadorService = ServerOutputService.getInstance();
 	
 	private Game jogo = new Game();
 	
-	private static ServerGameService instance;
-	private ServerGameService() {
+	private static ServerInputService instance;
+	private ServerInputService() {
 		super();
 	}
-	public static ServerGameService getInstance(){
+	public static ServerInputService getInstance(){
 		if (instance == null) {
-			instance = new ServerGameService();
+			instance = new ServerInputService();
 		}
 		return instance;
 	}
@@ -40,7 +40,7 @@ public class ServerGameService {
 			public void requestConnection(ConnectionEvent event) {
 				
 				// se o limite de jogadores for atingido ou o jogo já tiver iniciado
-				if (jogo.getJogadores().size() == ServerPlayerService.MAX_JOGADORES || jogo.isIniciado()) {
+				if (jogo.getJogadores().size() == ServerOutputService.MAX_JOGADORES || jogo.isIniciado()) {
 					// TODO msg detalhe da rejeicao
 					event.rejectConnection();
 				} else {

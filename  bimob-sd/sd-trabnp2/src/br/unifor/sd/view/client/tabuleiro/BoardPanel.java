@@ -1,4 +1,4 @@
-package br.unifor.sd.view.tabuleiro;
+package br.unifor.sd.view.client.tabuleiro;
 
 import java.awt.Color;
 import java.awt.Component;

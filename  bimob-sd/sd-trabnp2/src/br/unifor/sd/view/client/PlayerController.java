@@ -1,4 +1,4 @@
-package br.unifor.sd.view.tabuleiro;
+package br.unifor.sd.view.client;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -9,24 +9,27 @@ import javax.swing.JOptionPane;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
-import br.unifor.sd.service.client.ClientPlayerService;
+import br.unifor.sd.service.client.ClientOutputService;
+import br.unifor.sd.view.client.tabuleiro.BoardPanel;
+import br.unifor.sd.view.client.tabuleiro.CardPanel;
+import br.unifor.sd.view.client.tabuleiro.SquarePanel;
 
-public class BoardController {
+public class PlayerController {
 	
 	private BoardPanel boardPanel;
 	
 	private Player player;
 	
-	private ClientPlayerService clientPlayerService = ClientPlayerService.getInstance();
+	private ClientOutputService clientOutputService = ClientOutputService.getInstance();
 	
-	private static BoardController instance;
-	private BoardController() {
+	private static PlayerController instance;
+	private PlayerController() {
 		super();
 		boardPanel = new BoardPanel();
 	}
-	public static BoardController getInstance() {
+	public static PlayerController getInstance() {
 		if (instance == null) {
-			instance = new BoardController();
+			instance = new PlayerController();
 		}
 		return instance;
 	}
@@ -99,13 +102,13 @@ public class BoardController {
 		if (option == 0) {
 			// validar dinheiro
 			if (player.getDinheiro() > card.getValor()) {
-				clientPlayerService.buy(card);
+				clientOutputService.buy(card);
 			} else {
 				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
-				clientPlayerService.none();
+				clientOutputService.none();
 			}
 		} else {
-			clientPlayerService.none();
+			clientOutputService.none();
 		}
 		boardPanel.esconderDado();
 		

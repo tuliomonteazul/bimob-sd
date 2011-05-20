@@ -2,14 +2,14 @@ package br.unifor.sd.main;
 
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.factory.ConnectionProtocol;
-import br.unifor.sd.service.client.ClientGameService;
+import br.unifor.sd.service.client.ClientInputService;
 
 public class MainClient {
 	public static void main(String[] args) {
 		
 		ConnectionFactory.createClient(ConnectionProtocol.TCP);
 		
-		ClientGameService gameService = ClientGameService.getInstance();
-		gameService.playGame();
+		// inicia o jogo
+		ClientInputService.getInstance().playGame();
 	}
 }

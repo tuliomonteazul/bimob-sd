@@ -1,4 +1,4 @@
-package br.unifor.sd.view.tabuleiro;
+package br.unifor.sd.view.client.tabuleiro;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Card;
-import br.unifor.sd.view.util.ColorCard;
+import br.unifor.sd.view.client.util.ColorCard;
 
 public class CardPanel extends SquarePanel {
 	private static final long serialVersionUID = -2527619113666361795L;

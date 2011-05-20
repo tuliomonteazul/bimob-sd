@@ -7,29 +7,29 @@ import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
-import br.unifor.sd.view.tabuleiro.BoardController;
+import br.unifor.sd.view.client.PlayerController;
 
-public class ClientGameService {
+public class ClientInputService {
 
 	private ClientConnection clientConnection;
 	
-	private BoardController boardController;
+	private PlayerController playerController;
 	
-	private static ClientGameService instance;
-	private ClientGameService() {
+	private static ClientInputService instance;
+	private ClientInputService() {
 		super();
 		clientConnection = ConnectionFactory.getClientConnection();
-		boardController = BoardController.getInstance();
+		playerController = PlayerController.getInstance();
 	}
-	public static ClientGameService getInstance(){
+	public static ClientInputService getInstance(){
 		if (instance == null) {
-			instance = new ClientGameService();
+			instance = new ClientInputService();
 		}
 		return instance;
 	}
 	
 	public void playGame() {
-		boardController.init();
+		playerController.init();
 		
 		boolean conectou = clientConnection.connect(new ClientConnectionListener() {
 			
@@ -42,7 +42,7 @@ public class ClientGameService {
 		});
 		
 		if (!conectou) {
-			boardController.errorConnection();
+			playerController.errorConnection();
 		}
 	}
 	
@@ -53,28 +53,28 @@ public class ClientGameService {
 		switch (method.getIdMethod()) {
 			case Method.CONECTOU:
 				player = (Player) method.getParams()[0];
-				boardController.setPlayer(player);
-				ClientPlayerService.player = player;
+				playerController.setPlayer(player);
+				ClientOutputService.player = player;
 				break;
 			case Method.LIBERAR_VEZ:
-				boardController.liberarVez();
+				playerController.liberarVez();
 				break;
 			case Method.EXIBIR_MSG:
 				final String msg = (String) method.getParams()[0];
-				boardController.exibirMsg(msg);
+				playerController.exibirMsg(msg);
 				break;
 			case Method.MOVER:
 				player = (Player) method.getParams()[0];
 				final int casas = (Integer) method.getParams()[1];
-				boardController.mover(player, casas);
+				playerController.mover(player, casas);
 				break;
 			case Method.POSSIBILITA_COMPRA:
 				card = (Card) method.getParams()[0];
-				boardController.possibilitaCompra(card);
+				playerController.possibilitaCompra(card);
 				break;
 			case Method.ATUALIZA_COMPRA:
 				card = (Card) method.getParams()[0];
-				boardController.atualizaCompra(card);
+				playerController.atualizaCompra(card);
 				break;
 		}
 	}
