@@ -2,22 +2,27 @@ package br.unifor.sd.connection.listener;
 
 import br.unifor.sd.connection.Client;
 import br.unifor.sd.connection.UtilConnection;
-import br.unifor.sd.connection.server.impl.ServerConnectionTCP;
+import br.unifor.sd.connection.factory.ConnectionFactory;
+import br.unifor.sd.connection.server.ServerConnection;
 
 public class ConnectionEvent {
 	private Client client;
 	private Object object;
+	private ServerConnection serverConnection;
+	
+	public ConnectionEvent() {
+		serverConnection = ConnectionFactory.getServerConnection();
+	}
 	
 	public void acceptConnection() {
-		ServerConnectionTCP.getInstance().addClient(client);
-		
-		ServerConnectionTCP.getInstance().send(client.getClientID(), UtilConnection.CONEXAO_OK, client.getClientID());
+		serverConnection.addClient(client);
+		serverConnection.send(client.getClientID(), UtilConnection.CONEXAO_OK, client.getClientID());
 	}
 	
 	public void rejectConnection() {
-		ServerConnectionTCP.getInstance().addClient(client);
-		ServerConnectionTCP.getInstance().send(client.getClientID(), UtilConnection.CONEXAO_FAIL);
-		ServerConnectionTCP.getInstance().removeClient(client);
+		serverConnection.addClient(client);
+		serverConnection.send(client.getClientID(), UtilConnection.CONEXAO_FAIL);
+		serverConnection.removeClient(client);
 	}
 	
 	public Client getClient() {

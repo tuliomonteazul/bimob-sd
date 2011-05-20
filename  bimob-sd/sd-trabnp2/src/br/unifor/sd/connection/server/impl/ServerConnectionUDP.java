@@ -1,15 +1,12 @@
 package br.unifor.sd.connection.server.impl;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.unifor.sd.connection.Client;
-import br.unifor.sd.connection.ClientTCP;
+import br.unifor.sd.connection.ClientUDP;
 import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 import br.unifor.sd.connection.listener.ServerConnectionListener;
@@ -21,7 +18,7 @@ public class ServerConnectionUDP implements ServerConnection {
 
 	public static final int PORT = 555;
 	
-	private ServerSocket serverSocket;
+	private DatagramSocket socket;
 	
 	private List<Client> clientes = new ArrayList<Client>();
 	
@@ -43,31 +40,44 @@ public class ServerConnectionUDP implements ServerConnection {
 			@Override
 			public void run() {
 				try {
-					serverSocket = new ServerSocket(PORT);
+					socket = new DatagramSocket(PORT);
+					
+					byte[] buffer = new byte[1000]; // Cria um buffer local
+					DatagramPacket pacote = new DatagramPacket(buffer, buffer.length);
+					String data;
 					
 					// aguarda o recebimento de mensagens dos clientes
 					while (true) {
-						Socket socket = serverSocket.accept();
+						socket.receive(pacote);
 						
-						final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-
+						data = new String(pacote.getData(), 0, pacote.getLength());
+						
 						// ação que pode ser um pedido de conexão ou uma mensagem
-						final int acao = inputStream.read();
+						final int acao = Integer.parseInt(data);
 
 						// cria o evento de conexão para disparar o listener
 						final ConnectionEvent event = new ConnectionEvent();
 
 						// se for um pedido de conexão
 						if (acao == UtilConnection.CONEXAO) {
+							socket.receive(pacote);
+							data = new String(pacote.getData(), 0, pacote.getLength());
+							
+							// gera um id para identificar esse cliente em outras trocas de mensagenss
+							final int clientID = UtilConnection.generateClientID();
+							
 							// recebe a porta do cliente para posteriormente poder comunicá-lo
-							final int port = inputStream.readInt();
-//							event.setConnectRequest(true);
-//							event.setPort(port);
-//							event.setOutputStream(socket.getOutputStream());
+							final int port = Integer.parseInt(data);
+							final Client client = new ClientUDP(pacote.getAddress(), port, clientID);
+							event.setClient(client);
 							
 							listener.requestConnection(event);
 						} else {
-							final Object object = inputStream.readObject();
+							
+							socket.receive(pacote);
+							
+							// TODO receber objeto
+							final Object object = UtilConnection.byteArrayToObject(pacote.getData());
 							event.setObject(object);
 							
 							listener.receiveData(event);
@@ -75,13 +85,11 @@ public class ServerConnectionUDP implements ServerConnection {
 						
 						
 						
-						inputStream.close();
-						socket.close();
+//						inputStream.close();
+//						socket.close();
 					}
 					
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -99,20 +107,20 @@ public class ServerConnectionUDP implements ServerConnection {
 	@Override
 	public void send(int clientID, Object... objects) {
 		try {
-			System.out.println("enviando para o cliente: "+clientID);
+			System.out.println("enviando pacote para o cliente: "+clientID);
 			
 			final Client client = findClient(clientID);
 			
-			final Socket socket = new Socket(client.getAddress(), client.getPort());
+			for (Object object : objects) {
+				// TODO object to bytes
+//				byte[] dados = String.valueOf(((Integer) object)).getBytes();
+				byte[] dados = UtilConnection.objectToByteArray(object);
+				DatagramPacket pacote = new DatagramPacket(dados, dados.length,
+						client.getAddress(), client.getPort());
+				
+				socket.send(pacote);
+			}
 			
-			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-			
-			outputStream.writeObject(objects);
-			outputStream.flush();
-			
-			outputStream.close();
-			
-			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,10 +136,6 @@ public class ServerConnectionUDP implements ServerConnection {
 		clientes.remove(cliente);
 	}
 
-	private Socket findSocket(int clientID) {
-		return ((ClientTCP) findClient(clientID)).getSocket();
-	}
-	
 	private Client findClient(int clientID) {
 		for (Client client : clientes) {
 			if (client.getClientID() == clientID) {
