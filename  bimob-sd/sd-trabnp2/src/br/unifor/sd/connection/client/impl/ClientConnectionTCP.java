@@ -10,8 +10,6 @@ import br.unifor.sd.connection.UtilConnection;
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
-import br.unifor.sd.entity.Player;
-import br.unifor.sd.service.Method;
 
 public class ClientConnectionTCP implements ClientConnection {
 
@@ -59,6 +57,9 @@ public class ClientConnectionTCP implements ClientConnection {
 				clientID = (Integer) inputStream.readObject();
 				
 				waitMessages(listener);
+				System.out.println("1");
+			} else {
+				System.out.println("2");
 			}
 			
 			System.out.println("connected: "+ connected);
@@ -85,12 +86,6 @@ public class ClientConnectionTCP implements ClientConnection {
 						
 						final ConnectionEvent event = new ConnectionEvent();
 						event.setObject(object);
-						if (object instanceof Method && ((Method) object).getParams() != null) {
-							if (((Method) object).getParams()[0] instanceof Player) {
-								Player p = (Player) ((Method) object).getParams()[0];
-								System.out.println(p.getDinheiro());
-							}
-						}
 						
 						listener.receive(event);
 					}

@@ -39,8 +39,8 @@ public class ServerGameService {
 			@Override
 			public void requestConnection(ConnectionEvent event) {
 				
-				// se ainda não existir um jogador com esse nome
-				if (jogo.getJogadores().size() == ServerPlayerService.MAX_JOGADORES) {
+				// se o limite de jogadores for atingido ou o jogo já tiver iniciado
+				if (jogo.getJogadores().size() == ServerPlayerService.MAX_JOGADORES || jogo.isIniciado()) {
 					// TODO msg detalhe da rejeicao
 					event.rejectConnection();
 				} else {
