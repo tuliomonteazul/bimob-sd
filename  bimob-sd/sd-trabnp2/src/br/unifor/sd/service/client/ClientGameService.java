@@ -4,6 +4,7 @@ import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
+import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 import br.unifor.sd.view.tabuleiro.BoardController;
@@ -61,6 +62,10 @@ public class ClientGameService {
 				player = (Player) method.getParams()[0];
 				final int casas = (Integer) method.getParams()[1];
 				boardController.mover(player, casas);
+				break;
+			case Method.POSSIBILITA_COMPRA:
+				Card card = (Card) method.getParams()[0];
+				boardController.possibilitaCompra(card);
 				break;
 		}
 	}

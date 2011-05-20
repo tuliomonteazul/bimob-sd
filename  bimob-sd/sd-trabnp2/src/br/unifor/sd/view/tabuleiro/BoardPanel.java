@@ -57,7 +57,7 @@ public class BoardPanel extends JPanel {
 		addPanelBaixo();
 		addCasaVisita();
 		addPanelEsquerda();
-		addCasaAtalho();
+		addCasaWikipedia();
 		addPanelCima();
 		addCasaPrisao();
 		addPanelDireita();
@@ -77,6 +77,7 @@ public class BoardPanel extends JPanel {
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 2;
+		gbc.fill = GridBagConstraints.BOTH;
 		add(pnInicio, gbc);
 	}
 
@@ -100,6 +101,7 @@ public class BoardPanel extends JPanel {
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		add(pnVisita, gbc);
 	}
@@ -116,13 +118,14 @@ public class BoardPanel extends JPanel {
 		add(pnEsquerda, gbc);
 	}
 	
-	private void addCasaAtalho() {
+	private void addCasaWikipedia() {
 		pnWikipedia = new SquarePanel();
 		pnWikipedia.setBackground(Color.WHITE);
 		pnWikipedia.add(new JLabel(new ImageIcon("images/wikipedia.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
 		add(pnWikipedia, gbc);
 	}
 	
@@ -146,6 +149,7 @@ public class BoardPanel extends JPanel {
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
 		add(pnPrisao, gbc);
 	}
 
@@ -207,41 +211,45 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public void addCarta(Card carta) {
-		if (countCasas == 0) {
-			casas.add(pnInicio);
-		} else if (countCasas == QT_CASAS[0]) {
-			casas.add(pnVisita);
-		} else if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
-			casas.add(pnWikipedia);
-		} else if (countCasas == QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
-			casas.add(pnPrisao);
-		}
-		
-		countCasas++;
-		CardPanel pnCarta = null;
-		if (countCasas <= QT_CASAS[0]) {
-			pnCarta = new CardPanel(carta);
-			pnBaixo.add(pnCarta);
-			pnBaixo.add(Box.createHorizontalStrut(1));
-		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1]) {
-			pnCarta = new CardPanel(carta, 90);
-			pnEsquerda.add(pnCarta);
-			pnEsquerda.add(Box.createVerticalStrut(1));
-			if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
-				// inverte a ordem dos comps do panel
-				inverterPanel(pnEsquerda);
+		if (carta.isEspecial()) {
+			if (countCasas == 0) {
+				casas.add(pnInicio);
+			} else if (countCasas == QT_CASAS[0]) {
+				casas.add(pnVisita);
+			} else if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
+				casas.add(pnWikipedia);
+			} else if (countCasas == QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
+				casas.add(pnPrisao);
 			}
-		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
-			pnCarta = new CardPanel(carta, 180);
-			pnCima.add(pnCarta);
-			pnCima.add(Box.createHorizontalStrut(1));
-		} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2] + QT_CASAS[3]) {
-			pnCarta = new CardPanel(carta, 270);
-			pnDireita.add(pnCarta);
-			pnDireita.add(Box.createVerticalStrut(1));
+		
+		} else {
+			countCasas++;
+			CardPanel pnCarta = null;
+			if (countCasas <= QT_CASAS[0]) {
+				pnCarta = new CardPanel(carta);
+				pnBaixo.add(pnCarta);
+				pnBaixo.add(Box.createHorizontalStrut(1));
+			} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1]) {
+				pnCarta = new CardPanel(carta, 90);
+				pnEsquerda.add(pnCarta);
+				pnEsquerda.add(Box.createVerticalStrut(1));
+				if (countCasas == QT_CASAS[0] + QT_CASAS[1]) {
+					// inverte a ordem dos comps do panel
+					inverterPanel(pnEsquerda);
+				}
+			} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2]) {
+				pnCarta = new CardPanel(carta, 180);
+				pnCima.add(pnCarta);
+				pnCima.add(Box.createHorizontalStrut(1));
+			} else if (countCasas <= QT_CASAS[0] + QT_CASAS[1] + QT_CASAS[2] + QT_CASAS[3]) {
+				pnCarta = new CardPanel(carta, 270);
+				pnDireita.add(pnCarta);
+				pnDireita.add(Box.createVerticalStrut(1));
+			}
+			casas.add(pnCarta);
+			
 		}
 		
-		casas.add(pnCarta);
 		
 	}
 	

@@ -1,6 +1,7 @@
 package br.unifor.sd.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Serializable {
@@ -16,6 +17,7 @@ public class Player implements Serializable {
 	public Player() {
 		super();
 		this.dinheiro = START_MONEY;
+		this.cartas = new ArrayList<Card>();
 	}
 
 	public Player(ColorPlayer cor) {
@@ -78,4 +80,7 @@ public class Player implements Serializable {
 		posicao = posicao % 30;
 	}
 
+	public void addCarta(Card card) {
+		cartas.add(card);
+	}
 }
