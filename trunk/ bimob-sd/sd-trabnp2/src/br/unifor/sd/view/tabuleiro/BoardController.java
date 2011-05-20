@@ -129,9 +129,18 @@ public class BoardController {
 			}
 		}
 		
-		// atualizar dinheiro
-		player.setDinheiro(card.getJogador().getDinheiro());
-		boardPanel.getPnInfo().updateMoney(card.getJogador().getDinheiro());
+		// se fui eu quem comprei a carta
+		if (player.getClientID() == card.getJogador().getClientID()) {
+			// atualizar dinheiro
+			player.setDinheiro(card.getJogador().getDinheiro());
+			boardPanel.getPnInfo().updateMoney(card.getJogador().getDinheiro());
+		}
+		
+	}
+	
+	public void errorConnection() {
+		JOptionPane.showMessageDialog(boardPanel, "Não foi possível se conectar ao servidor");
+		System.exit(0);
 	}
 	
 	public static List<Card> getCards() {

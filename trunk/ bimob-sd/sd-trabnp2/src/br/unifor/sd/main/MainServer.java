@@ -32,6 +32,7 @@ public class MainServer {
 				if (jogoService.startGame()) {
 					System.out.println("Jogo iniciado!");
 					((JButton) e.getSource()).setEnabled(false);
+					jogoService.getJogo().setIniciado(true);
 				} else {
 					System.out.println("É preciso pelo menos 2 jogadores para iniciar o jogo.");
 				}

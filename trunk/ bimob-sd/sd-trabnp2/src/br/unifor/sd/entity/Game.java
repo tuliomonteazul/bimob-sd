@@ -10,6 +10,7 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 9078767081361432461L;
 	private List<Player> jogadores;
 	private List<Card> casas;
+	private boolean iniciado;
 	
 	public Game() {
 		super();
@@ -31,6 +32,14 @@ public class Game implements Serializable {
 
 	public void setCasas(List<Card> casas) {
 		this.casas = casas;
+	}
+
+	public boolean isIniciado() {
+		return iniciado;
+	}
+
+	public void setIniciado(boolean iniciado) {
+		this.iniciado = iniciado;
 	}
 
 }

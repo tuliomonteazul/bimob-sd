@@ -31,7 +31,7 @@ public class ClientGameService {
 	public void playGame() {
 		boardController.init();
 		
-		clientConnection.connect(new ClientConnectionListener() {
+		boolean conectou = clientConnection.connect(new ClientConnectionListener() {
 			
 			@Override
 			public void receive(ConnectionEvent event) {
@@ -40,6 +40,10 @@ public class ClientGameService {
 				}
 			}
 		});
+		
+		if (!conectou) {
+			boardController.errorConnection();
+		}
 	}
 	
 

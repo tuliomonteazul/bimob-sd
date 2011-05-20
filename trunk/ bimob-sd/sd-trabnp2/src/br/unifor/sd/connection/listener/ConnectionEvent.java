@@ -15,7 +15,9 @@ public class ConnectionEvent {
 	}
 	
 	public void rejectConnection() {
+		ServerConnectionTCP.getInstance().addClient(client);
 		ServerConnectionTCP.getInstance().send(client.getClientID(), UtilConnection.CONEXAO_FAIL);
+		ServerConnectionTCP.getInstance().removeClient(client);
 	}
 	
 	public Client getClient() {
