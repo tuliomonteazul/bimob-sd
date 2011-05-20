@@ -44,6 +44,7 @@ public class PlayerController {
 			boardPanel.addCarta(card);
 		}
 		
+		frame.setTitle("Weblopoly - Monopolize a internet");
 		frame.setVisible(true);
 		frame.setSize(500, 800);
 		frame.pack();
@@ -51,17 +52,30 @@ public class PlayerController {
 	}
 	
 	
+	/**
+	 * Exibe o dado para o jogador possa jogar.
+	 */
 	public void liberarVez() {
 		boardPanel.exibirDado();
 	}
 
 
+	/**
+	 * Exibe uma mensagem dentro do tabuleiro.
+	 * @param msg
+	 */
 	public void exibirMsg(final String msg) {
 		boardPanel.getLbMsg().setText(msg);
 	}
 	
+	/**
+	 * Move o jogador N casas, onde N é a variável 'casas' passada por parâmetro.
+	 * @param player jogador que será movido
+	 * @param casas quantidade de casas que ele irá percorrer
+	 */
 	public void mover(final Player player, final int casas) {
 		int posPanelAtual = -1;
+		// procura a casa onde o jogador está
 		for (int i = 0; i < boardPanel.getCasas().size(); i++) {
 			final SquarePanel squarePanel = boardPanel.getCasas().get(i);
 			if (squarePanel.hasPlayer(player.getCor())) {
@@ -72,10 +86,13 @@ public class PlayerController {
 			}
 		}
 		
+		// realiza o movimento de andar pelas casas
 		for (int i = posPanelAtual + 1; i < posPanelAtual + casas; i++) {
+			// utiliza mod 30 pois são 30 casas no tabuleiro e é preciso recomeçar da posição 0 depois da 30
 			final SquarePanel squarePanel = boardPanel.getCasas().get(i % 30);
 			squarePanel.addPlayer(player.getCor());
 			squarePanel.updateUI();
+			// aplica intervalo entre os movimentos para que o usuário visualize a ação
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -85,11 +102,17 @@ public class PlayerController {
 			squarePanel.updateUI();
 		}
 		
+		// adiciona o jogador na última casa aonde ele deve ficar
+		// utiliza mod 30 pois são 30 casas no tabuleiro e é preciso recomeçar da posição 0 depois da 30
 		final SquarePanel squarePanel = boardPanel.getCasas().get((posPanelAtual + casas) % 30);
 		squarePanel.addPlayer(player.getCor());
 		squarePanel.updateUI();
 	}
 
+	/**
+	 * Libera uma carta para o jogador poder comprar
+	 * @param card
+	 */
 	public void possibilitaCompra(Card card) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("Propriedade sem dono");
@@ -97,28 +120,40 @@ public class PlayerController {
 		msg.append("\nValor: "+card.getValor());
 		msg.append("\nAluguel: "+card.getAluguel());
 		String[] options = new String[]{"Quero comprar!", "Não quero", "Queria, mas tô liso"};
+		// exibe a janela com as opção
 		int option = JOptionPane.showOptionDialog(boardPanel, msg.toString(), "Selecione uma opção", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, "Quero comprar!");
 		
+		// se escolher que quer comprar
 		if (option == 0) {
 			// validar dinheiro
 			if (player.getDinheiro() > card.getValor()) {
 				clientOutputService.buy(card);
 			} else {
+				// se não tiver dinheiro
 				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
 				clientOutputService.none();
 			}
 		} else {
+			// se não quis comprar
 			clientOutputService.none();
 		}
 		boardPanel.esconderDado();
 		
 	}
-	
+
+	/**
+	 * Atualiza uma casa do tabuleiro de acordo com o seu novo dono que acabou de comprá-la. Um ícone com uma coroa será
+	 * exibido na casa com a cor do jogador proprietário.
+	 * 
+	 * @param card
+	 */
 	public void atualizaCompra(Card card) {
+		// procura a casa pelo nome
 		for (SquarePanel sqPanel : boardPanel.getCasas()) {
 			if (sqPanel instanceof CardPanel) {
 				CardPanel cardPanel = (CardPanel) sqPanel;
 				if (cardPanel.getCarta().getNome().equals(card.getNome())) {
+					// se o jogador como dono
 					sqPanel.setOwner(card.getJogador().getCor());
 					sqPanel.updateUI();
 					break;
@@ -135,50 +170,57 @@ public class PlayerController {
 		
 	}
 	
+	/**
+	 * Exibe mensagem de erro de conexão.
+	 */
 	public void errorConnection() {
 		JOptionPane.showMessageDialog(boardPanel, "Não foi possível se conectar ao servidor");
 		System.exit(0);
 	}
 	
+	/**
+	 * Popula as cartas do tabuleiro.
+	 * @return List
+	 */
 	public static List<Card> getCards() {
 		final List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card("Inicio", 0, 0, 0, null, true));
 		
-		cards.add(new Card("SugarSync", 120, 10, 0, null));
-		cards.add(new Card("MobileMe", 150, 20, 0, null));
-		cards.add(new Card("Dropbox", 200, 30, 0, null));
-		cards.add(new Card("Mercado Livre", 180, 10, 1, null));
-		cards.add(new Card("Paypal", 230, 10, 1, null));
-		cards.add(new Card("eBay", 250, 10, 1, null));
-		cards.add(new Card("Amazon", 290, 10, 1, null));
+		cards.add(new Card("SugarSync", 120, 12, 0, null));
+		cards.add(new Card("MobileMe", 150, 18, 0, null));
+		cards.add(new Card("Dropbox", 200, 25, 0, null));
+		cards.add(new Card("Mercado Livre", 180, 20, 1, null));
+		cards.add(new Card("Paypal", 230, 22, 1, null));
+		cards.add(new Card("eBay", 250, 28, 1, null));
+		cards.add(new Card("Amazon", 260, 31, 1, null));
 		
 		cards.add(new Card("Prisao Visita", 0, 0, 0, null, true));
 		
-		cards.add(new Card("Yahoo! Mail", 190, 10, 2, null));
-		cards.add(new Card("Hotmail", 280, 10, 2, null));
-		cards.add(new Card("Gmail", 320, 10, 2, null));
-		cards.add(new Card("Youtube", 320, 10, 3, null));
-		cards.add(new Card("Skype", 280, 10, 3, null));
-		cards.add(new Card("Grooveshark", 190, 10, 3, null));
+		cards.add(new Card("Grooveshark", 190, 20, 2, null));
+		cards.add(new Card("Skype", 280, 29, 2, null));
+		cards.add(new Card("Youtube", 320, 35, 2, null));
+		cards.add(new Card("Yahoo! Mail", 190, 22, 3, null));
+		cards.add(new Card("Hotmail", 240, 28, 3, null));
+		cards.add(new Card("Gmail", 300, 31, 3, null));
 		
 		cards.add(new Card("Wikipedia", 0, 0, 0, null, true));
 
-		cards.add(new Card("Windows Phone", 190, 10, 4, null));
-		cards.add(new Card("Symbian", 210, 10, 4, null));
-		cards.add(new Card("Android", 340, 10, 4, null));
-		cards.add(new Card("iOS", 350, 10, 4, null));
-		cards.add(new Card("LinkedIn", 240, 10, 5, null));
-		cards.add(new Card("Orkut", 410, 10, 5, null));
-		cards.add(new Card("Facebook", 490, 10, 5, null));
+		cards.add(new Card("Windows Phone", 190, 15, 4, null));
+		cards.add(new Card("Symbian", 210, 19, 4, null));
+		cards.add(new Card("Android", 340, 38, 4, null));
+		cards.add(new Card("iOS", 350, 40, 4, null));
+		cards.add(new Card("LinkedIn", 240, 21, 5, null));
+		cards.add(new Card("Orkut", 320, 33, 5, null));
+		cards.add(new Card("Facebook", 490, 54, 5, null));
 		
 		cards.add(new Card("Prisao", 0, 0, 0, null, true));
 		
-		cards.add(new Card("Foursquare", 340, 10, 6, null));
-		cards.add(new Card("Twitter", 390, 10, 6, null));
-		cards.add(new Card("IE", 10, 10, 7, null));
-		cards.add(new Card("Safari", 440, 10, 7, null));
-		cards.add(new Card("Chrome", 450, 10, 7, null));
-		cards.add(new Card("Firefox", 460, 10, 7, null));
+		cards.add(new Card("Foursquare", 340, 31, 6, null));
+		cards.add(new Card("Twitter", 410, 43, 6, null));
+		cards.add(new Card("IE", 10, 0.5, 7, null));
+		cards.add(new Card("Safari", 440, 49, 7, null));
+		cards.add(new Card("Chrome", 540, 62, 7, null));
+		cards.add(new Card("Firefox", 550, 65, 7, null));
 		return cards;
 	}
 
