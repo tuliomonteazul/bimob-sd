@@ -35,4 +35,10 @@ public class ClientPlayerService {
 		Method method = new Method(Method.JOGADA_COMPRA, player, card);
 		clientConnection.send(method);
 	}
+	
+	public void none() {
+		// não faz nada, apenas passa a jogada para o próximo jogador
+		Method method = new Method(Method.JOGADA_PASSAR);
+		clientConnection.send(method);
+	}
 }
