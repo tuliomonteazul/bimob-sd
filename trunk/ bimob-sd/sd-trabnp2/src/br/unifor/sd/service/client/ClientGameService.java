@@ -45,6 +45,7 @@ public class ClientGameService {
 
 	private void doMethod(Method method) {
 		Player player;
+		Card card;
 		switch (method.getIdMethod()) {
 			case Method.CONECTOU:
 				player = (Player) method.getParams()[0];
@@ -64,8 +65,14 @@ public class ClientGameService {
 				boardController.mover(player, casas);
 				break;
 			case Method.POSSIBILITA_COMPRA:
-				Card card = (Card) method.getParams()[0];
+				card = (Card) method.getParams()[0];
 				boardController.possibilitaCompra(card);
+				break;
+			case Method.ATUALIZA_COMPRA:
+				player = (Player) method.getParams()[0];
+				card = (Card) method.getParams()[1];
+				card.setJogador(player);
+				boardController.atualizaCompra(card);
 				break;
 		}
 	}

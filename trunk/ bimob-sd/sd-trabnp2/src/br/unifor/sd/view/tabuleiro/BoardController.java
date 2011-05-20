@@ -117,6 +117,20 @@ public class BoardController {
 		
 	}
 	
+	public void atualizaCompra(Card card) {
+		for (SquarePanel sqPanel : boardPanel.getCasas()) {
+			if (sqPanel instanceof CardPanel) {
+				CardPanel cardPanel = (CardPanel) sqPanel;
+				if (cardPanel.getCarta().getNome().equals(card.getNome())) {
+					sqPanel.setOwner(card.getJogador().getCor());
+					sqPanel.updateUI();
+					break;
+				}
+			}
+		}
+		
+	}
+	
 	public static List<Card> getCards() {
 		final List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card("Inicio", 0, 0, 0, null, true));
@@ -167,6 +181,5 @@ public class BoardController {
 		this.player = player;
 		boardPanel.getPnInfo().showInfo(player);
 	}
-	
 
 }

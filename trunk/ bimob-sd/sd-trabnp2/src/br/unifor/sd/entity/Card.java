@@ -77,7 +77,6 @@ public class Card implements Serializable {
 		this.jogador = jogador;
 	}
 
-
 	public boolean isEspecial() {
 		return especial;
 	}
