@@ -1,4 +1,4 @@
-package br.unifor.sd.view.util;
+package br.unifor.sd.view.client.util;
 
 import java.awt.Color;
 import java.util.Arrays;

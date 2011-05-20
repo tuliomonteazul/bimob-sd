@@ -1,4 +1,4 @@
-package br.unifor.sd.view.tabuleiro;
+package br.unifor.sd.view.client.tabuleiro;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -10,11 +10,11 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import br.unifor.sd.service.client.ClientPlayerService;
+import br.unifor.sd.service.client.ClientOutputService;
 
 public class DicePanel extends JPanel {
 	
-	private ClientPlayerService clientPlayerService = ClientPlayerService.getInstance();
+	private ClientOutputService clientOutputService = ClientOutputService.getInstance();
 	
 	private JLabel lbDado;
 	private static final List<Integer> valores = Arrays.asList(new Integer[]{
@@ -36,7 +36,7 @@ public class DicePanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				rodando = false;
 				synchronized (lbDado) {
-					clientPlayerService.walk(Integer.parseInt(lbDado.getText()));
+					clientOutputService.walk(Integer.parseInt(lbDado.getText()));
 				}
 			}
 		});
@@ -55,7 +55,7 @@ public class DicePanel extends JPanel {
 						synchronized (lbDado) {
 							lbDado.setText(String.valueOf(valores.get(i)));
 							try {
-								Thread.sleep(200);
+								Thread.sleep(100);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}

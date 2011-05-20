@@ -9,24 +9,24 @@ import br.unifor.sd.entity.ColorPlayer;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 
-public class ServerPlayerService {
+public class ServerOutputService {
 	
 	private ServerConnection serverConnection = ConnectionFactory.getServerConnection();
 	
-	private static ServerPlayerService instance;
+	private static ServerOutputService instance;
 	public static final int MAX_JOGADORES = 4;
 	
 	private final List<ColorPlayer> cores;
 	private int ultimaCor;
 	
-	private ServerPlayerService() {
+	private ServerOutputService() {
 		super();
 		cores = Arrays.asList(new ColorPlayer[]{ColorPlayer.VERMELHO, ColorPlayer.VERDE, ColorPlayer.AZUL, ColorPlayer.BRANCO});
 	}
 	
-	public static ServerPlayerService getInstance(){
+	public static ServerOutputService getInstance(){
 		if (instance == null) {
-			instance = new ServerPlayerService();
+			instance = new ServerOutputService();
 		}
 		return instance;
 	}

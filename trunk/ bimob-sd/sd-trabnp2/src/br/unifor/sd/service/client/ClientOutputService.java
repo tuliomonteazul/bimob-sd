@@ -6,21 +6,21 @@ import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.Method;
 
-public class ClientPlayerService {
+public class ClientOutputService {
 
 	private ClientConnection clientConnection;
 	
 	public static Player player;	
 	
-	private static ClientPlayerService instance;
+	private static ClientOutputService instance;
 	
-	private ClientPlayerService() {
+	private ClientOutputService() {
 		super();
 		clientConnection = ConnectionFactory.getClientConnection();
 	}
-	public static ClientPlayerService getInstance(){
+	public static ClientOutputService getInstance(){
 		if (instance == null) {
-			instance = new ClientPlayerService();
+			instance = new ClientOutputService();
 		}
 		return instance;
 	}
