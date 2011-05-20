@@ -96,9 +96,7 @@ public class ServerGameService {
 				Card card = (Card) method.getParams()[1];
 				comprar(jogador, card);
 				break;
-			case Method.PROXIMO_JOG:
-//				jogador = (Player) method.getParams()[0];
-//				Card card = (Card) method.getParams()[1];
+			case Method.JOGADA_PASSAR:
 				proximoJog();
 				break;
 		}

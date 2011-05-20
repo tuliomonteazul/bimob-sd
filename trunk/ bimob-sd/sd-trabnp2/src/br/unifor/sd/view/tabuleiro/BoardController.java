@@ -48,13 +48,6 @@ public class BoardController {
 	}
 	
 	
-//	private void setPosJogador(Player jogador, int pos) {
-//		boardPanel.getCasas().get(jogador.getPosicao()).removePlayer(jogador.getCor());
-//		
-//		boardPanel.getCasas().get(pos).addPlayer(jogador.getCor());
-//	}
-
-
 	public void liberarVez() {
 		boardPanel.exibirDado();
 	}
@@ -107,13 +100,14 @@ public class BoardController {
 			// validar dinheiro
 			if (player.getDinheiro() > card.getValor()) {
 				clientPlayerService.buy(card);
-				boardPanel.esconderDado();
 			} else {
 				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
+				clientPlayerService.none();
 			}
 		} else {
-			// TODO passar a vez
+			clientPlayerService.none();
 		}
+		boardPanel.esconderDado();
 		
 	}
 	
