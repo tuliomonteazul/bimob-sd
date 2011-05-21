@@ -1,11 +1,9 @@
 package br.unifor.sd.connection.client.impl;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 import br.unifor.sd.connection.UtilConnection;
@@ -20,13 +18,13 @@ public class ClientConnectionUDP implements ClientConnection{
 	
 	private static final String HOST = "localhost";
 	private static final int PORT = 555;
-	private InetAddress address;
+	private InetAddress serverAddress;
 	private DatagramSocket serverSocket;
 	
 	private ClientConnectionUDP() {
 		super();
 		try {
-			address =  InetAddress.getByName(HOST);
+			serverAddress =  InetAddress.getByName(HOST);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -50,13 +48,13 @@ public class ClientConnectionUDP implements ClientConnection{
 			socket = new DatagramSocket();
 			
 			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
-			byte[] dados = String.valueOf(UtilConnection.CONEXAO).getBytes();
-			DatagramPacket pacote = new DatagramPacket(dados, dados.length, address, PORT);
+			byte[] dados = UtilConnection.objectToByteArray(UtilConnection.CONEXAO);
+			DatagramPacket pacote = new DatagramPacket(dados, dados.length, serverAddress, PORT);
 			socket.send(pacote);
 			
 			// envia o valor da porta do servidor do cliente
 			dados = String.valueOf(port).getBytes();
-			pacote = new DatagramPacket(dados, dados.length, address, PORT);
+			pacote = new DatagramPacket(dados, dados.length, serverAddress, PORT);
 			socket.send(pacote);
 			
 			byte[] buffer = new byte[1000]; // Cria um buffer local
@@ -139,16 +137,20 @@ public class ClientConnectionUDP implements ClientConnection{
 	@Override
 	public void send(Object object) {
 		try {
-			final Socket socket = new Socket(HOST, PORT);
 			
-			final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+			DatagramSocket socket = new DatagramSocket();
 			
-			outputStream.writeObject(object);
-			outputStream.flush();
+			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
+			byte[] msg = UtilConnection.objectToByteArray(UtilConnection.MSG);
+			DatagramPacket pacote = new DatagramPacket(msg, msg.length, serverAddress, PORT);
+			socket.send(pacote);
 			
-			outputStream.close();
+			// envia pedido de conexão e a porta do cliente para receber mensagens do servidor
+			byte[] dados = UtilConnection.objectToByteArray(object);
+			pacote = new DatagramPacket(dados, dados.length, serverAddress, PORT);
+			socket.send(pacote);
 			
-			socket.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -50,10 +50,11 @@ public class ServerConnectionUDP implements ServerConnection {
 					while (true) {
 						socket.receive(pacote);
 						
-						data = new String(pacote.getData(), 0, pacote.getLength());
-						
-						// ação que pode ser um pedido de conexão ou uma mensagem
-						final int acao = Integer.parseInt(data);
+//						data = new String(pacote.getData(), 0, pacote.getLength());
+//						
+//						// ação que pode ser um pedido de conexão ou uma mensagem
+//						final int acao = Integer.parseInt(data);
+						Integer acao = (Integer) UtilConnection.byteArrayToObject(pacote.getData());
 
 						// cria o evento de conexão para disparar o listener
 						final ConnectionEvent event = new ConnectionEvent();
