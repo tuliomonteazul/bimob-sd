@@ -53,6 +53,7 @@ public class ServerInputService {
 					
 					jogo.getJogadores().add(jogador);
 					
+					// TODO
 					final Method method = new Method(Method.CONECTOU, jogador);
 					serverConnection.send(event.getClient().getClientID(), method);
 					
@@ -124,14 +125,14 @@ public class ServerInputService {
 		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
 		playerAux.addCarta(card);
 		
-		final Card cardAux = findCarta(jogo.getCasas(), card).clone();
+		final Card cardAux = findCarta(jogo.getCasas(), card);
+		cardAux.setJogador(playerAux.clone());
 		
 		// debita o dinheiro do player
 		playerAux.addDinheiro(- cardAux.getValor());
 		
-		cardAux.setJogador(playerAux.clone());
 		
-		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux));
+		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux.clone()));
 		
 		proximoJog();
 	}

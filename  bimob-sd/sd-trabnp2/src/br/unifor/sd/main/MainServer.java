@@ -8,7 +8,7 @@ import br.unifor.sd.view.server.GameController;
 public class MainServer {
 	public static void main(String[] args) {
 		
-		ConnectionFactory.createServer(ConnectionProtocol.TCP);
+		ConnectionFactory.createServer(ConnectionProtocol.UDP);
 		
 		final ServerInputService serverInputService = ServerInputService.getInstance();
 		
