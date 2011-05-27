@@ -13,12 +13,12 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.ColorPlayer;
+import br.unifor.sd.view.Util;
 
 public class BoardPanel extends JPanel {
 	
@@ -73,7 +73,7 @@ public class BoardPanel extends JPanel {
 	private void addCasaInicio() {
 		pnInicio = new SquarePanel();
 		pnInicio.setBackground(Color.WHITE);
-		pnInicio.add(new JLabel(new ImageIcon("images/inicio.png")));
+		pnInicio.add(new JLabel(Util.loadImage("/inicio.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 2;
@@ -97,7 +97,7 @@ public class BoardPanel extends JPanel {
 	private void addCasaVisita() {
 		pnVisita = new SquarePanel();
 		pnVisita.setBackground(Color.WHITE);
-		pnVisita.add(new JLabel(new ImageIcon("images/visitando.png")));
+		pnVisita.add(new JLabel(Util.loadImage("/visitando.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -121,7 +121,7 @@ public class BoardPanel extends JPanel {
 	private void addCasaWikipedia() {
 		pnWikipedia = new SquarePanel();
 		pnWikipedia.setBackground(Color.WHITE);
-		pnWikipedia.add(new JLabel(new ImageIcon("images/wikipedia.png")));
+		pnWikipedia.add(new JLabel(Util.loadImage("/wikipedia.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -145,7 +145,7 @@ public class BoardPanel extends JPanel {
 		pnPrisao = new SquarePanel();
 		pnPrisao.setBackground(Color.BLACK);
 		pnPrisao.setBackground(Color.WHITE);
-		pnPrisao.add(new JLabel(new ImageIcon("images/404.png")));
+		pnPrisao.add(new JLabel(Util.loadImage("/404.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 0;

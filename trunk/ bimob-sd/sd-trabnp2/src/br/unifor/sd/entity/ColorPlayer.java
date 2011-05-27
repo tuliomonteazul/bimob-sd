@@ -3,24 +3,26 @@ package br.unifor.sd.entity;
 import java.awt.Image;
 import java.awt.Toolkit;
 
+import br.unifor.sd.view.Util;
+
 public enum ColorPlayer {
 	VERMELHO, VERDE, AZUL, BRANCO;
 	
-	private static final String IMG_AZUL = "images/jog_azul.png";
-	private static final String IMG_VERMELHO = "images/jog_vermelho.png";
-	private static final String IMG_VERDE = "images/jog_verde.png";
-	private static final String IMG_BRANCO = "images/jog_branco.png";
+	private static final String IMG_AZUL = "/jog_azul.png";
+	private static final String IMG_VERMELHO = "/jog_vermelho.png";
+	private static final String IMG_VERDE = "/jog_verde.png";
+	private static final String IMG_BRANCO = "/jog_branco.png";
 	
 	public Image getImage() {
 		switch (this) {
 		case VERMELHO:
-			return Toolkit.getDefaultToolkit().getImage(IMG_VERMELHO);
+			return Util.loadImage(IMG_VERMELHO).getImage();
 		case VERDE:
-			return Toolkit.getDefaultToolkit().getImage(IMG_VERDE);
+			return Util.loadImage(IMG_VERDE).getImage();
 		case AZUL:
-			return Toolkit.getDefaultToolkit().getImage(IMG_AZUL);
+			return Util.loadImage(IMG_AZUL).getImage();
 		case BRANCO:
-			return Toolkit.getDefaultToolkit().getImage(IMG_BRANCO);
+			return Util.loadImage(IMG_BRANCO).getImage();
 		}
 		return null;
 	}
