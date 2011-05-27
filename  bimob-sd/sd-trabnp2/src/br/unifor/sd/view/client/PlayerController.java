@@ -116,7 +116,7 @@ public class PlayerController {
 			squarePanel.updateUI();
 			// aplica intervalo entre os movimentos para que o usuário visualize a ação
 			try {
-				Thread.sleep(50);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
