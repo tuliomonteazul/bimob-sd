@@ -50,4 +50,9 @@ public class ClientOutputService {
 		Method method = new Method(Method.JOGADAR_SAIR, player);
 		clientConnection.send(method);
 	}
+	
+	public void writeConsole(String msg) {
+		Method method = new Method(Method.ESCREVER_CONSOLE, player, msg);
+		clientConnection.send(method);
+	}
 }

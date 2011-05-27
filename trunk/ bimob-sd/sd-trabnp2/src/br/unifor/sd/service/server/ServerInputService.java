@@ -58,6 +58,7 @@ public class ServerInputService {
 					serverConnection.send(event.getClient().getClientID(), method);
 					
 					System.out.println("O jogador " + event.getClient().getClientID() + " foi conectado.");
+					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "O jogador "+jogador.getCor().getText() + " entrou no jogo."));
 				}
 			
 			}
@@ -108,8 +109,12 @@ public class ServerInputService {
 				break;
 			case Method.JOGADAR_SAIR:
 				jogador = (Player) method.getParams()[0];
-				// TODO
 				sair(jogador);
+				break;
+			case Method.ESCREVER_CONSOLE:
+				jogador = (Player) method.getParams()[0];
+				String msg = (String) method.getParams()[1];
+				escreverConsole(jogador, msg);
 				break;
 		}
 			
@@ -174,6 +179,10 @@ public class ServerInputService {
 		
 		// TODO verifica vencedor
 		proximoJog();
+	}
+
+	private void escreverConsole(Player player, String msg) {
+		serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, player, msg));
 	}
 	
 	private void proximoJog() {
