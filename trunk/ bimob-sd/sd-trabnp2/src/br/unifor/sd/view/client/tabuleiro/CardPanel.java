@@ -20,8 +20,10 @@ public class CardPanel extends SquarePanel {
 	private JPanel pnCor;
 	private JLabel lbNome;
 	private JLabel lbValor;
+	private JLabel lbProgs;
 	private GridBagConstraints gbc;
 	private double rotateAngle;
+	private int programadores = 1;
 	private static final Font FONT_NOME = new Font("Tahoma", Font.BOLD, 11);
 	private static final Font FONT_VALOR = new Font("Verdana", Font.PLAIN, 10);
 	
@@ -56,17 +58,25 @@ public class CardPanel extends SquarePanel {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.weighty = 0.8;
-		gbc.ipady = 15;
+		gbc.ipady = 5;
 		gbc.insets = new Insets(5, 0, 15, 0);
 		gbc.anchor = GridBagConstraints.NORTH;
 		add(lbNome, gbc);
+		
+		lbProgs= new JLabel();
+		lbProgs.setText("Devs: "+1);
+		lbProgs.setFont(FONT_VALOR);
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		add(lbProgs, gbc);
 		
 		lbValor = new JLabel();
 		lbValor.setText("$"+carta.getValor());
 		lbValor.setFont(FONT_VALOR);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		add(lbValor, gbc);
 	}
 	
@@ -83,6 +93,14 @@ public class CardPanel extends SquarePanel {
 	}
 	public Card getCarta() {
 		return carta;
+	}
+	public int getProgramadores() {
+		return programadores;
+	}
+	
+	public void addProgramador() {
+		programadores++;
+		lbProgs.setText("Devs: "+programadores);
 	}
 	
 }
