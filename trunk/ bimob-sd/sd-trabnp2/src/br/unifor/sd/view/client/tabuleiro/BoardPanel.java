@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.ColorPlayer;
+import br.unifor.sd.entity.SpecialType;
 import br.unifor.sd.view.Util;
 
 public class BoardPanel extends JPanel {
@@ -74,6 +75,7 @@ public class BoardPanel extends JPanel {
 		pnInicio = new SquarePanel();
 		pnInicio.setBackground(Color.WHITE);
 		pnInicio.add(new JLabel(Util.loadImage("/inicio.png")));
+		pnInicio.setSpecialType(SpecialType.INICIO);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;
 		gbc.gridy = 2;
@@ -98,6 +100,7 @@ public class BoardPanel extends JPanel {
 		pnVisita = new SquarePanel();
 		pnVisita.setBackground(Color.WHITE);
 		pnVisita.add(new JLabel(Util.loadImage("/visitando.png")));
+		pnVisita.setSpecialType(SpecialType.VISITA);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -122,6 +125,7 @@ public class BoardPanel extends JPanel {
 		pnWikipedia = new SquarePanel();
 		pnWikipedia.setBackground(Color.WHITE);
 		pnWikipedia.add(new JLabel(Util.loadImage("/wikipedia.png")));
+		pnWikipedia.setSpecialType(SpecialType.WIKIPEDIA);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -145,6 +149,7 @@ public class BoardPanel extends JPanel {
 		pnPrisao = new SquarePanel();
 		pnPrisao.setBackground(Color.BLACK);
 		pnPrisao.setBackground(Color.WHITE);
+		pnPrisao.setSpecialType(SpecialType.PRISAO);
 		pnPrisao.add(new JLabel(Util.loadImage("/404.png")));
 		gbc = new GridBagConstraints();
 		gbc.gridx = 2;

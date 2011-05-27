@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.ColorPlayer;
+import br.unifor.sd.entity.SpecialType;
 import br.unifor.sd.view.Util;
 
 public class SquarePanel extends JPanel {
@@ -20,6 +21,7 @@ public class SquarePanel extends JPanel {
 	private Image ownGreen = Util.loadImage("/crown_green.png").getImage();
 	private Image ownBlue = Util.loadImage("/crown_blue.png").getImage();
 	private Image ownWhite = Util.loadImage("/crown_white.png").getImage();
+	private SpecialType specialType;
 	
 	@Override
 	public void paint(Graphics g) {
@@ -85,6 +87,14 @@ public class SquarePanel extends JPanel {
 
 	public void setOwner(ColorPlayer owner) {
 		this.owner = owner;
+	}
+
+	public SpecialType getSpecialType() {
+		return specialType;
+	}
+
+	public void setSpecialType(SpecialType specialType) {
+		this.specialType = specialType;
 	}
 	
 }

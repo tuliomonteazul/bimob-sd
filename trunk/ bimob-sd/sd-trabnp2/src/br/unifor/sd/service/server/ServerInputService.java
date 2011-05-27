@@ -158,7 +158,9 @@ public class ServerInputService {
 					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" doou R$ 50,00 para a Wikipedia."));
 					break;
 				case PRISAO:
-					// TODO prisao
+					playerAux.setPrisao(3);
+					serverConnection.send(player.getClientID(), new Method(Method.PRISAO));
+					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" foi para a prisão e ficará 3 rodadas sem jogar."));
 					break;
 				}
 				
@@ -229,9 +231,20 @@ public class ServerInputService {
 	}
 	
 	private Player getProximoJogador() {
-		final Player proximo = jogo.getJogadores().get(0);
-		jogo.getJogadores().remove(proximo);
-		jogo.getJogadores().add(proximo);
+		Player proximo = jogo.getJogadores().get(0);
+		// se ainda tiver na prisao
+		if (proximo.getPrisao() > 1 && jogo.getJogadores().size() > 1) {
+			// diminui as rodadas restantes na prisao
+			proximo.setPrisao(proximo.getPrisao() - 1);
+			// coloca o jogador no final da fila
+			jogo.getJogadores().remove(proximo);
+			jogo.getJogadores().add(proximo);
+			// pega o proximo jogador
+			proximo = getProximoJogador();
+		} else {
+			jogo.getJogadores().remove(proximo);
+			jogo.getJogadores().add(proximo);
+		}
 		return proximo;
 	}
 	
