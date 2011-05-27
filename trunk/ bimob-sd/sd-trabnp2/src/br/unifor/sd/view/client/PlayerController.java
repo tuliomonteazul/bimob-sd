@@ -153,7 +153,7 @@ public class PlayerController {
 			if (sqPanel instanceof CardPanel) {
 				CardPanel cardPanel = (CardPanel) sqPanel;
 				if (cardPanel.getCarta().getNome().equals(card.getNome())) {
-					// se o jogador como dono
+					// seta o jogador como dono
 					sqPanel.setOwner(card.getJogador().getCor());
 					sqPanel.updateUI();
 					break;
@@ -168,6 +168,22 @@ public class PlayerController {
 			boardPanel.getPnInfo().updateMoney(card.getJogador().getDinheiro());
 		}
 		
+	}
+	
+	public void exibeCobranca(Card card) {
+		if (player.getDinheiro() > card.getAluguel()) {
+			JOptionPane.showMessageDialog(boardPanel, "Você deve pagar o aluguel da aplicação: "+card.getNome()+"\nValor: "+card.getAluguel());
+			clientOutputService.pay(card);
+		} else {
+			JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente para pagar o aluguel\nValor: "+card.getAluguel()+"\nGame over! :(");
+			clientOutputService.exit();
+		}
+		boardPanel.esconderDado();
+	}
+	
+	public void atualizaDinheiro(double novoDinheiro) {
+		player.setDinheiro(novoDinheiro);
+		boardPanel.getPnInfo().showInfo(player);
 	}
 	
 	/**
@@ -232,5 +248,6 @@ public class PlayerController {
 		this.player = player;
 		boardPanel.getPnInfo().showInfo(player);
 	}
+	
 
 }

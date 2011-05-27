@@ -13,7 +13,6 @@ import br.unifor.sd.connection.listener.ServerConnectionListener;
 import br.unifor.sd.connection.server.ServerConnection;
 
 
-//TODO Alterar para utilizar DatagramSocket e DatagramPacket
 public class ServerConnectionUDP implements ServerConnection {
 
 	public static final int PORT = 555;
@@ -77,7 +76,6 @@ public class ServerConnectionUDP implements ServerConnection {
 							
 							socket.receive(pacote);
 							
-							// TODO receber objeto
 							final Object object = UtilConnection.byteArrayToObject(pacote.getData());
 							event.setObject(object);
 							
@@ -113,8 +111,6 @@ public class ServerConnectionUDP implements ServerConnection {
 			final Client client = findClient(clientID);
 			
 			for (Object object : objects) {
-				// TODO object to bytes
-//				byte[] dados = String.valueOf(((Integer) object)).getBytes();
 				byte[] dados = UtilConnection.objectToByteArray(object);
 				DatagramPacket pacote = new DatagramPacket(dados, dados.length,
 						client.getAddress(), client.getPort());

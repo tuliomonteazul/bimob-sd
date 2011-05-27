@@ -67,7 +67,7 @@ public class DicePanel extends JPanel {
 						synchronized (lbDado) {
 							lbDado.setText(String.valueOf(valores.get(i)));
 							try {
-								Thread.sleep(100);
+								Thread.sleep(1000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}

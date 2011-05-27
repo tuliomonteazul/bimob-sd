@@ -76,6 +76,14 @@ public class ClientInputService {
 				card = (Card) method.getParams()[0];
 				playerController.atualizaCompra(card);
 				break;
+			case Method.COBRAR_ALUGUEL:
+				card = (Card) method.getParams()[0];
+				playerController.exibeCobranca(card);
+				break;
+			case Method.ATUALIZA_DINHEIRO:
+				final double novoDinheiro = (Double) method.getParams()[0];
+				playerController.atualizaDinheiro(novoDinheiro);
+				break;
 		}
 	}
 }

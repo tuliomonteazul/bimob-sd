@@ -11,7 +11,6 @@ import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
 import br.unifor.sd.connection.listener.ConnectionEvent;
 
-// TODO Alterar para utilizar DatagramSocket e DatagramPacket
 public class ClientConnectionUDP implements ClientConnection{
 
 	private static ClientConnectionUDP instance;
@@ -40,6 +39,7 @@ public class ClientConnectionUDP implements ClientConnection{
 	@Override
 	public boolean connect(ClientConnectionListener listener) {
 		boolean connected = false;
+		// TODO utilizar somente o serverSocket
 		DatagramSocket socket = null;
 		int port = startServer();
 		System.out.println("Porta do cliente: "+ port);

@@ -86,6 +86,7 @@ public class ServerInputService {
 	
 	private void doMethod(Method method) {
 		Player jogador = null;
+		Card card = null;
 		switch (method.getIdMethod()) {
 			case Method.JOGADA_ANDAR:
 				jogador = (Player) method.getParams()[0];
@@ -94,11 +95,21 @@ public class ServerInputService {
 				break;
 			case Method.JOGADA_COMPRA:
 				jogador = (Player) method.getParams()[0];
-				Card card = (Card) method.getParams()[1];
+				card = (Card) method.getParams()[1];
 				comprar(jogador, card);
 				break;
 			case Method.JOGADA_PASSAR:
 				proximoJog();
+				break;
+			case Method.JOGADA_PAGAR:
+				jogador = (Player) method.getParams()[0];
+				card = (Card) method.getParams()[1];
+				pagar(jogador, card);
+				break;
+			case Method.JOGADAR_SAIR:
+				jogador = (Player) method.getParams()[0];
+				// TODO
+//				sair(jogador);
 				break;
 		}
 			
@@ -118,6 +129,9 @@ public class ServerInputService {
 		if (card.getJogador() == null) {
 			// permite que o jogador compre
 			serverConnection.send(player.getClientID(), new Method(Method.POSSIBILITA_COMPRA, card));
+		} else {
+			// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
+			serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
 		}
 	}
 	
@@ -133,6 +147,22 @@ public class ServerInputService {
 		
 		
 		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux.clone()));
+		
+		proximoJog();
+	}
+	
+	private void pagar(Player player, Card card) {
+		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
+		// debita o aluguel do player
+		playerAux.addDinheiro(- card.getAluguel());
+		
+		final Card cardAux = findCarta(jogo.getCasas(), card);
+		// adiciona o dinheiro do aluguel
+		cardAux.getJogador().addDinheiro(card.getAluguel());
+		
+		
+		serverConnection.send(player.getClientID(), new Method(Method.ATUALIZA_DINHEIRO, playerAux.getDinheiro()));
+		serverConnection.send(cardAux.getJogador().getClientID(), new Method(Method.ATUALIZA_DINHEIRO, cardAux.getJogador().getDinheiro()));
 		
 		proximoJog();
 	}

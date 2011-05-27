@@ -41,4 +41,13 @@ public class ClientOutputService {
 		Method method = new Method(Method.JOGADA_PASSAR);
 		clientConnection.send(method);
 	}
+	
+	public void pay(Card card) {
+		Method method = new Method(Method.JOGADA_PAGAR, player, card);
+		clientConnection.send(method);
+	}
+	public void exit() {
+		Method method = new Method(Method.JOGADAR_SAIR, player);
+		clientConnection.send(method);
+	}
 }
