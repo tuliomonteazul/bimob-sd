@@ -31,15 +31,6 @@ public class ServerOutputService {
 		return instance;
 	}
 	
-	public Player findJogador(List<Player> jogadores, int clientID) {
-		for (Player jogador : jogadores) {
-			if (jogador.getClientID() == clientID) {
-				return jogador;
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * Informa ao jogador que é a sua vez de jogar e possibilita a sua jogada.
 	 * @param jogador

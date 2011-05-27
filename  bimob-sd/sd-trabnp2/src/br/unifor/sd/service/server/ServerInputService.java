@@ -15,7 +15,7 @@ public class ServerInputService {
 	
 	private ServerConnection serverConnection = ConnectionFactory.getServerConnection();
 	
-	private ServerOutputService jogadorService = ServerOutputService.getInstance();
+	private ServerOutputService serverOutputService = ServerOutputService.getInstance();
 	
 	private Game jogo = new Game();
 	
@@ -48,7 +48,7 @@ public class ServerInputService {
 					
 					final Player jogador = new Player();
 					jogador.setClientID(event.getClient().getClientID());
-					jogador.setCor(jogadorService.nextColor());
+					jogador.setCor(serverOutputService.nextColor());
 					jogador.setPosicao(0);
 					
 					jogo.getJogadores().add(jogador);
@@ -75,8 +75,8 @@ public class ServerInputService {
 		if (jogo.getJogadores().size() >= 1) {
 			
 			System.out.println("Jogo iniciado");
-			jogadorService.exibirMsg("Jogo iniciado, aguardando o próximo jogador.");
-			jogadorService.liberarVez(getProximoJogador());
+			serverOutputService.exibirMsg("Jogo iniciado, aguardando o próximo jogador.");
+			serverOutputService.liberarVez(getProximoJogador());
 			
 			return true;
 		} else {
@@ -109,15 +109,14 @@ public class ServerInputService {
 			case Method.JOGADAR_SAIR:
 				jogador = (Player) method.getParams()[0];
 				// TODO
-//				sair(jogador);
+				sair(jogador);
 				break;
 		}
 			
 	}
 	
-	
 	private void andarCasas(Player player, int casas) {
-		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
+		final Player playerAux = findPlayer(player.getClientID());
 		playerAux.addPosicao(casas);
 		
 		// faz com que o jogador se mova para todos os clientes
@@ -136,8 +135,7 @@ public class ServerInputService {
 	}
 	
 	private void comprar(Player player, Card card) {
-		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
-		playerAux.addCarta(card);
+		final Player playerAux = findPlayer(player.getClientID());
 		
 		final Card cardAux = findCarta(jogo.getCasas(), card);
 		cardAux.setJogador(playerAux.clone());
@@ -152,7 +150,7 @@ public class ServerInputService {
 	}
 	
 	private void pagar(Player player, Card card) {
-		final Player playerAux = jogadorService.findJogador(jogo.getJogadores(), player.getClientID());
+		final Player playerAux = findPlayer(player.getClientID());
 		// debita o aluguel do player
 		playerAux.addDinheiro(- card.getAluguel());
 		
@@ -167,9 +165,20 @@ public class ServerInputService {
 		proximoJog();
 	}
 	
+
+	private void sair(Player player) {
+		removePlayer(player.getClientID());
+		
+		serverConnection.send(player.getClientID(), new Method(Method.FIM_JOGO));
+		serverConnection.sendAll(new Method(Method.REMOVER_JOGADOR, player));
+		
+		// TODO verifica vencedor
+		proximoJog();
+	}
+	
 	private void proximoJog() {
-		jogadorService.exibirMsg("Aguardando o próximo jogador.");
-		jogadorService.liberarVez(getProximoJogador());
+		serverOutputService.exibirMsg("Aguardando o próximo jogador.");
+		serverOutputService.liberarVez(getProximoJogador());
 	}
 	
 	private Player getProximoJogador() {
@@ -191,6 +200,34 @@ public class ServerInputService {
 	
 	public Game getJogo() {
 		return jogo;
+	}
+	
+	private Player findPlayer(int clientID) {
+		for (Player jogador : jogo.getJogadores()) {
+			if (jogador.getClientID() == clientID) {
+				return jogador;
+			}
+		}
+		return null;
+	}
+	
+	private void removePlayer(int clientID) {
+		Player player = null;
+		for (Player playerAux : jogo.getJogadores()) {
+			if (playerAux.getClientID() == clientID) {
+				player = playerAux;
+			}
+		}
+		if (player != null) {
+			jogo.getJogadores().remove(player);
+		}
+		
+		// limpa as cartas deste jogador
+		for (Card card : jogo.getCasas()) {
+			if (card.getJogador() != null && card.getJogador().getClientID() == player.getClientID()) {
+				card.setJogador(null);
+			}
+		}
 	}
 	
 }

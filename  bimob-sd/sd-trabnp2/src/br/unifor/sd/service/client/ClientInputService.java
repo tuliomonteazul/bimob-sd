@@ -84,6 +84,13 @@ public class ClientInputService {
 				final double novoDinheiro = (Double) method.getParams()[0];
 				playerController.atualizaDinheiro(novoDinheiro);
 				break;
+			case Method.FIM_JOGO:
+				playerController.fimJogo();
+				break;
+			case Method.REMOVER_JOGADOR:
+				player = (Player) method.getParams()[0];
+				playerController.removerJogador(player);
+				break;
 		}
 	}
 }
