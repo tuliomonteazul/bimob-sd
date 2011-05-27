@@ -10,7 +10,8 @@ public class Card implements Serializable {
 	private int grupoID;
 	private Player jogador;
 	private boolean especial;
-
+	private SpecialType specialType;
+	
 	public Card() {
 		super();
 	}
@@ -25,7 +26,9 @@ public class Card implements Serializable {
 		this.jogador = jogador;
 	}
 	
-	public Card(String nome, double valor, double aluguel, int grupoID, Player jogador, boolean especial) {
+
+	public Card(String nome, double valor, double aluguel, int grupoID, Player jogador, boolean especial,
+			SpecialType specialType) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
@@ -33,6 +36,7 @@ public class Card implements Serializable {
 		this.grupoID = grupoID;
 		this.jogador = jogador;
 		this.especial = especial;
+		this.specialType = specialType;
 	}
 
 
@@ -86,6 +90,17 @@ public class Card implements Serializable {
 		this.especial = especial;
 	}
 	
+	
+	public SpecialType getSpecialType() {
+		return specialType;
+	}
+
+
+	public void setSpecialType(SpecialType specialType) {
+		this.specialType = specialType;
+	}
+
+
 	public Card clone(){
 		final Card clone = new Card();
 		clone.setAluguel(aluguel);
@@ -94,6 +109,7 @@ public class Card implements Serializable {
 		clone.setJogador(jogador);
 		clone.setNome(nome);
 		clone.setValor(valor);
+		clone.setSpecialType(specialType);
 		return clone;
 	}
 	

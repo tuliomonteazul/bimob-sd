@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
+import br.unifor.sd.entity.SpecialType;
 import br.unifor.sd.service.client.ClientOutputService;
 import br.unifor.sd.view.client.tabuleiro.BoardPanel;
 import br.unifor.sd.view.client.tabuleiro.CardPanel;
@@ -233,6 +234,14 @@ public class PlayerController {
 		consolePanel.addText(text);
 	}
 	
+	public void receba200(double dinheiro) {
+		JOptionPane.showMessageDialog(boardPanel, "Parabéns! Você recebeu R$ 200,00.");
+		boardPanel.esconderDado();
+		player.setDinheiro(dinheiro);
+		boardPanel.getPnInfo().showInfo(player);
+		clientOutputService.none();
+	}
+	
 	/**
 	 * Exibe mensagem de erro de conexão.
 	 */
@@ -247,7 +256,7 @@ public class PlayerController {
 	 */
 	public static List<Card> getCards() {
 		final List<Card> cards = new ArrayList<Card>();
-		cards.add(new Card("Inicio", 0, 0, 0, null, true));
+		cards.add(new Card("Inicio", 0, 0, 0, null, true, SpecialType.INICIO));
 		
 		cards.add(new Card("SugarSync", 120, 2212, 0, null));
 		cards.add(new Card("MobileMe", 150, 2218, 0, null));
@@ -257,7 +266,7 @@ public class PlayerController {
 		cards.add(new Card("eBay", 250, 28, 1, null));
 		cards.add(new Card("Amazon", 260, 31, 1, null));
 		
-		cards.add(new Card("Prisao Visita", 0, 0, 0, null, true));
+		cards.add(new Card("Prisao Visita", 0, 0, 0, null, true, SpecialType.VISITA));
 		
 		cards.add(new Card("Grooveshark", 190, 20, 2, null));
 		cards.add(new Card("Skype", 280, 29, 2, null));
@@ -266,7 +275,7 @@ public class PlayerController {
 		cards.add(new Card("Hotmail", 240, 28, 3, null));
 		cards.add(new Card("Gmail", 300, 31, 3, null));
 		
-		cards.add(new Card("Wikipedia", 0, 0, 0, null, true));
+		cards.add(new Card("Wikipedia", 0, 0, 0, null, true, SpecialType.WIKIPEDIA));
 
 		cards.add(new Card("Windows Phone", 190, 15, 4, null));
 		cards.add(new Card("Symbian", 210, 19, 4, null));
@@ -276,7 +285,7 @@ public class PlayerController {
 		cards.add(new Card("Orkut", 320, 33, 5, null));
 		cards.add(new Card("Facebook", 490, 54, 5, null));
 		
-		cards.add(new Card("Prisao", 0, 0, 0, null, true));
+		cards.add(new Card("Prisao", 0, 0, 0, null, true, SpecialType.PRISAO));
 		
 		cards.add(new Card("Foursquare", 340, 31, 6, null));
 		cards.add(new Card("Twitter", 410, 43, 6, null));

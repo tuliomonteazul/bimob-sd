@@ -97,6 +97,10 @@ public class ClientInputService {
 				msg = (String) method.getParams()[1];
 				playerController.escreverConsole(player, msg);
 				break;
+			case Method.RECEBA_200:
+				double dinheiro = (Double) method.getParams()[0];
+				playerController.receba200(dinheiro);
+				break;
 		}
 	}
 }

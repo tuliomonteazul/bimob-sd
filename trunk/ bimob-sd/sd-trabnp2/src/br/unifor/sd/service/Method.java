@@ -22,6 +22,7 @@ public class Method implements Serializable {
 	public static final int REMOVER_JOGADOR = 14;
 	
 	public static final int ESCREVER_CONSOLE = 15;
+	public static final int RECEBA_200 = 16;
 	
 	
 	private int idMethod;

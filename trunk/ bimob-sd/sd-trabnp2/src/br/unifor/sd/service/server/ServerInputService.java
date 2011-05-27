@@ -130,12 +130,40 @@ public class ServerInputService {
 		
 		final Card card = jogo.getCasas().get(playerAux.getPosicao());
 		// se a casa não tiver nenhum proprietário
-		if (card.getJogador() == null) {
+		if (!card.isEspecial() && card.getJogador() == null) {
 			// permite que o jogador compre
 			serverConnection.send(player.getClientID(), new Method(Method.POSSIBILITA_COMPRA, card));
 		} else {
-			// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
-			serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
+			// é o dono da carta
+			if (card.getJogador() != null && card.getJogador().getClientID() == playerAux.getClientID()) {
+				// TODO
+				// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
+				serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
+				
+			} else if (card.isEspecial()) {
+				
+				switch (card.getSpecialType()) {
+				case INICIO:
+					// recebe 200
+					playerAux.addDinheiro(200);
+					serverConnection.send(player.getClientID(), new Method(Method.RECEBA_200, playerAux.getDinheiro()));
+					break;
+				case VISITA:
+					proximoJog();
+					break;
+				case WIKIPEDIA:
+					// paga 50
+					break;
+				case PRISAO:
+					
+					break;
+				}
+				
+			// se nao for o dono, cobra aluguel
+			} else {
+				// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
+				serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
+			}
 		}
 	}
 	
