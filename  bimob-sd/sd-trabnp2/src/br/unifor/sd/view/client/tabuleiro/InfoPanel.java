@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.Player;
+import br.unifor.sd.view.Util;
 
 public class InfoPanel extends JPanel {
 	private JLabel lbCorIcon;

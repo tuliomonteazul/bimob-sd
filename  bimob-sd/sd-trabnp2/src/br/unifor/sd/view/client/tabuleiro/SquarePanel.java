@@ -2,13 +2,13 @@ package br.unifor.sd.view.client.tabuleiro;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import br.unifor.sd.entity.ColorPlayer;
+import br.unifor.sd.view.Util;
 
 public class SquarePanel extends JPanel {
 
@@ -16,10 +16,10 @@ public class SquarePanel extends JPanel {
 	private List<ColorPlayer> jogadores = new ArrayList<ColorPlayer>();
 	
 	private ColorPlayer owner;
-	private Image ownRed = Toolkit.getDefaultToolkit().getImage("images/crown_red.png");
-	private Image ownGreen = Toolkit.getDefaultToolkit().getImage("images/crown_green.png");
-	private Image ownBlue = Toolkit.getDefaultToolkit().getImage("images/crown_blue.png");
-	private Image ownWhite = Toolkit.getDefaultToolkit().getImage("images/crown_white.png");
+	private Image ownRed = Util.loadImage("/crown_red.png").getImage();
+	private Image ownGreen = Util.loadImage("/crown_green.png").getImage();
+	private Image ownBlue = Util.loadImage("/crown_blue.png").getImage();
+	private Image ownWhite = Util.loadImage("/crown_white.png").getImage();
 	
 	@Override
 	public void paint(Graphics g) {
