@@ -153,8 +153,9 @@ public class ServerInputService {
 					proximoJog();
 					break;
 				case WIKIPEDIA:
-					// paga 50
-					// TODO paga wikipedia
+					playerAux.addDinheiro(-50);
+					serverConnection.send(player.getClientID(), new Method(Method.PAGAR_WIKIPEDIA, playerAux.getDinheiro()));
+					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" doou R$ 50,00 para a Wikipedia."));
 					break;
 				case PRISAO:
 					// TODO prisao

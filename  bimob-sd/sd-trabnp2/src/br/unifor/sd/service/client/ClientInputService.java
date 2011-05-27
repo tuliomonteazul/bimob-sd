@@ -51,6 +51,7 @@ public class ClientInputService {
 		Player player;
 		Card card;
 		String msg;
+		double dinheiro;
 		switch (method.getIdMethod()) {
 			case Method.CONECTOU:
 				player = (Player) method.getParams()[0];
@@ -98,11 +99,15 @@ public class ClientInputService {
 				playerController.escreverConsole(player, msg);
 				break;
 			case Method.RECEBA_200:
-				double dinheiro = (Double) method.getParams()[0];
+				dinheiro = (Double) method.getParams()[0];
 				playerController.receba200(dinheiro);
 				break;
 			case Method.VOCE_VENCEU:
 				playerController.voceVenceu();
+				break;
+			case Method.PAGAR_WIKIPEDIA:
+				dinheiro = (Double) method.getParams()[0];
+				playerController.pagarWikipedia(dinheiro);
 				break;
 		}
 	}
