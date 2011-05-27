@@ -147,11 +147,11 @@ public class PlayerController {
 			} else {
 				// se não tiver dinheiro
 				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
-				clientOutputService.none();
+				clientOutputService.nextPlayer();
 			}
 		} else {
 			// se não quis comprar
-			clientOutputService.none();
+			clientOutputService.nextPlayer();
 		}
 		boardPanel.esconderDado();
 		
@@ -239,7 +239,13 @@ public class PlayerController {
 		boardPanel.esconderDado();
 		player.setDinheiro(dinheiro);
 		boardPanel.getPnInfo().showInfo(player);
-		clientOutputService.none();
+		clientOutputService.nextPlayer();
+	}
+	
+	public void voceVenceu() {
+		JOptionPane.showMessageDialog(boardPanel, "Parabéns! Você venceu o jogo! :D");
+		boardPanel.esconderDado();
+		boardPanel.getLbMsg().setText("Fim de jogo! Você venceu!");
 	}
 	
 	/**
@@ -259,8 +265,8 @@ public class PlayerController {
 		cards.add(new Card("Inicio", 0, 0, 0, null, true, SpecialType.INICIO));
 		
 		cards.add(new Card("SugarSync", 120, 2212, 0, null));
-		cards.add(new Card("MobileMe", 150, 2218, 0, null));
-		cards.add(new Card("Dropbox", 200, 2225, 0, null));
+		cards.add(new Card("MobileMe", 150, 18, 0, null));
+		cards.add(new Card("Dropbox", 200, 25, 0, null));
 		cards.add(new Card("Mercado Livre", 180, 20, 1, null));
 		cards.add(new Card("Paypal", 230, 22, 1, null));
 		cards.add(new Card("eBay", 250, 28, 1, null));

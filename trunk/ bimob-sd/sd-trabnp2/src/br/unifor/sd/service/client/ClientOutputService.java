@@ -36,7 +36,7 @@ public class ClientOutputService {
 		clientConnection.send(method);
 	}
 	
-	public void none() {
+	public void nextPlayer() {
 		// não faz nada, apenas passa a jogada para o próximo jogador
 		Method method = new Method(Method.JOGADA_PASSAR);
 		clientConnection.send(method);
