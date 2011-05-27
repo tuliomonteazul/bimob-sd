@@ -136,7 +136,7 @@ public class ServerInputService {
 		} else {
 			// é o dono da carta
 			if (card.getJogador() != null && card.getJogador().getClientID() == playerAux.getClientID()) {
-				// TODO
+				// TODO colocar programadores
 				// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
 				serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
 				
@@ -153,9 +153,10 @@ public class ServerInputService {
 					break;
 				case WIKIPEDIA:
 					// paga 50
+					// TODO paga wikipedia
 					break;
 				case PRISAO:
-					
+					// TODO prisao
 					break;
 				}
 				
@@ -171,10 +172,10 @@ public class ServerInputService {
 		final Player playerAux = findPlayer(player.getClientID());
 		
 		final Card cardAux = findCarta(jogo.getCasas(), card);
-		cardAux.setJogador(playerAux.clone());
-		
 		// debita o dinheiro do player
 		playerAux.addDinheiro(- cardAux.getValor());
+		cardAux.setJogador(playerAux.clone());
+		
 		
 		
 		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux.clone()));
@@ -205,8 +206,13 @@ public class ServerInputService {
 		serverConnection.send(player.getClientID(), new Method(Method.FIM_JOGO));
 		serverConnection.sendAll(new Method(Method.REMOVER_JOGADOR, player));
 		
-		// TODO verifica vencedor
-		proximoJog();
+		if (jogo.getJogadores().size() == 1) {
+			// fim de jogo, exibe o vencedor
+			serverConnection.send(jogo.getJogadores().get(0).getClientID(), new Method(Method.VOCE_VENCEU));
+		} else {
+			// passa pro proximo jogador
+			proximoJog();
+		}
 	}
 
 	private void escreverConsole(Player player, String msg) {

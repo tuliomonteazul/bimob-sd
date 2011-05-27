@@ -23,6 +23,7 @@ public class Method implements Serializable {
 	
 	public static final int ESCREVER_CONSOLE = 15;
 	public static final int RECEBA_200 = 16;
+	public static final int VOCE_VENCEU = 17;
 	
 	
 	private int idMethod;

@@ -20,6 +20,7 @@ public class DicePanel extends JPanel {
 	private JLabel lbDado;
 	private static final List<Integer> valores = Arrays.asList(new Integer[]{
 			1, 2, 3, 4, 5, 6,
+//			30,
 	});
 	private boolean rodando;
 	

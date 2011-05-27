@@ -101,6 +101,9 @@ public class ClientInputService {
 				double dinheiro = (Double) method.getParams()[0];
 				playerController.receba200(dinheiro);
 				break;
+			case Method.VOCE_VENCEU:
+				playerController.voceVenceu();
+				break;
 		}
 	}
 }
