@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import br.unifor.sd.entity.Card;
 import br.unifor.sd.entity.Player;
@@ -41,6 +42,11 @@ public class PlayerController {
 	
 	
 	public void init() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		JFrame frame = new JFrame();
 		frame.setLayout(new BorderLayout());
 		frame.add(boardPanel, BorderLayout.CENTER);
@@ -50,7 +56,6 @@ public class PlayerController {
 		}
 		
 		frame.add(consolePanel, BorderLayout.SOUTH);
-		escreverConsole(null, "aeee"); // TODO remover
 		
 		frame.setTitle("Weblopoly - Monopolize a internet");
 		frame.setVisible(true);
@@ -219,7 +224,9 @@ public class PlayerController {
 		
 		String text = "";
 		if (player != null) {
-			text = "Jogador " + player.getCor().getText();
+			text = "Jogador " + player.getCor().getText()+": ";
+		} else {
+			text = "[Jogo] ";
 		}
 		text += msg;
 		
