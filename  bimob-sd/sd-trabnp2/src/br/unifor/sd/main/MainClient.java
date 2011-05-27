@@ -7,7 +7,7 @@ import br.unifor.sd.service.client.ClientInputService;
 public class MainClient {
 	public static void main(String[] args) {
 		
-		ConnectionFactory.createClient(ConnectionProtocol.UDP);
+		ConnectionFactory.createClient(ConnectionProtocol.TCP);
 		
 		// inicia o jogo
 		ClientInputService.getInstance().playGame();
