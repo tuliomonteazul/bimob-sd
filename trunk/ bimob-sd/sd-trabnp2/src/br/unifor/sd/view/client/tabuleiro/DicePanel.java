@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import br.unifor.sd.service.client.ClientOutputService;
 
@@ -19,10 +20,12 @@ public class DicePanel extends JPanel {
 	
 	private JLabel lbDado;
 	private static final List<Integer> valores = Arrays.asList(new Integer[]{
+//			1, 2, 30
 			1, 2, 3, 4, 5, 6,
 //			30,
 	});
 	private boolean rodando;
+	private boolean andando;
 	
 	public DicePanel() {
 		super();
@@ -37,7 +40,10 @@ public class DicePanel extends JPanel {
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-	    		e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				if (!andando) {
+					SwingUtilities.windowForComponent(e.getComponent()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
 			}
 			
 			@Override
@@ -52,7 +58,10 @@ public class DicePanel extends JPanel {
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				if (!andando) {
+					SwingUtilities.windowForComponent(e.getComponent()).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				}
 			}
 		});
 	}
@@ -70,7 +79,7 @@ public class DicePanel extends JPanel {
 						synchronized (lbDado) {
 							lbDado.setText(String.valueOf(valores.get(i)));
 							try {
-								Thread.sleep(1000);
+								Thread.sleep(100);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -96,6 +105,14 @@ public class DicePanel extends JPanel {
 
 	public void setLbDado(JLabel lbDado) {
 		this.lbDado = lbDado;
+	}
+
+	public boolean isAndando() {
+		return andando;
+	}
+
+	public void setAndando(boolean andando) {
+		this.andando = andando;
 	}
 	
 }

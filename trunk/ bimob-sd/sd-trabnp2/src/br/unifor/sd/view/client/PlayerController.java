@@ -1,11 +1,13 @@
 package br.unifor.sd.view.client;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import br.unifor.sd.entity.Card;
@@ -15,6 +17,7 @@ import br.unifor.sd.service.client.ClientOutputService;
 import br.unifor.sd.view.client.tabuleiro.BoardPanel;
 import br.unifor.sd.view.client.tabuleiro.CardPanel;
 import br.unifor.sd.view.client.tabuleiro.ConsolePanel;
+import br.unifor.sd.view.client.tabuleiro.DicePanel;
 import br.unifor.sd.view.client.tabuleiro.SquarePanel;
 
 public class PlayerController {
@@ -90,6 +93,9 @@ public class PlayerController {
 	 * @param casas quantidade de casas que ele irá percorrer
 	 */
 	public void mover(final Player player, final int casas) {
+		SwingUtilities.windowForComponent(boardPanel).setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		boardPanel.getPnDado().setAndando(true);
+		
 		int posPanelAtual = -1;
 		// procura a casa onde o jogador está
 		for (int i = 0; i < boardPanel.getCasas().size(); i++) {
@@ -123,6 +129,10 @@ public class PlayerController {
 		final SquarePanel squarePanel = boardPanel.getCasas().get((posPanelAtual + casas) % 30);
 		squarePanel.addPlayer(player.getCor());
 		squarePanel.updateUI();
+		boardPanel.esconderDado();
+		
+		SwingUtilities.windowForComponent(boardPanel).setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		boardPanel.getPnDado().setAndando(false);
 	}
 
 	/**
