@@ -53,7 +53,6 @@ public class ServerInputService {
 					
 					jogo.getJogadores().add(jogador);
 					
-					// TODO
 					final Method method = new Method(Method.CONECTOU, jogador);
 					serverConnection.send(event.getClient().getClientID(), method);
 					
@@ -75,9 +74,10 @@ public class ServerInputService {
 	public boolean startGame() {
 		if (jogo.getJogadores().size() >= 1) {
 			
-			System.out.println("Jogo iniciado");
+			Player player = getProximoJogador();
+			serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogo iniciado, vez do jogador "+player.getCor().getText()+"."));
 			serverOutputService.exibirMsg("Jogo iniciado, aguardando o próximo jogador.");
-			serverOutputService.liberarVez(getProximoJogador());
+			serverOutputService.liberarVez(player);
 			
 			return true;
 		} else {
@@ -147,6 +147,7 @@ public class ServerInputService {
 					// recebe 200
 					playerAux.addDinheiro(200);
 					serverConnection.send(player.getClientID(), new Method(Method.RECEBA_200, playerAux.getDinheiro()));
+					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" recebeu R$ 200,00 por parar no ponto de partida."));
 					break;
 				case VISITA:
 					proximoJog();
@@ -164,6 +165,7 @@ public class ServerInputService {
 			} else {
 				// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
 				serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
+				serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+card.getJogador().getCor().getText() + " cobrou aluguel do jogador "+player.getCor().getText()+" no valor de "+card.getAluguelFormatado()+"."));
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package br.unifor.sd.entity;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 
 public class Card implements Serializable {
 	private static final long serialVersionUID = -848706398882561177L;
@@ -11,6 +12,7 @@ public class Card implements Serializable {
 	private Player jogador;
 	private boolean especial;
 	private SpecialType specialType;
+	private NumberFormat nf = NumberFormat.getCurrencyInstance();
 	
 	public Card() {
 		super();
@@ -58,6 +60,10 @@ public class Card implements Serializable {
 
 	public double getAluguel() {
 		return aluguel;
+	}
+	
+	public String getAluguelFormatado() {
+		return nf.format(aluguel);
 	}
 
 	public void setAluguel(double aluguel) {

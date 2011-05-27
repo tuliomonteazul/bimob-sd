@@ -264,7 +264,7 @@ public class PlayerController {
 		final List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card("Inicio", 0, 0, 0, null, true, SpecialType.INICIO));
 		
-		cards.add(new Card("SugarSync", 120, 2212, 0, null));
+		cards.add(new Card("SugarSync", 120, 12, 0, null));
 		cards.add(new Card("MobileMe", 150, 18, 0, null));
 		cards.add(new Card("Dropbox", 200, 25, 0, null));
 		cards.add(new Card("Mercado Livre", 180, 20, 1, null));
