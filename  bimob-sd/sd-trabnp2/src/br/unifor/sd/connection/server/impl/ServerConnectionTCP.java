@@ -19,7 +19,7 @@ public class ServerConnectionTCP implements ServerConnection {
 	
 	private static ServerConnectionTCP instance;
 	
-	public static final int PORT = 555;
+	public static final int PORT = 5555;
 	
 	private ServerSocket serverSocket;
 	

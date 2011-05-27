@@ -12,7 +12,7 @@ public interface ClientConnection {
 	 * @param listener
 	 * @return boolean true se conectou ou false se não
 	 */
-	boolean connect(ClientConnectionListener listener);
+	boolean connect(String host, ClientConnectionListener listener);
 	
 	/**
 	 * Envia um objeto ao servidor.

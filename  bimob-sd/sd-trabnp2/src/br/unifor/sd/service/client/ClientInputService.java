@@ -1,5 +1,7 @@
 package br.unifor.sd.service.client;
 
+import javax.swing.JOptionPane;
+
 import br.unifor.sd.connection.client.ClientConnection;
 import br.unifor.sd.connection.factory.ConnectionFactory;
 import br.unifor.sd.connection.listener.ClientConnectionListener;
@@ -31,7 +33,9 @@ public class ClientInputService {
 	public void playGame() {
 		playerController.init();
 		
-		boolean conectou = clientConnection.connect(new ClientConnectionListener() {
+		final String host = JOptionPane.showInputDialog("Digite a URL do servidor:");
+		
+		boolean conectou = clientConnection.connect(host, new ClientConnectionListener() {
 			
 			@Override
 			public void receive(ConnectionEvent event) {
