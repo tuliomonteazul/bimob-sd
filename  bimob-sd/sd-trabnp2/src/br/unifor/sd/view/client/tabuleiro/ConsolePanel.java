@@ -35,7 +35,7 @@ public class ConsolePanel extends JPanel {
 		tfConsole.setWrapStyleWord(true);
 		tfConsole.setBackground(new Color(90, 90, 90));
 		tfConsole.setForeground(new Color(240, 240, 240));
-		tfConsole.setRows(5);
+		tfConsole.setRows(6);
 		tfConsole.setSize(400, 50);
 		tfConsole.setEditable(false);
 		add(scrollPane);
@@ -74,13 +74,7 @@ public class ConsolePanel extends JPanel {
 		else 
 			tfConsole.setText(oldText + "\n" + text);
 		
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
-			}
-		});
+		tfConsole.setCaretPosition(tfConsole.getCaretPosition()+tfConsole.getText().length());
 	}
 	
 	

@@ -53,6 +53,10 @@ public class Card implements Serializable {
 	public double getValor() {
 		return valor;
 	}
+	
+	public String getValorFormatado() {
+		return nf.format(valor);
+	}
 
 	public void setValor(double valor) {
 		this.valor = valor;

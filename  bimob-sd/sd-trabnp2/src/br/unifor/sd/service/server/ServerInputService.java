@@ -56,7 +56,6 @@ public class ServerInputService {
 					final Method method = new Method(Method.CONECTOU, jogador);
 					serverConnection.send(event.getClient().getClientID(), method);
 					
-					System.out.println("O jogador " + event.getClient().getClientID() + " foi conectado.");
 					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "O jogador "+jogador.getCor().getText() + " entrou no jogo."));
 				}
 			
@@ -150,6 +149,7 @@ public class ServerInputService {
 					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" recebeu R$ 200,00 por parar no ponto de partida."));
 					break;
 				case VISITA:
+					serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText()+" fez uma visita à prisão."));
 					proximoJog();
 					break;
 				case WIKIPEDIA:
@@ -178,9 +178,8 @@ public class ServerInputService {
 		playerAux.addDinheiro(- cardAux.getValor());
 		cardAux.setJogador(playerAux.clone());
 		
-		
-		
 		serverConnection.sendAll(new Method(Method.ATUALIZA_COMPRA, cardAux.clone()));
+		serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+cardAux.getJogador().getCor().getText() + " comprou "+card.getNome()+" pelo valor de "+card.getValorFormatado()+"."));
 		
 		proximoJog();
 	}
@@ -207,6 +206,7 @@ public class ServerInputService {
 		
 		serverConnection.send(player.getClientID(), new Method(Method.FIM_JOGO));
 		serverConnection.sendAll(new Method(Method.REMOVER_JOGADOR, player));
+		serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+player.getCor().getText() + " saiu do jogo pois não tinha dinheiro para pagar o aluguel."));
 		
 		if (jogo.getJogadores().size() == 1) {
 			// fim de jogo, exibe o vencedor
@@ -222,8 +222,9 @@ public class ServerInputService {
 	}
 	
 	private void proximoJog() {
-		serverOutputService.exibirMsg("Aguardando o próximo jogador.");
-		serverOutputService.liberarVez(getProximoJogador());
+		Player player = getProximoJogador();
+		serverOutputService.liberarVez(player);
+		serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Vez do jogador "+player.getCor().getText() + "."));
 	}
 	
 	private Player getProximoJogador() {
