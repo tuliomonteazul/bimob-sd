@@ -41,9 +41,11 @@ public class DicePanel extends JPanel {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				rodando = false;
-				synchronized (lbDado) {
-					clientOutputService.walk(Integer.parseInt(lbDado.getText()));
+				if (rodando) {
+					rodando = false;
+					synchronized (lbDado) {
+						clientOutputService.walk(Integer.parseInt(lbDado.getText()));
+					}
 				}
 			}
 			

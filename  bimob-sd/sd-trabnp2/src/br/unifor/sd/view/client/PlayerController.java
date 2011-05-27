@@ -12,11 +12,13 @@ import br.unifor.sd.entity.Player;
 import br.unifor.sd.service.client.ClientOutputService;
 import br.unifor.sd.view.client.tabuleiro.BoardPanel;
 import br.unifor.sd.view.client.tabuleiro.CardPanel;
+import br.unifor.sd.view.client.tabuleiro.ConsolePanel;
 import br.unifor.sd.view.client.tabuleiro.SquarePanel;
 
 public class PlayerController {
 	
 	private BoardPanel boardPanel;
+	private ConsolePanel consolePanel;
 	
 	private Player player;
 	
@@ -28,6 +30,7 @@ public class PlayerController {
 	private PlayerController() {
 		super();
 		boardPanel = new BoardPanel();
+		consolePanel = new ConsolePanel();
 	}
 	public static PlayerController getInstance() {
 		if (instance == null) {
@@ -45,6 +48,9 @@ public class PlayerController {
 		for (Card card : getCards()) {
 			boardPanel.addCarta(card);
 		}
+		
+		frame.add(consolePanel, BorderLayout.SOUTH);
+		escreverConsole(null, "aeee"); // TODO remover
 		
 		frame.setTitle("Weblopoly - Monopolize a internet");
 		frame.setVisible(true);
@@ -207,6 +213,17 @@ public class PlayerController {
 			}
 		}
 		
+	}
+	
+	public void escreverConsole(Player player, String msg) {
+		
+		String text = "";
+		if (player != null) {
+			text = "Jogador " + player.getCor().getText();
+		}
+		text += msg;
+		
+		consolePanel.addText(text);
 	}
 	
 	/**
