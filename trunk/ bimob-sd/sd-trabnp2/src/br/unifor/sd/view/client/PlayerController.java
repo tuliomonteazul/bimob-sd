@@ -17,7 +17,6 @@ import br.unifor.sd.service.client.ClientOutputService;
 import br.unifor.sd.view.client.tabuleiro.BoardPanel;
 import br.unifor.sd.view.client.tabuleiro.CardPanel;
 import br.unifor.sd.view.client.tabuleiro.ConsolePanel;
-import br.unifor.sd.view.client.tabuleiro.DicePanel;
 import br.unifor.sd.view.client.tabuleiro.SquarePanel;
 
 public class PlayerController {
@@ -258,6 +257,14 @@ public class PlayerController {
 		boardPanel.getLbMsg().setText("Fim de jogo! Você venceu!");
 	}
 	
+	public void pagarWikipedia(double dinheiro) {
+		JOptionPane.showMessageDialog(boardPanel, "A Wikipedia agradeçe a sua doação de R$ 50,00.");
+		player.setDinheiro(dinheiro);
+		boardPanel.getPnInfo().showInfo(player);
+		clientOutputService.nextPlayer();
+	}
+
+	
 	/**
 	 * Exibe mensagem de erro de conexão.
 	 */
@@ -320,5 +327,4 @@ public class PlayerController {
 		this.player = player;
 		boardPanel.getPnInfo().showInfo(player);
 	}
-
 }
