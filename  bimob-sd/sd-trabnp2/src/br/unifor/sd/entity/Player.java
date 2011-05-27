@@ -10,6 +10,7 @@ public class Player implements Serializable {
 	private ColorPlayer cor;
 	private double dinheiro;
 	private int posicao;
+	private int prisao;
 	
 	public Player() {
 		super();
@@ -72,6 +73,14 @@ public class Player implements Serializable {
 		this.dinheiro += dinheiro;
 	}
 	
+	public int getPrisao() {
+		return prisao;
+	}
+
+	public void setPrisao(int prisao) {
+		this.prisao = prisao;
+	}
+
 	public Player clone() {
 		final Player clone = new Player();
 		clone.setClientID(clientID);
@@ -79,6 +88,7 @@ public class Player implements Serializable {
 		clone.setDinheiro(dinheiro);
 		clone.setNome(nome);
 		clone.setPosicao(posicao);
+		clone.setPrisao(prisao);
 		return clone;
 	}
 }

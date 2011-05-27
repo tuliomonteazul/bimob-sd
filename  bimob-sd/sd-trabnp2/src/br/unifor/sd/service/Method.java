@@ -25,6 +25,7 @@ public class Method implements Serializable {
 	public static final int RECEBA_200 = 16;
 	public static final int VOCE_VENCEU = 17;
 	public static final int PAGAR_WIKIPEDIA = 18;
+	public static final int PRISAO = 19;
 	
 	
 	private int idMethod;

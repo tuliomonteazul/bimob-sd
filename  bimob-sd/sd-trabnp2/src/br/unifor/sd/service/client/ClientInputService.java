@@ -113,6 +113,9 @@ public class ClientInputService {
 				dinheiro = (Double) method.getParams()[0];
 				playerController.pagarWikipedia(dinheiro);
 				break;
+			case Method.PRISAO:
+				playerController.prisao();
+				break;
 		}
 	}
 }

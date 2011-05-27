@@ -264,6 +264,10 @@ public class PlayerController {
 		clientOutputService.nextPlayer();
 	}
 
+	public void prisao() {
+		JOptionPane.showMessageDialog(boardPanel, "Erro - URL não encontrada\nO timeout deixou você 3 rodadas sem jogar.");
+		clientOutputService.nextPlayer();
+	}
 	
 	/**
 	 * Exibe mensagem de erro de conexão.
