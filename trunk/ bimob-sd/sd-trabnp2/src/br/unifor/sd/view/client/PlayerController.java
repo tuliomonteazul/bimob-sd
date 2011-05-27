@@ -22,6 +22,8 @@ public class PlayerController {
 	
 	private ClientOutputService clientOutputService = ClientOutputService.getInstance();
 	
+	private boolean jogando = true;
+	
 	private static PlayerController instance;
 	private PlayerController() {
 		super();
@@ -65,7 +67,9 @@ public class PlayerController {
 	 * @param msg
 	 */
 	public void exibirMsg(final String msg) {
-		boardPanel.getLbMsg().setText(msg);
+		if (jogando) {
+			boardPanel.getLbMsg().setText(msg);
+		}
 	}
 	
 	/**
@@ -186,6 +190,25 @@ public class PlayerController {
 		boardPanel.getPnInfo().showInfo(player);
 	}
 	
+	public void fimJogo() {
+		boardPanel.getPnInfo().setVisible(false);
+		boardPanel.getLbMsg().setText("Você está fora do jogo.");
+		jogando = false;
+	}
+	
+	public void removerJogador(Player player) {
+		// procura a casa onde o jogador está e o remove
+		for (int i = 0; i < boardPanel.getCasas().size(); i++) {
+			final SquarePanel squarePanel = boardPanel.getCasas().get(i);
+			if (squarePanel.hasPlayer(player.getCor())) {
+				squarePanel.removePlayer(player.getCor());
+				squarePanel.updateUI();
+				break;
+			}
+		}
+		
+	}
+	
 	/**
 	 * Exibe mensagem de erro de conexão.
 	 */
@@ -202,9 +225,9 @@ public class PlayerController {
 		final List<Card> cards = new ArrayList<Card>();
 		cards.add(new Card("Inicio", 0, 0, 0, null, true));
 		
-		cards.add(new Card("SugarSync", 120, 12, 0, null));
-		cards.add(new Card("MobileMe", 150, 18, 0, null));
-		cards.add(new Card("Dropbox", 200, 25, 0, null));
+		cards.add(new Card("SugarSync", 120, 2212, 0, null));
+		cards.add(new Card("MobileMe", 150, 2218, 0, null));
+		cards.add(new Card("Dropbox", 200, 2225, 0, null));
 		cards.add(new Card("Mercado Livre", 180, 20, 1, null));
 		cards.add(new Card("Paypal", 230, 22, 1, null));
 		cards.add(new Card("eBay", 250, 28, 1, null));
@@ -248,6 +271,5 @@ public class PlayerController {
 		this.player = player;
 		boardPanel.getPnInfo().showInfo(player);
 	}
-	
 
 }

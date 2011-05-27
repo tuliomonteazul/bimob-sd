@@ -39,4 +39,10 @@ public interface ServerConnection {
 	 */
 	void removeClient(Client cliente);
 
+	/**
+	 * Remove um cliente da lista de clientes conectados ao servidor.
+	 * @param clientID
+	 */
+	void removeClient(int clientID);
+
 }

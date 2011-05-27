@@ -132,6 +132,11 @@ public class ServerConnectionUDP implements ServerConnection {
 	public void removeClient(Client cliente) {
 		clientes.remove(cliente);
 	}
+	
+	@Override
+	public void removeClient(int clientID) {
+		clientes.remove(findClient(clientID));
+	}
 
 	private Client findClient(int clientID) {
 		for (Client client : clientes) {

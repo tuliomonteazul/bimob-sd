@@ -138,6 +138,11 @@ public class ServerConnectionTCP implements ServerConnection {
 		clientes.remove(cliente);
 	}
 	
+	@Override
+	public void removeClient(int clientID) {
+		clientes.remove(findClient(clientID));
+	}
+	
 	private Client findClient(int clientID) {
 		for (Client client : clientes) {
 			if (client.getClientID() == clientID) {

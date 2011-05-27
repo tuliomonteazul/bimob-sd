@@ -1,23 +1,19 @@
 package br.unifor.sd.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Player implements Serializable {
 	private static final long serialVersionUID = -7597865929169679095L;
-	private static final double START_MONEY = 2500.0;
+	private static final double START_MONEY = 2000.0;
 	private String nome;
 	private int clientID;
 	private ColorPlayer cor;
 	private double dinheiro;
-	private List<Card> cartas;
 	private int posicao;
 	
 	public Player() {
 		super();
 		this.dinheiro = START_MONEY;
-		this.cartas = new ArrayList<Card>();
 	}
 
 	public Player(ColorPlayer cor) {
@@ -57,14 +53,6 @@ public class Player implements Serializable {
 		this.dinheiro = dinheiro;
 	}
 
-	public List<Card> getCartas() {
-		return cartas;
-	}
-
-	public void setCartas(List<Card> cartas) {
-		this.cartas = cartas;
-	}
-
 	public int getPosicao() {
 		return posicao;
 	}
@@ -80,17 +68,12 @@ public class Player implements Serializable {
 		posicao = posicao % 30;
 	}
 
-	public void addCarta(Card card) {
-		cartas.add(card);
-	}
-	
 	public void addDinheiro(double dinheiro) {
 		this.dinheiro += dinheiro;
 	}
 	
 	public Player clone() {
 		final Player clone = new Player();
-		clone.setCartas(cartas);
 		clone.setClientID(clientID);
 		clone.setCor(cor);
 		clone.setDinheiro(dinheiro);
