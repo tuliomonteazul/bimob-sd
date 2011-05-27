@@ -24,4 +24,18 @@ public enum ColorPlayer {
 		}
 		return null;
 	}
+	
+	public String getText() {
+		switch (this) {
+		case VERMELHO:
+			return "Vermelho";
+		case VERDE:
+			return "Verde";
+		case AZUL:
+			return "Azul";
+		case BRANCO:
+			return "Branco";
+		}
+		return null;
+	}
 }

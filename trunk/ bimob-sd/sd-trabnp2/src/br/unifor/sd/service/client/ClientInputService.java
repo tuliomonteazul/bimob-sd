@@ -50,6 +50,7 @@ public class ClientInputService {
 	private void doMethod(Method method) {
 		Player player;
 		Card card;
+		String msg;
 		switch (method.getIdMethod()) {
 			case Method.CONECTOU:
 				player = (Player) method.getParams()[0];
@@ -60,7 +61,7 @@ public class ClientInputService {
 				playerController.liberarVez();
 				break;
 			case Method.EXIBIR_MSG:
-				final String msg = (String) method.getParams()[0];
+				msg = (String) method.getParams()[0];
 				playerController.exibirMsg(msg);
 				break;
 			case Method.MOVER:
@@ -90,6 +91,11 @@ public class ClientInputService {
 			case Method.REMOVER_JOGADOR:
 				player = (Player) method.getParams()[0];
 				playerController.removerJogador(player);
+				break;
+			case Method.ESCREVER_CONSOLE:
+				player = (Player) method.getParams()[0];
+				msg = (String) method.getParams()[1];
+				playerController.escreverConsole(player, msg);
 				break;
 		}
 	}
