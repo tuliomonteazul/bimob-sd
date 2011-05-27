@@ -115,6 +115,13 @@ public class ServerInputService {
 				String msg = (String) method.getParams()[1];
 				escreverConsole(jogador, msg);
 				break;
+			case Method.UPGRADE:
+				jogador = (Player) method.getParams()[0];
+				card = (Card) method.getParams()[1];
+				int custoAumento = (Integer) method.getParams()[2];
+				int novoAluguel = (Integer) method.getParams()[3];
+				upgrade(jogador, card, custoAumento, novoAluguel);
+				break;
 		}
 			
 	}
@@ -135,9 +142,8 @@ public class ServerInputService {
 		} else {
 			// é o dono da carta
 			if (card.getJogador() != null && card.getJogador().getClientID() == playerAux.getClientID()) {
-				// TODO colocar programadores
-				// envia uma cobrança de aluguel para o usuário pois a propriedade tem dono
-				serverConnection.send(player.getClientID(), new Method(Method.COBRAR_ALUGUEL, card));
+				// possibilita ao usuário melhor o aluguel da propriedade
+				serverConnection.send(player.getClientID(), new Method(Method.POSSIBILITA_EXPANSAO, card));
 				
 			} else if (card.isEspecial()) {
 				
@@ -248,6 +254,21 @@ public class ServerInputService {
 		return proximo;
 	}
 	
+
+	private void upgrade(Player player, Card card, int custoAumento, int novoAluguel) {
+		final Player playerAux = findPlayer(player.getClientID());
+		
+		final Card cardAux = findCarta(jogo.getCasas(), card);
+		// debita o dinheiro do player
+		playerAux.addDinheiro(- custoAumento);
+		cardAux.setJogador(playerAux.clone());
+		cardAux.setAluguel(novoAluguel);
+		
+		serverConnection.sendAll(new Method(Method.ATUALIZA_UPGRADE, cardAux.clone()));
+		serverConnection.sendAll(new Method(Method.ESCREVER_CONSOLE, null, "Jogador "+cardAux.getJogador().getCor().getText() + " aumentou o aluguel da "+card.getNome()+" para "+cardAux.getAluguelFormatado()+"."));
+		
+		proximoJog();
+	}
 	
 	public Card findCarta(List<Card> cartas, Card card) {
 		for (Card cardAux : cartas) {

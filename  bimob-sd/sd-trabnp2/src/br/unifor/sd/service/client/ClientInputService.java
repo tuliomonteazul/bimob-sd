@@ -116,6 +116,14 @@ public class ClientInputService {
 			case Method.PRISAO:
 				playerController.prisao();
 				break;
+			case Method.POSSIBILITA_EXPANSAO:
+				card = (Card) method.getParams()[0];
+				playerController.possibilitaExpansao(card);
+				break;
+			case Method.ATUALIZA_UPGRADE:
+				card = (Card) method.getParams()[0];
+				playerController.atualizaUpgrade(card);
+				break;
 		}
 	}
 }

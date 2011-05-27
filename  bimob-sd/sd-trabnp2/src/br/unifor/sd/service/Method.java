@@ -26,7 +26,9 @@ public class Method implements Serializable {
 	public static final int VOCE_VENCEU = 17;
 	public static final int PAGAR_WIKIPEDIA = 18;
 	public static final int PRISAO = 19;
-	
+	public static final int POSSIBILITA_EXPANSAO = 20;
+	public static final int UPGRADE= 21;
+	public static final int ATUALIZA_UPGRADE = 22;
 	
 	private int idMethod;
 	private Object[] params;

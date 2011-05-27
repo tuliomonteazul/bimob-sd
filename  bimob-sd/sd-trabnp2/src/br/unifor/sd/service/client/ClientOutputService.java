@@ -55,4 +55,9 @@ public class ClientOutputService {
 		Method method = new Method(Method.ESCREVER_CONSOLE, player, msg);
 		clientConnection.send(method);
 	}
+	
+	public void upgrade(Player player, Card card, int custoAumento, int novoAluguel) {
+		Method method = new Method(Method.UPGRADE, player, card, custoAumento, novoAluguel);
+		clientConnection.send(method);
+	}
 }

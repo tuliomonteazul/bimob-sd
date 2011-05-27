@@ -29,6 +29,7 @@ public class PlayerController {
 	private ClientOutputService clientOutputService = ClientOutputService.getInstance();
 	
 	private boolean jogando = true;
+	private static List<Card> cards;
 	
 	private static PlayerController instance;
 	private PlayerController() {
@@ -115,7 +116,7 @@ public class PlayerController {
 			squarePanel.updateUI();
 			// aplica intervalo entre os movimentos para que o usuário visualize a ação
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -269,6 +270,65 @@ public class PlayerController {
 		clientOutputService.nextPlayer();
 	}
 	
+	public void possibilitaExpansao(Card card) {
+		
+		int custoAumento = (int) card.getAluguel() * 4;
+		int novoAluguel = (int) card.getAluguel() * 2;
+		
+		StringBuilder msg = new StringBuilder();
+		msg.append("Esta propriedade já é sua");
+		msg.append("\nNome: "+card.getNome());
+		msg.append("\nValor: "+card.getValor());
+		msg.append("\nAluguel: "+card.getAluguel());
+		msg.append("\nAluguel (com aumento): "+novoAluguel);
+		msg.append("\nCusto de aumento: "+custoAumento);
+		String[] options = new String[]{"Aumentar aluguel", "Não fazer nada"};
+		// exibe a janela com as opção
+		int option = JOptionPane.showOptionDialog(boardPanel, msg.toString(), "Selecione uma opção", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, "Aumentar aluguel");
+		if (option == 0) {
+			// validar dinheiro
+			if (player.getDinheiro() > custoAumento) {
+				clientOutputService.upgrade(player, card, custoAumento, novoAluguel);
+			} else {
+				// se não tiver dinheiro
+				JOptionPane.showMessageDialog(boardPanel, "Você não possui dinheiro suficiente!");
+				clientOutputService.nextPlayer();
+			}
+		} else {
+			// se não quis comprar
+			clientOutputService.nextPlayer();
+		}
+	}
+	
+	public void atualizaUpgrade(Card card) {
+		// procura a casa pelo nome
+		for (SquarePanel sqPanel : boardPanel.getCasas()) {
+			if (sqPanel instanceof CardPanel) {
+				CardPanel cardPanel = (CardPanel) sqPanel;
+				if (cardPanel.getCarta().getNome().equals(card.getNome())) {
+					// coloca programador
+					cardPanel.addProgramador();
+					sqPanel.updateUI();
+					break;
+				}
+			}
+		}
+		
+		// atualiza aluguel
+		for (Card cardAux : cards) {
+			if (card.getNome().equals(cardAux.getNome())) {
+				cardAux.setAluguel(card.getAluguel());
+			}
+		}
+		
+		// se fui eu quem comprei a carta
+		if (player.getClientID() == card.getJogador().getClientID()) {
+			// atualizar dinheiro
+			player.setDinheiro(card.getJogador().getDinheiro());
+			boardPanel.getPnInfo().updateMoney(card.getJogador().getDinheiro());
+		}
+	}
+	
 	/**
 	 * Exibe mensagem de erro de conexão.
 	 */
@@ -282,7 +342,7 @@ public class PlayerController {
 	 * @return List
 	 */
 	public static List<Card> getCards() {
-		final List<Card> cards = new ArrayList<Card>();
+		cards = new ArrayList<Card>();
 		cards.add(new Card("Inicio", 0, 0, 0, null, true, SpecialType.INICIO));
 		
 		cards.add(new Card("SugarSync", 120, 12, 0, null));
@@ -331,4 +391,5 @@ public class PlayerController {
 		this.player = player;
 		boardPanel.getPnInfo().showInfo(player);
 	}
+	
 }
