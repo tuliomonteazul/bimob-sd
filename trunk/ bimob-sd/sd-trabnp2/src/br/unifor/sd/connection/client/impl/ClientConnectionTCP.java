@@ -15,8 +15,7 @@ public class ClientConnectionTCP implements ClientConnection {
 
 	private static ClientConnectionTCP instance;
 	
-	private static final String HOST = "localhost";
-	private static final int PORT = 555;
+	private static final int PORT = 5555;
 	private Socket socket = null;
 	private ObjectInputStream inputStream;
 	private ObjectOutputStream outputStream;
@@ -34,11 +33,11 @@ public class ClientConnectionTCP implements ClientConnection {
 	}
 	
 	@Override
-	public boolean connect(ClientConnectionListener listener) {
+	public boolean connect(String host, ClientConnectionListener listener) {
 		boolean connected = false;
 		
 		try {
-			socket = new Socket(HOST, PORT);
+			socket = new Socket(host, PORT);
 			
 			// envia pedido de conexao
 			outputStream = new ObjectOutputStream(socket.getOutputStream());

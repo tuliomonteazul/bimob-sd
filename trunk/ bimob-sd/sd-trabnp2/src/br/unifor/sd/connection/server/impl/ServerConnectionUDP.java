@@ -15,7 +15,7 @@ import br.unifor.sd.connection.server.ServerConnection;
 
 public class ServerConnectionUDP implements ServerConnection {
 
-	public static final int PORT = 555;
+	public static final int PORT = 5555;
 	
 	private DatagramSocket socket;
 	

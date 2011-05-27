@@ -15,18 +15,12 @@ public class ClientConnectionUDP implements ClientConnection{
 
 	private static ClientConnectionUDP instance;
 	
-	private static final String HOST = "localhost";
-	private static final int PORT = 555;
+	private static final int PORT = 5555;
 	private InetAddress serverAddress;
 	private DatagramSocket serverSocket;
 	
 	private ClientConnectionUDP() {
 		super();
-		try {
-			serverAddress =  InetAddress.getByName(HOST);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static ClientConnectionUDP getInstance() {
@@ -37,7 +31,12 @@ public class ClientConnectionUDP implements ClientConnection{
 	}
 	
 	@Override
-	public boolean connect(ClientConnectionListener listener) {
+	public boolean connect(String host, ClientConnectionListener listener) {
+		try {
+			serverAddress =  InetAddress.getByName(host);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 		boolean connected = false;
 		// TODO utilizar somente o serverSocket
 		DatagramSocket socket = null;
